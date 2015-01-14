@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<launch>
+
+    <!-- Robot state publisher -->
+    <node pkg="robot_state_publisher" type="state_publisher" name="robot_state_publisher">
+        <rosparam command="load" file="$(env ROBOT_PARAMETER_PATH)/essentials/robot_state_publisher.yaml" />
+    </node>
+
+ </launch>
