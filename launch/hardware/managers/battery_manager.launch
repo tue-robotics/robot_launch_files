@@ -3,7 +3,7 @@
 
 	<!-- Robot state publisher -->
 	<node pkg="battery_manager" type="battery_manager" respawn="false" name="battery_manager" output="screen">
-        <rosparam command="load" file="$(env ROBOT_PARAMETER_PATH)/diagnostics/managers/battery_parameters.yaml" />
+        <rosparam command="load" file="$(env ROBOT_PARAMETER_PATH)/hardware/managers/battery_parameters.yaml" />
 	</node>
 
 </launch>
