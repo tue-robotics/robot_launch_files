@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<launch>
+
+    <!-- TF Server: advertises services for looking up transformations -->
+    <node name="tf_server" pkg="tf_server" type="tf_server" output="screen" />
+
+ </launch>
