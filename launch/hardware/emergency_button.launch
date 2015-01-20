@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<launch>
+
+	<!-- EMERGENCY BUTTON -->
+    <node pkg="emergency_speakup" type="emergency_speakup" respawn="true" name="emergency_speakup" />
+
+</launch>
+
