@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<launch>
+
+    <!-- Get the machine file -->
+    <arg name="machine" default="localhost"/>
+    <include file="$(env ROBOT_BRINGUP_PATH)/machines/$(arg machine).machine" />
+
+    <!-- World model ED -->
+    <node name="ed_server" pkg="ed" type="ed_server" args="$(env ROBOT_BRINGUP_PATH)/parameters/world_modeling/world_model.yaml" output="screen" machine="$(arg machine)" />
+
+</launch>

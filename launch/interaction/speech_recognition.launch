@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<launch>
+
+    <!-- Get the machine file -->
+    <arg name="machine" default="localhost"/>
+    <include file="$(env ROBOT_BRINGUP_PATH)/machines/$(arg machine).machine" />
+
+    <!-- If we are on the real robot, launch the server, otherwise a dummy -->
+    <group if="$(optenv ROBOT_REAL false)">
+        <!-- server -->
+        <node name="speech_server" pkg="dragonfly_speech_recognition" type="vbox.py" machine="$(arg machine)" output="screen" />
+
+        <!-- client -->
+        <node name="speech_client" pkg="dragonfly_speech_recognition" type="client.py" machine="$(arg machine)" output="screen">
+            <rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/interaction/speech_client.yaml" />
+        </node>
+    </group>
+    <group unless="$(arg ROBOT_REAL)">
+        <node name="speech_client" pkg="dragonfly_speech_recognition" type="client_dummy.py" output="screen" machine="$(arg machine)"/>
+    </group>
+
+ </launch>

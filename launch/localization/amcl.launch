@@ -18,9 +18,9 @@
 
      <!-- AMCL -->
      <node pkg="amcl" type="amcl" name="amcl" machine="$(arg machine)" output="screen">
-         <remap from="/scan" to="base_front_laser" />
-         <remap from="/map" to="loc_map" />
-         <remap from="/initialpose" to="initialpose" />
+         <remap from="scan" to="$(arg laser)/scan" />
+         <remap from="map" to="loc_map" />
+         <remap from="initialpose" to="initialpose" />
 
          <param name="initial_pose_x" value="$(arg robot_init_x)"/>
          <param name="initial_pose_y" value="$(arg robot_init_y)"/>

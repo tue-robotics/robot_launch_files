@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<launch>
+
+    <!-- Get the machine file -->
+    <arg name="machine" default="localhost"/>
+    <include file="$(env ROBOT_BRINGUP_PATH)/machines/$(arg machine).machine" />
+    
+    <node pkg="text_to_speech" type="text_to_speech_node.py" respawn="false" name="text_to_speech" machine="$(arg machine)" output="screen">
+        <rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/interaction/text_to_speech.yaml" />
+    </node>
+
+ </launch>
