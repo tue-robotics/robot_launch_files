@@ -1,15 +1,20 @@
 <?xml version="1.0"?>
 <launch>
 
-    <!-- Launch the websocket server (communication via roslib) -->
-    <include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch" />
+    <!-- Get the machine file -->
+    <arg name="machine" default="localhost"/>
+    <include file="$(env ROBOT_BRINGUP_PATH)/machines/$(arg machine).machine" />
 
-    <!-- Launch mjpeg server (kinect video stream) -->
-    <!--node pkg="mjpeg_server" type="mjpeg_server" name="mjpeg_server" output="screen" /-->
+    <!-- Launch the websocket server (communication via roslib) -->
+    <node name="rosbridge_websocket" pkg="rosbridge_server" type="rosbridge_websocket" output="screen" machine="$(arg machine)">
+        <param name="authenticate" value="false" />
+        <param name="port" value="9090"/>
+        <param name="address" value=""/>
+    </node>
 
     <!-- Start the simple webserver to handle static files -->
-    <node pkg="tue_mobile_ui" type="webserver.py" name="mobile_ui_server" output="screen">
-        <rosparam command="load" file="$(env ROBOT_PARAMETER_PATH)/interaction/mobile_ui_server.yaml" />
+    <node pkg="tue_mobile_ui" type="webserver.py" name="mobile_ui_server" output="screen" machine="$(arg machine)">
+        <rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/interaction/mobile_ui_server.yaml" />
     </node>
 
  </launch>

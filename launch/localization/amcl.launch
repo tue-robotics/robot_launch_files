@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+
+<launch>  
+
+    <arg name="machine" default="localhost"/>
+    <include file="$(env ROBOT_BRINGUP_PATH)/machines/$(arg machine).machine" />
+    
+    <arg name="laser"/>
+    <arg name="env" default="$(optenv ROBOT_ENV robotics_testlab_A)" /> 
+    <arg name="robot_init_x" default="$(optenv ROBOT_INIT_X 0)"/>
+    <arg name="robot_init_y" default="$(optenv ROBOT_INIT_Y 0)"/>
+    <arg name="robot_init_phi" default="$(optenv ROBOT_INIT_PHI 0)"/>
+     
+     <!-- MAP SERVER -->
+    <node name="loc_map_server" pkg="map_server" type="map_server" args="$(find tue_maps)/maps/$(arg env)/loc/yaml" output="screen" machine="$(arg machine)">
+        <remap from="map" to="loc_map"/>
+    </node>
+
+     <!-- AMCL -->
+     <node pkg="amcl" type="amcl" name="amcl" machine="$(arg machine)" output="screen">
+         <remap from="/scan" to="base_front_laser" />
+         <remap from="/map" to="loc_map" />
+         <remap from="/initialpose" to="initialpose" />
+
+         <param name="initial_pose_x" value="$(arg robot_init_x)"/>
+         <param name="initial_pose_y" value="$(arg robot_init_y)"/>
+         <param name="initial_pose_a" value="$(arg robot_init_phi)"/>
+         
+        <rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/localization/amcl.yaml" />         
+     </node>
+
+</launch>
+
+
+

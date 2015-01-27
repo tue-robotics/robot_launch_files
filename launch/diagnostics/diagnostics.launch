@@ -8,13 +8,13 @@
 
 	<!-- Collects all the diagnostics messages -->
 	<node pkg="diagnostic_aggregator" type="aggregator_node" respawn="false" name="diagnostics_aggegrator" output="screen" args="CPP" machine="$(arg machine)">
-	    <rosparam command="load" file="$(env ROBOT_PARAMETER_PATH)/diagnostics/general_analyzers.yaml" />
-	    <rosparam command="load" file="$(env ROBOT_PARAMETER_PATH)/diagnostics/hardware_analyzers.yaml" />
+	    <rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/diagnostics/general_analyzers.yaml" />
+	    <rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/diagnostics/hardware_analyzers.yaml" />
 	</node>
 
 	<!-- Checks if all nodes are still running -->
     <node name="node_alive_server" type="node_alive_server" pkg="node_alive" machine="$(arg machine)">
-	    <rosparam command="load" file="$(env ROBOT_PARAMETER_PATH)/diagnostics/node_alive_neglect_nodes.yaml" />
+	    <rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/diagnostics/node_alive_neglect_nodes.yaml" />
     </node>
 
 	<!-- TODO: Start challenge logger --> <!-- Do we need this one? -->

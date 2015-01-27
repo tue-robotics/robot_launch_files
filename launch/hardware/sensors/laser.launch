@@ -2,18 +2,22 @@
 
 <launch>
 
+    <!-- Get the machine file -->
+    <arg name="machine" default="localhost"/>
+    <include file="$(env ROBOT_BRINGUP_PATH)/machines/$(arg machine).machine" />
+
     <arg name="name" />
 
     <!-- Push down all topics/nodelets into "camera" namespace -->
     <group ns="$(arg name)">
 
-        <node pkg="hokuyo_node" type="hokuyo_node" name="front_hokuyo_node" output="screen">
+        <node pkg="hokuyo_node" type="hokuyo_node" name="front_hokuyo_node" output="screen" machine="$(arg machine)">
             <remap from="scan" to="scan_raw"/>
-            <rosparam command="load" file="$(env ROBOT_PARAMETER_PATH)/hardware/sensors/$(arg name)_parameters.yaml" />
+            <rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/hardware/sensors/$(arg name)_parameters.yaml" />
         </node>
 
-        <node pkg="laser_filters" type="scan_to_scan_filter_chain" name="front_laser_scan_to_scan_filter_chain">
-            <rosparam command="load" file="$(env ROBOT_PARAMETER_PATH)/hardware/sensors/$(arg name)_filters_parameters.yaml" />
+        <node pkg="laser_filters" type="scan_to_scan_filter_chain" name="front_laser_scan_to_scan_filter_chain" machine="$(arg machine)">
+            <rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/hardware/sensors/$(arg name)_filters_parameters.yaml" />
             <remap from="scan" to="scan_raw" />
             <remap from="scan_filtered" to="scan" />
         </node>

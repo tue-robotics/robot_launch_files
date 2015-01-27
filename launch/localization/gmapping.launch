@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<launch>
+
+    <arg name="machine" default="localhost"/>
+    <include file="$(env ROBOT_BRINGUP_PATH)/machines/$(arg machine).machine" />
+ 
+    <node name="gmapping_node" pkg="gmapping" type="slam_gmapping" respawn="true" machine="$(arg machine)" >
+        <remap from="scan" to="base_front_laser"/>
+        <remap from="map" to="nav_map"/>
+    </node>
+
+</launch>
+
+
+

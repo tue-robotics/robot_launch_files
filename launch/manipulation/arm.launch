@@ -14,7 +14,7 @@
         <remap from="torso/references" to="torso/references"/>
         <remap from="torso/measurements" to="torso/measurements"/>
 
-        <rosparam command="load" file="$(env ROBOT_PARAMETER_PATH)/manipulation/$(arg name)/joints.yaml" />
+        <rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/manipulation/$(arg name)/joints.yaml" />
     </node>
     
     <!-- GRIPPER SERVER -->
@@ -29,7 +29,7 @@
         <remap from="/joint_measurements" to="$(arg name)/measurements"/>
         <remap from="/spindle_measurement" to="torso/measurements" />
         
-        <rosparam command="load" file="$(env ROBOT_PARAMETER_PATH)/manipulation/$(arg name)/grasp_precompute.yaml" />
+        <rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/manipulation/$(arg name)/grasp_precompute.yaml" />
     </node>
    
 
