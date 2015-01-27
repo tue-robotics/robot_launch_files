@@ -2,26 +2,24 @@
 
 <launch>
 
+    <!-- Get the machine file -->
+    <arg name="machine" default="localhost"/>
+    <include file="$(env ROBOT_BRINGUP_PATH)/machines/$(arg machine).machine" />
+
 	<!-- Collects all the diagnostics messages -->
-	<node pkg="diagnostic_aggregator" type="aggregator_node" respawn="false" name="diagnostics_aggegrator" output="screen" args="CPP" >
+	<node pkg="diagnostic_aggregator" type="aggregator_node" respawn="false" name="diagnostics_aggegrator" output="screen" args="CPP" machine="$(arg machine)">
 	    <rosparam command="load" file="$(env ROBOT_PARAMETER_PATH)/diagnostics/general_analyzers.yaml" />
 	    <rosparam command="load" file="$(env ROBOT_PARAMETER_PATH)/diagnostics/hardware_analyzers.yaml" />
 	</node>
 
 	<!-- Checks if all nodes are still running -->
-    <node name="node_alive_server" type="node_alive_server" pkg="node_alive">
+    <node name="node_alive_server" type="node_alive_server" pkg="node_alive" machine="$(arg machine)">
 	    <rosparam command="load" file="$(env ROBOT_PARAMETER_PATH)/diagnostics/node_alive_neglect_nodes.yaml" />
     </node>
 
 	<!-- TODO: Start challenge logger --> <!-- Do we need this one? -->
-	<!-- <include file="$(find challenge_logger)/launch/start.launch" /> -->
 
 	<!-- TODO: The challenge_logger needs cpu_monitor information -->
-    <!--
-	<include file="$(find amigo_diagnostics)/launch/cpu_monitor.launch" />
-	<include file="$(find amigo_diagnostics)/launch/hd_monitor.launch" />
-	<include file="$(find amigo_diagnostics)/launch/ntp_monitor.launch" />
-    -->
 
 </launch>
 

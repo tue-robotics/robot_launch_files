@@ -1,9 +1,13 @@
 <?xml version="1.0"?>
 <launch>
 
+    <!-- Get the machine file -->
+    <arg name="machine" default="localhost"/>
+    <include file="$(env ROBOT_BRINGUP_PATH)/machines/$(arg machine).machine" />
+
     <!-- Robot state publisher -->
-    <node pkg="robot_state_publisher" type="state_publisher" name="robot_state_publisher">
-        <rosparam command="load" file="$(env ROBOT_PARAMETER_PATH)/essentials/robot_state_publisher.yaml" />
+    <node pkg="robot_state_publisher" type="state_publisher" name="robot_state_publisher" machine="$(arg machine)">
+        <rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/essentials/robot_state_publisher.yaml" />
     </node>
 
- </launch>
+</launch>

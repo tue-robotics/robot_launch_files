@@ -1,8 +1,12 @@
 <?xml version="1.0"?>
 <launch>
 
+    <!-- Get the machine file -->
+    <arg name="machine" default="localhost"/>
+    <include file="$(env ROBOT_BRINGUP_PATH)/machines/$(arg machine).machine" />
+
 	<!-- RGB LIGHTS MANAGER -->
-    <node name="rgb_lights_manager" pkg="rgb_lights_manager" type="rgb_lights_manager" output="screen" />
+    <node name="rgb_lights_manager" pkg="rgb_lights_manager" type="rgb_lights_manager" output="screen" machine="$(arg machine)"/>
 
 </launch>
 

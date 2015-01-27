@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+
+<launch>
+
+    <!-- Local planner that sends cmd_vels to the robot_base -->
+    <node pkg="cb_base_navigation" type="cb_base_navigation_local_planner_interface" output="screen">
+        <!-- Local Planner Settings -->
+        <rosparam command="load" file="$(env ROBOT_PARAMETER_PATH)/navigation/local_planner.yaml" />
+        <!-- Local Costmap Settings -->
+        <rosparam command="load" file="$(env ROBOT_PARAMETER_PATH)/navigation/local_costmap.yaml" />
+        <!-- Topic remapping -->
+        <remap from="odom" to="base/measurements" />
+        <remap from="cmd_vel" to="base/references" />
+    </node>
+
+    <!-- Global planner for path calculation from origin pose to goal constraint region --> 
+    <node pkg="cb_base_navigation" type="cb_base_navigation_global_planner_interface" output="screen">
+        <!-- Global Planner Settings -->
+        <rosparam command="load" file="$(env ROBOT_PARAMETER_PATH)/navigation/global_planner.yaml" />
+        <!-- Global Costmap Settings -->
+        <rosparam command="load" file="$(env ROBOT_PARAMETER_PATH)/navigation/global_costmap.yaml" />
+    </node>  
+
+</launch>

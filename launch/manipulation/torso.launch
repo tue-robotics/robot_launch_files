@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<launch>
+    
+    <arg name="machine" default="localhost"/>
+    <include file="$(env ROBOT_BRINGUP_PATH)/machines/$(arg machine).machine" />
+
+    <node pkg="tue_manipulation" type="torso_server" respawn="false" name="torso_server" output="screen" ns="sergio" machine="$(arg machine)">
+        <remap from="torso_server/references" to="torso/references"/>
+        <remap from="torso_server/measurements" to="torso/measurements"/>
+    </node>
+
+</launch>

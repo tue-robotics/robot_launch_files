@@ -1,8 +1,12 @@
 <?xml version="1.0"?>
 <launch>
 
+    <!-- Get the machine file -->
+    <arg name="machine" default="localhost"/>
+    <include file="$(env ROBOT_BRINGUP_PATH)/machines/$(arg machine).machine" />
+
 	<!-- EMERGENCY BUTTON -->
-    <node pkg="emergency_speakup" type="emergency_speakup" respawn="true" name="emergency_speakup" />
+    <node pkg="emergency_speakup" type="emergency_speakup" respawn="true" name="emergency_speakup" machine="$(arg machine)"/>
 
 </launch>
 

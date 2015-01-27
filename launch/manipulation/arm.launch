@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<launch>
+
+    <arg name="machine" default="localhost"/>
+    <include file="$(env SERGIO_BRINGUP_PATH)/machines/$(arg machine).machine" />
+
+    <arg name="name"/>
+    
+    <!-- JOINT TRAJECTORY ACTION -->
+    <node pkg="tue_manipulation" type="joint_trajectory_action" name="joint_trajectory_action_$(arg name)" output="screen" machine="$(arg machine)">
+        <remap from="joint_trajectory_action" to="$(arg name)/joint_trajectory_action" />
+        <remap from="measurements" to="$(arg name)/measurements" />
+        <remap from="references" to="$(arg name)/references" />
+        <remap from="torso/references" to="torso/references"/>
+        <remap from="torso/measurements" to="torso/measurements"/>
+
+        <rosparam command="load" file="$(env ROBOT_PARAMETER_PATH)/manipulation/$(arg name)/joints.yaml" />
+    </node>
+    
+    <!-- GRIPPER SERVER -->
+    <node pkg="tue_manipulation" type="gripper_server" respawn="false" name="gripper_server_$(arg name)" output="screen" machine="$(arg machine)">
+        <param name="gripper_measurement_topic" value="$(arg name)/gripper/measurements" />
+        <param name="gripper_reference_topic" value="$(arg name)/gripper/references" />
+    </node>
+
+    <!-- GRASP PRECOMPUTE -->
+    <node pkg="tue_manipulation" type="grasp_precompute_action" name="grasp_precompute_$(arg name)" output="screen" machine="$(arg machine)">
+        <!-- Measurement topics -->
+        <remap from="/joint_measurements" to="$(arg name)/measurements"/>
+        <remap from="/spindle_measurement" to="torso/measurements" />
+        
+        <rosparam command="load" file="$(env ROBOT_PARAMETER_PATH)/manipulation/$(arg name)/grasp_precompute.yaml" />
+    </node>
+   
+
+</launch>

@@ -1,9 +1,13 @@
 <?xml version="1.0"?>
 <launch>
 
-	<!-- Robot state publisher -->
-	<node pkg="battery_manager" type="battery_manager" respawn="false" name="battery_manager" output="screen">
-        <rosparam command="load" file="$(env ROBOT_PARAMETER_PATH)/hardware/managers/battery_parameters.yaml" />
+    <!-- Get the machine file -->
+    <arg name="machine" default="localhost"/>
+    <include file="$(env ROBOT_BRINGUP_PATH)/machines/$(arg machine).machine" />
+
+	<!-- Battery manager -->
+	<node pkg="battery_manager" type="battery_manager" respawn="false" name="battery_manager" output="screen" machine="$(arg machine)">
+        <rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/hardware/managers/battery_parameters.yaml" />
 	</node>
 
 </launch>
