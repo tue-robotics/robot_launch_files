@@ -11,8 +11,6 @@
         <remap from="joint_trajectory_action" to="$(arg name)/joint_trajectory_action" />
         <remap from="measurements" to="$(arg name)/measurements" />
         <remap from="references" to="$(arg name)/references" />
-        <remap from="torso/references" to="torso/references"/>
-        <remap from="torso/measurements" to="torso/measurements"/>
 
         <rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/manipulation/$(arg name)/joints.yaml" />
     </node>
