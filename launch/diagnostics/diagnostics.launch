@@ -8,8 +8,7 @@
 
 	<!-- Collects all the diagnostics messages -->
 	<node pkg="diagnostic_aggregator" type="aggregator_node" respawn="false" name="diagnostics_aggegrator" output="screen" args="CPP" machine="$(arg machine)">
-	    <rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/diagnostics/general_analyzers.yaml" />
-	    <rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/diagnostics/hardware_analyzers.yaml" />
+	    <rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/diagnostics/aggegrator.yaml" />
 	</node>
 
 	<!-- Checks if all nodes are still running -->

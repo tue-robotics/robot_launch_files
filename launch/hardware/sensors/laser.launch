@@ -14,6 +14,7 @@
         <node pkg="hokuyo_node" type="hokuyo_node" name="front_hokuyo_node" output="screen" machine="$(arg machine)">
             <remap from="scan" to="scan_raw"/>
             <rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/hardware/sensors/$(arg name)_parameters.yaml" />
+            <remap from="/diagnostics" to="diagnostics"/>
         </node>
 
         <node pkg="laser_filters" type="scan_to_scan_filter_chain" name="front_laser_scan_to_scan_filter_chain" machine="$(arg machine)">

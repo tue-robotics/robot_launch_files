@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- The node name for the deployer -->
+  <arg name="NAME" default="$(anon deployer)"/>
+  <!-- Orocos log level (never, fatal, critical, error, warning, info, debug, realtime) -->
+  <arg name="LOG_LEVEL" default="info"/>
+  <!-- Additional Orocos deployer args -->
+  <arg name="DEPLOYER_ARGS" default=""/>
+  <!-- Orocos target (gnulinux, xenomai, etc) -->
+  <arg name="OROCOS_TARGET" default="$(optenv OROCOS_TARGET)"/>
+  <!-- Path to look for dynamically-loaded plugins and components (something like /lib/orocos) -->
+  <arg name="RTT_COMPONENT_PATH" default="$(env RTT_COMPONENT_PATH)"/>
+
+  <!-- Set DEBUG to true to run in GDB (don't forget to build in Debug mode) -->
+  <arg name="DEBUG" default="false"/>
+  <arg if="$(arg DEBUG)" name="SUFFIX" value="-debug"/>
+  <arg unless="$(arg DEBUG)" name="SUFFIX" value=""/>
+
+    <!-- Get the machine file -->
+    <include file="$(env ROBOT_BRINGUP_PATH)/machines/$(arg machine).machine" />
+    <arg name="machine" default="localhost"/>
+
+  <!-- Launch deployer -->
+  <node 
+    name="$(arg NAME)"
+    pkg="rtt_ros" type="deployer$(arg SUFFIX)" 
+    args="-l $(arg LOG_LEVEL) $(arg DEPLOYER_ARGS) --"
+    output="screen"
+    machine="$(arg machine)">
+    <env name="OROCOS_TARGET" value="$(arg OROCOS_TARGET)"/>
+    <env name="RTT_COMPONENT_PATH" value="$(arg RTT_COMPONENT_PATH)"/>
+  </node>
+</launch>
