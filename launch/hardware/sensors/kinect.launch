@@ -12,7 +12,7 @@
     <group ns="$(arg name)">
 
         <!-- Nodelet manager --> 
-        <node pkg="nodelet" type="nodelet" args="manager" output="screen" machine="$(arg machine)" name="$(arg name)" machine="$(arg machine)"> 
+        <node pkg="nodelet" type="nodelet" args="manager" output="screen" name="$(arg name)" machine="$(arg machine)"> 
             <rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/hardware/sensors/$(arg name)_manager.yaml" />
         </node>
 
@@ -96,12 +96,12 @@
             <param name="interpolation" value="0" />
         </node>
 
-        <!-- RGBD SERVER -->
+        <!-- RGBD Server -->
         <node name="rgbd_encoder" pkg="rgbd" type="rgbd_server" output="screen" machine="$(arg machine)">
             <remap from="cam_info" to="rgb/camera_info"/>
             <remap from="rgb_image" to="rgb/image_color"/>
             <remap from="depth_image" to="depth_registered/image_rect"/>
-            <remap from="output" to="top_kinect/rgbd"/>
+            <remap from="output" to="rgbd"/>
         </node>
 
     </group> <!-- camera -->
