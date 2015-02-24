@@ -3,8 +3,13 @@
 <launch>  
 
     <arg name="type" default="amcl"/>
+    <arg name="laser"/>
+    <arg name="machine" default="localhost" />
 
-    <include file="$(find robot_launch_files)/launch/localization/$(arg type).launch"/>
+    <include file="$(find robot_launch_files)/launch/localization/$(arg type).launch">
+        <arg name="laser" value="$(arg laser)" />
+        <arg name="machine" value="$(arg machine)" />
+    </include>
 
 </launch>
 

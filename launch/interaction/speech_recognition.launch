@@ -15,7 +15,7 @@
             <rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/interaction/speech_client.yaml" />
         </node>
     </group>
-    <group unless="$(arg ROBOT_REAL)">
+    <group unless="$(optenv ROBOT_REAL false)">
         <node name="speech_client" pkg="dragonfly_speech_recognition" type="client_dummy.py" output="screen" machine="$(arg machine)"/>
     </group>
 

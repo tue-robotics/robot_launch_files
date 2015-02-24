@@ -2,7 +2,7 @@
 <launch>
 
     <arg name="machine" default="localhost"/>
-    <include file="$(env SERGIO_BRINGUP_PATH)/machines/$(arg machine).machine" />
+    <include file="$(env ROBOT_BRINGUP_PATH)/machines/$(arg machine).machine" />
 
     <arg name="name"/>
     
