@@ -11,7 +11,7 @@
         <!-- Local Planner Settings -->
         <rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/navigation/local_planner.yaml" />
         <!-- Local Costmap Settings -->
-        <rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/navigation/local_costmap.yaml" />
+        <rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/navigation/local_costmap.yaml" ns="local_costmap" />
         <!-- Topic remapping -->
         <remap from="odom" to="base/measurements" />
         <remap from="cmd_vel" to="base/references" />
@@ -22,7 +22,7 @@
         <!-- Global Planner Settings -->
         <rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/navigation/global_planner.yaml" />
         <!-- Global Costmap Settings -->
-        <rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/navigation/global_costmap.yaml" />
+        <rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/navigation/global_costmap.yaml" ns="global_costmap" />
     </node>  
 
 </launch>
