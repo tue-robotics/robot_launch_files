@@ -7,7 +7,7 @@
 
     <arg name="robot" />
     
-    <node name="action_server" pkg="action_server" type="action_server_main" output="screen" />
+    <node name="action_server" pkg="action_server" type="action_server_main" args="$(arg robot)" output="screen" />
     <node name="action_server_py" pkg="action_server" type="main.py" args="$(arg robot)" output="screen" />
 
  </launch>
