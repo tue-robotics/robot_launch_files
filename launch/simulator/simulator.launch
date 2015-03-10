@@ -33,8 +33,8 @@
     <!-- spawn objects -->
     <node name="fast_simulator_object_spawner" pkg="fast_simulator_data" type="$(arg env).py" output="screen"/>
 
-    <!-- spawn amigo -->
-    <node pkg="fast_simulator" type="spawn" name="spawn_amigo" args="-i amigo -m amigo -x $(arg robot_init_x) -y $(arg robot_init_y) -Z $(arg robot_init_phi)" output="screen"/>
+    <!-- spawn robot -->
+    <node pkg="fast_simulator" type="spawn" name="spawn_robot" args="-i $(arg robot_name) -m $(arg robot_name) -x $(arg robot_init_x) -y $(arg robot_init_y) -Z $(arg robot_init_phi)" output="screen"/>
 
 
 </launch>
