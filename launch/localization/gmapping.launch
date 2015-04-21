@@ -2,14 +2,15 @@
 
 <launch>
 
+    <!-- Get the machine file -->
     <arg name="machine" default="localhost"/>
     <include file="$(env ROBOT_BRINGUP_PATH)/machines/$(arg machine).machine" />
-    
-    <arg name="laser"/>
+
+    <arg name="sensor"/>
  
     <node name="gmapping_node" pkg="gmapping" type="slam_gmapping" respawn="true" machine="$(arg machine)" >
-        <remap from="scan" to="$(arg laser)/scan"/>
-        <remap from="map" to="nav_map"/>
+        <rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/localization/gmapping.yaml" />
+        <remap from="scan" to="$(arg sensor)/scan"/>    
     </node>
 
 </launch>
