@@ -11,6 +11,7 @@
     <node name="gmapping_node" pkg="gmapping" type="slam_gmapping" respawn="true" machine="$(arg machine)" >
         <rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/localization/gmapping.yaml" />
         <remap from="scan" to="$(arg sensor)/scan"/>    
+        <remap from="map" to="gmapping/map"/>    
     </node>
 
 </launch>
