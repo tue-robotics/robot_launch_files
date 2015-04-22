@@ -25,4 +25,7 @@
         <rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/navigation/global_costmap_gmapping.yaml" ns="global_costmap" />
     </node>  
 
+	<!-- Launch rgbd to pcl for costmap integration -->
+	<node pkg="rgbd" type="rgbd_to_ros" args="rgbd" name="rgbd_to_ros" ns="top_kinect" />
+
 </launch>
