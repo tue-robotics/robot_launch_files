@@ -5,7 +5,9 @@
     <arg name="machine" default="localhost"/>
     <include file="$(env ROBOT_BRINGUP_PATH)/machines/$(arg machine).machine" />
 
+    <arg name="config" default="world_modeling/world_model.yaml"/>
+
     <!-- World model ED -->
-    <node name="ed" pkg="ed" type="ed" args="$(env ROBOT_BRINGUP_PATH)/parameters/world_modeling/world_model.yaml" output="screen" machine="$(arg machine)" />
+    <node name="ed" pkg="ed" type="ed" args="$(env ROBOT_BRINGUP_PATH)/parameters/$(arg config)" output="screen" machine="$(arg machine)" />
 
 </launch>
