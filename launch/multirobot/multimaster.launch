@@ -8,10 +8,10 @@
 	<group if="$(optenv ROBOT_REAL false)">
 
 		<!-- Multimaster -->
-		<node pkg="master_discovery_fkie" output="screen" type="master_discovery" name="master_discovery" machine="$(arg machine)">
+		<node pkg="master_discovery_fkie" type="master_discovery" name="master_discovery" machine="$(arg machine)">
 			<rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/multirobot/discovery.yaml" />
 		</node>
-		<node pkg="master_sync_fkie" output="screen" type="master_sync" name="master_sync" machine="$(arg machine)">
+		<node pkg="master_sync_fkie" type="master_sync" name="master_sync" machine="$(arg machine)">
 			<rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/multirobot/sync.yaml" />
 		</node>
 
