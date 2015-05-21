@@ -7,7 +7,6 @@
     
     <!-- In simulation, start festival -->
 	<group unless="$(optenv ROBOT_REAL false)" ns="text_to_speech">
-		<rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/interaction/text_to_speech.yaml" ns="/text_to_speech"/>
 		<param name="tts_module" value="festival" ns="/text_to_speech"/>
 	</group>
 	
