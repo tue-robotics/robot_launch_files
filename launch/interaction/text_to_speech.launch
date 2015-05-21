@@ -12,7 +12,7 @@
 	
 	<!-- Real robot, start Philips TTS -->
 	<group if="$(optenv ROBOT_REAL false)" ns="text_to_speech">
-		<param name="tts_module" value="philips"/>
+		<!--<param name="tts_module" value="philips"/>-->
 		<param name="key" textfile="$(find philips_text_to_speech)/key"/>
 		<rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/interaction/text_to_speech.yaml" />
 	</group>
