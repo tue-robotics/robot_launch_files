@@ -26,6 +26,6 @@
     </node>  
 
 	<!-- Launch rgbd to pcl for costmap integration -->
-	<node pkg="rgbd" type="rgbd_to_ros" args="rgbd" name="rgbd_to_ros" ns="top_kinect" />
+	<node pkg="rgbd" type="rgbd_to_ros" args="rgbd" name="rgbd_to_ros" ns="top_kinect" machine="$(arg machine)"/>
 
 </launch>
