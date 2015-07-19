@@ -12,18 +12,23 @@ Examples:
 
 import rospy
 import sys
+import time
 from diagnostic_msgs.msg import DiagnosticArray as Status
 from std_msgs.msg import UInt8MultiArray as Command
 from docopt import docopt
 
 def callback(data):
-    global pub, bodypart, timeout
+    global pub, bodypart, timeout, pub_topic
     index = 0
     for status in data.status:
-        index += 1
         if status.name == bodypart and status.level == 4:
             time.sleep(timeout)
-            pub.publish(Command([index, 4]))
+            pub.publish(Command(data=[index, 24]))
+            print "Sending reset command to topic %s for bodypart %s"%(pub_topic, bodypart)
+            time.sleep(1)
+            pub.publish(Command(data=[index, 22]))
+            print "Sending start command to topic %s for bodypart %s"%(pub_topic, bodypart)
+        index += 1
 
 if __name__ == '__main__':
 
@@ -40,6 +45,6 @@ if __name__ == '__main__':
 
     rospy.init_node("bodypart_resetter_%s_%s"%(arguments["<robot>"], bodypart))
     pub = rospy.Publisher(pub_topic, Command, queue_size=1)
-    rospy.Subscriber(sub_topic, Status, callback)
+    rospy.Subscriber(sub_topic, Status, callback, queue_size=1)
 
     rospy.spin()
