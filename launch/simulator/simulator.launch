@@ -3,10 +3,7 @@
 <launch>
 
     <arg name="robot_name" default="amigo"/>
-
-    <arg name="gui" default="true"/>
-    <arg name="ROBOT_COMPLEXITY" default="$(optenv ROBOT_COMPLEXITY complex)" />
-
+    
     <arg name="gdb" default="false"/>
     <arg if="$(arg gdb)" name="launch-prefix" value="gdb -ex run --args"/>
     <arg unless="$(arg gdb)" name="launch-prefix" value=""/>
