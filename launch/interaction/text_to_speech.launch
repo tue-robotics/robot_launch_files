@@ -5,8 +5,19 @@
     <arg name="machine" default="localhost"/>
     <include file="$(env ROBOT_BRINGUP_PATH)/machines/$(arg machine).machine" />
     
-    <node pkg="text_to_speech" type="text_to_speech_node.py" respawn="false" name="text_to_speech" machine="$(arg machine)" output="screen">
-        <rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/interaction/text_to_speech.yaml" />
-    </node>
-
+    <!-- In simulation, start festival -->
+	<group unless="$(optenv ROBOT_REAL false)" ns="text_to_speech">
+		<param name="tts_module" value="festival"/>
+	</group>
+	
+	<!-- Real robot, start Philips TTS -->
+	<group if="$(optenv ROBOT_REAL false)" ns="text_to_speech">
+		<!--<param name="tts_module" value="philips"/>-->
+		<param name="key" textfile="$(find philips_text_to_speech)/key"/>
+		<rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/interaction/text_to_speech.yaml" />
+	</group>
+	
+	<!-- Start node -->
+	<node pkg="text_to_speech" type="text_to_speech_node.py" respawn="false" name="text_to_speech" machine="$(arg machine)" output="screen"/>
+		
  </launch>

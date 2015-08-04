@@ -10,8 +10,13 @@
  
     <node name="gmapping_node" pkg="gmapping" type="slam_gmapping" respawn="true" machine="$(arg machine)" >
         <rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/localization/gmapping.yaml" />
-        <remap from="scan" to="$(arg sensor)/scan"/>    
+        <remap from="scan" to="$(arg sensor)/scan_gmapping"/>    
         <remap from="map" to="gmapping/map"/>    
+    </node>
+
+    <node name="scan_gmapping" pkg="robot_launch_files" type="scan_gmapping.py" respawn="true" machine="$(arg machine)" >
+        <remap from="scan" to="$(arg sensor)/scan"/>    
+        <remap from="scan_gmapping" to="$(arg sensor)/scan_gmapping"/>    
     </node>
 
 </launch>

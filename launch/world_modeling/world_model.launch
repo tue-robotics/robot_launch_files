@@ -7,7 +7,10 @@
 
     <arg name="config" default="world_modeling/world_model.yaml"/>
 
-    <!-- World model ED -->
-    <node name="ed" pkg="ed" type="ed" args="$(env ROBOT_BRINGUP_PATH)/parameters/$(arg config)" output="screen" machine="$(arg machine)" />
+    <!-- World model -->
+    <node name="ed" pkg="ed" type="ed" output="screen" machine="$(arg machine)" />
+
+    <!-- Configure world model -->
+    <node name="ed_configure" pkg="ed" type="configure" args="$(env ROBOT_BRINGUP_PATH)/parameters/$(arg config)" output="screen" machine="$(arg machine)"/>
 
 </launch>

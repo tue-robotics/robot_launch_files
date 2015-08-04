@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+
+<launch>
+
+    <!-- Get the machine file -->
+    <arg name="machine" default="localhost"/>
+    <arg name="ip" />
+    <arg name="port" />
+
+    <include file="$(env ROBOT_BRINGUP_PATH)/machines/$(arg machine).machine" />
+
+	<group if="$(optenv ROBOT_REAL false)">
+
+        <node name="ed" pkg="challenge_final" type="client.py" machine="$(arg machine)">
+            <param name="ip" value="$(arg ip)" />
+            <param name="port" value="$(arg port)" />
+        </node>
+
+    </group>
+
+</launch>

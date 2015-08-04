@@ -3,29 +3,18 @@
 <launch>
 
     <arg name="robot_name" default="amigo"/>
-
-    <arg name="gui" default="true"/>
-    <arg name="ROBOT_COMPLEXITY" default="$(optenv ROBOT_COMPLEXITY complex)" />
-
+    
     <arg name="gdb" default="false"/>
     <arg if="$(arg gdb)" name="launch-prefix" value="gdb -ex run --args"/>
     <arg unless="$(arg gdb)" name="launch-prefix" value=""/>
-
-    <arg name="teleport" default="false"/>
-    <arg name="localization" default="$(optenv AMIGO_STATIC_LOC false)"/>
-    <arg name="kinect_raytracing" default="true"/>
 
     <arg name="env" default="$(optenv ROBOT_ENV robotics_testlab_A)" />
     <arg name="robot_init_x" default="$(optenv ROBOT_INIT_X 0)"/>
     <arg name="robot_init_y" default="$(optenv ROBOT_INIT_Y 0)"/>
     <arg name="robot_init_phi" default="$(optenv ROBOT_INIT_PHI 0)"/>
 
-    <arg name="init_pos_args" value="--x $(arg robot_init_x) --y $(arg robot_init_y) --rz $(arg robot_init_phi)"/>
-
-    <arg name="simulator_args" value="--no-localization $(arg init_pos_args) --world $(arg env)"/>
-
     <!-- start simulator -->
-    <node name="fast_simulator" pkg="fast_simulator" type="simulator" args="$(arg simulator_args) --model-dir $(find fast_simulator_data) --kinect-raytracing $(arg kinect_raytracing)" output="screen" launch-prefix="$(arg launch-prefix)"/>
+    <node name="fast_simulator" pkg="fast_simulator" type="simulator" output="screen" launch-prefix="$(arg launch-prefix)"/>
 
     <!-- spawn world -->
     <node pkg="fast_simulator" type="spawn" name="spawn_world" args="-i $(arg env) -m $(arg env)" output="screen"/>

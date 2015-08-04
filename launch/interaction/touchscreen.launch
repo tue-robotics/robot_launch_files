@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<launch>
+
+    <!-- Get the machine file -->
+    <arg name="machine" default="localhost"/>
+    <include file="$(env ROBOT_BRINGUP_PATH)/machines/$(arg machine).machine" />
+	
+	<!-- Start node -->
+	<node pkg="picaso_4d_systems" type="picaso_4d_systems_trigger_node" respawn="false" name="touchscreen" machine="$(arg machine)" output="screen">
+		<param name="serialport" value="/dev/ttyUSB0"/>
+	</node>
+		
+ </launch>
