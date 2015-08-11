@@ -4,9 +4,11 @@
     <arg name="machine" default="localhost"/>
     <include file="$(env ROBOT_BRINGUP_PATH)/machines/$(arg machine).machine" />
 
-    <!-- The semantic description that corresponds to the URDF -->
-    <param name="robot_description_semantic" textfile="$(find amigo_moveit_config)/config/amigo.srdf" />
-
+    <!-- Load the URDF, SRDF and other .yaml configuration files on the param server -->
+    <include file="$(find amigo_moveit_config)/launch/planning_context.launch">
+        <arg name="load_robot_description" value="false"/>
+    </include>
+  
     <!-- Run the main MoveIt executable without trajectory execution (we do not have controllers configured by default) -->
     <include file="$(find amigo_moveit_config)/launch/move_group.launch">
         <arg name="allow_trajectory_execution" value="true"/>
