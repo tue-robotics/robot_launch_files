@@ -1,8 +1,0 @@
-<?xml version="1.0"?>
-
-<launch>
-    
-    <arg name="machine" default="localhost"/>
-    <include file="$(env ROBOT_BRINGUP_PATH)/machines/$(arg machine).machine" />
-
-</launch>

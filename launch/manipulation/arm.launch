@@ -5,26 +5,26 @@
     <include file="$(env ROBOT_BRINGUP_PATH)/machines/$(arg machine).machine" />
 
     <arg name="name"/>
-    
+
     <!-- GRIPPER SERVER -->
-	<node pkg="tue_manipulation" type="gripper_server" respawn="false" name="gripper_server_$(arg name)" output="screen" machine="$(arg machine)">
-		<remap from="action" to="$(arg name)/gripper/action"/>
-		<remap from="references" to="$(arg name)/gripper/references"/>
-		<remap from="measurements" to="$(arg name)/gripper/measurements"/> 
-	</node>
+    <node pkg="tue_manipulation" type="gripper_server" respawn="false" name="gripper_server_$(arg name)" output="screen" machine="$(arg machine)">
+        <remap from="action" to="$(arg name)/gripper/action"/>
+        <remap from="references" to="$(arg name)/gripper/references"/>
+        <remap from="measurements" to="$(arg name)/gripper/measurements"/> 
+    </node>
 
     <!-- GRASP PRECOMPUTE -->
-	<node pkg="tue_manipulation" type="grasp_precompute_action" name="grasp_precompute_$(arg name)" output="screen" machine="$(arg machine)">
-		<remap from="joint_trajectory_action" to="$(arg name)/joint_trajectory_action"/>
+    <node pkg="tue_manipulation" type="grasp_precompute_action" name="grasp_precompute_$(arg name)" output="screen" machine="$(arg machine)">
+        <remap from="joint_trajectory_action" to="$(arg name)/joint_trajectory_action"/>
         <remap from="grasp_precompute" to="$(arg name)/grasp_precompute"/>
         <remap from="ik_position_markers" to="$(arg name)/ik_position_markers"/>
 
         <!-- Measurement topics -->
         <remap from="joint_measurements" to="$(arg name)/measurements"/>
         <remap from="spindle_measurement" to="torso/measurements" />
-        
+
         <rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/manipulation/$(arg name)/grasp_precompute.yaml" />
+
     </node>
-   
 
 </launch>
