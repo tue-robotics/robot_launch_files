@@ -14,7 +14,7 @@
     </node>
 
     <!-- Start the simple webserver to handle static files -->
-    <node pkg="tue_mobile_ui" type="webserver.py" name="mobile_ui_server" output="screen" machine="$(arg machine)">
+    <node pkg="tue_mobile_ui" type="webserver.py" name="webserver" output="screen" machine="$(arg machine)">
         <rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/interaction/mobile_ui_server.yaml" />
     </node>
 
