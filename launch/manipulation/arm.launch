@@ -16,6 +16,7 @@
     <!-- GRASP PRECOMPUTE -->
     <node pkg="tue_manipulation" type="grasp_precompute_action" name="grasp_precompute_$(arg name)" output="screen" machine="$(arg machine)">
         <remap from="joint_trajectory_action" to="$(arg name)/joint_trajectory_action"/>
+        <remap from="joint_trajectory" to="$(arg name)/joint_trajectory"/>
         <remap from="grasp_precompute" to="$(arg name)/grasp_precompute"/>
         <remap from="ik_position_markers" to="$(arg name)/ik_position_markers"/>
 
