@@ -2,8 +2,11 @@
 <launch>
 
     <!-- Get the machine file -->
-    <arg name="machine" default="localhost"/>
-    <include file="$(env ROBOT_BRINGUP_PATH)/machines/$(arg machine).machine" />
+    <arg name="machine-tts" default="localhost"/>
+    <include file="$(env ROBOT_BRINGUP_PATH)/machines/$(arg machine-tts).machine" />
+
+    <arg name="machine-play" default="localhost"/>
+    <include file="$(env ROBOT_BRINGUP_PATH)/machines/$(arg machine-play).machine" />
     
     <!-- In simulation, start festival -->
 	<group unless="$(optenv ROBOT_REAL false)" ns="text_to_speech">
@@ -17,7 +20,15 @@
 		<rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/interaction/text_to_speech.yaml" />
 	</group>
 	
-	<!-- Start node -->
-	<node pkg="text_to_speech" type="text_to_speech_node.py" respawn="false" name="text_to_speech" machine="$(arg machine)" output="screen"/>
+	<!-- Start TTS node -->
+	<node pkg="text_to_speech" type="text_to_speech_node.py" respawn="false" name="text_to_speech" machine="$(arg machine-tts)" output="screen">
+        <remap from="play" to="audio_player/play"/>
+    </node>
+
+	<!-- Start play node -->
+	<node pkg="text_to_speech" type="player.py" respawn="false" name="audio_player" machine="$(arg machine-play)" output="screen">
+        <remap from="play" to="audio_player/play"/>
+    </node>
+
 		
  </launch>
