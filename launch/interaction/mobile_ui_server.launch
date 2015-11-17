@@ -13,6 +13,15 @@
         <param name="binary_encoder" value="bson"/>
     </node>
 
+	<!-- HTTP Streaming of ROS Image Topics -->
+	<!--
+	<node name="web_video_server" pkg="web_video_server" type="web_video_server" output="screen">
+		<param name="port" value="8080" />
+		<param name="server_threads" value="1" />
+		<param name="ros_threads" value="2" />
+	</node>
+	-->
+
     <!-- Start the simple webserver to handle static files -->
     <node pkg="tue_mobile_ui" type="webserver.py" name="webserver" output="screen" machine="$(arg machine)">
         <rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/interaction/mobile_ui_server.yaml" />
