@@ -7,14 +7,14 @@
     <arg name="name"/>
 
     <!-- GRIPPER SERVER -->
-    <node pkg="tue_manipulation" type="gripper_server" respawn="false" name="gripper_server_$(arg name)" output="screen" machine="$(arg machine)">
+    <node pkg="tue_manipulation" type="gripper_server" respawn="false" name="gripper_server_$(arg name)" output="log" machine="$(arg machine)">
         <remap from="action" to="$(arg name)/gripper/action"/>
         <remap from="references" to="$(arg name)/gripper/references"/>
-        <remap from="measurements" to="$(arg name)/gripper/measurements"/> 
+        <remap from="measurements" to="$(arg name)/gripper/measurements"/>
     </node>
 
     <!-- GRASP PRECOMPUTE -->
-    <node pkg="tue_manipulation" type="grasp_precompute_action" name="grasp_precompute_$(arg name)" output="screen" machine="$(arg machine)">
+    <node pkg="tue_manipulation" type="grasp_precompute_action" name="grasp_precompute_$(arg name)" output="log" machine="$(arg machine)">
         <remap from="joint_trajectory_action" to="$(arg name)/joint_trajectory_action"/>
         <remap from="joint_trajectory" to="$(arg name)/joint_trajectory"/>
         <remap from="grasp_precompute" to="$(arg name)/grasp_precompute"/>

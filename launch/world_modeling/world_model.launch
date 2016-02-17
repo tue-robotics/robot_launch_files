@@ -8,13 +8,13 @@
     <arg name="config" default="world_modeling/world_model.yaml"/>
 
     <!-- World model -->
-    <node name="ed" pkg="ed" type="ed" output="screen" machine="$(arg machine)" />
+    <node name="ed" pkg="ed" type="ed" output="log" machine="$(arg machine)" />
 
     <!-- Configure world model -->
-    <node name="ed_configure" pkg="ed" type="configure" args="$(env ROBOT_BRINGUP_PATH)/parameters/$(arg config)" output="screen" machine="$(arg machine)"/>
+    <node name="ed_configure" pkg="ed" type="configure" args="$(env ROBOT_BRINGUP_PATH)/parameters/$(arg config)" output="log" machine="$(arg machine)"/>
 
     <!-- Face recognition -->
-    <node name="face_recognition" pkg="ed_perception" type="face_recognition" output="screen" machine="$(arg machine)"
+    <node name="face_recognition" pkg="ed_perception" type="face_recognition" output="log" machine="$(arg machine)"
           args="--config $(env ROBOT_BRINGUP_PATH)/parameters/world_modeling/face_recognition.yaml" />
 
 </launch>

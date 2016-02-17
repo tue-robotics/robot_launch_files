@@ -6,6 +6,6 @@
     <include file="$(env ROBOT_BRINGUP_PATH)/machines/$(arg machine).machine" />
 
     <!-- Reasoner server -->
-    <node name="reasoner_server" pkg="swi_prolog" type="swipl_server" output="screen" machine="$(arg machine)"/>
+    <node name="reasoner_server" pkg="swi_prolog" type="swipl_server" output="log" machine="$(arg machine)"/>
 
 </launch>

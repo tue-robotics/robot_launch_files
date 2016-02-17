@@ -7,7 +7,7 @@
     <include file="$(env ROBOT_BRINGUP_PATH)/machines/$(arg machine).machine" />
 
     <!-- Local planner that sends cmd_vels to the robot_base -->
-    <node pkg="cb_base_navigation" type="cb_base_navigation_local_planner_interface" name="local_planner" output="screen" machine="$(arg machine)">
+    <node pkg="cb_base_navigation" type="cb_base_navigation_local_planner_interface" name="local_planner" output="log" machine="$(arg machine)">
         <!-- Local Planner Settings -->
         <rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/navigation/local_planner.yaml" />
         <!-- Local Costmap Settings -->
@@ -17,13 +17,13 @@
         <remap from="cmd_vel" to="base/references" />
     </node>
 
-    <!-- Global planner for path calculation from origin pose to goal constraint region --> 
-    <node pkg="cb_base_navigation" type="cb_base_navigation_global_planner_interface" name="global_planner" output="screen" machine="$(arg machine)">
+    <!-- Global planner for path calculation from origin pose to goal constraint region -->
+    <node pkg="cb_base_navigation" type="cb_base_navigation_global_planner_interface" name="global_planner" output="log" machine="$(arg machine)">
         <!-- Global Planner Settings -->
         <rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/navigation/global_planner.yaml" />
         <!-- Global Costmap Settings -->
         <rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/navigation/global_costmap.yaml" ns="global_costmap" />
-    </node>  
+    </node>
 
 	<!-- Launch rgbd to pcl for costmap integration -->
 	<!--node pkg="rgbd" type="rgbd_to_ros" args="rgbd" name="rgbd_to_ros" ns="top_kinect" machine="$(arg machine)"/-->
