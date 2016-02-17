@@ -3,7 +3,7 @@
 <launch>
 
     <arg name="robot_name" default="amigo"/>
-    
+
     <arg name="gdb" default="false"/>
     <arg if="$(arg gdb)" name="launch-prefix" value="gdb -ex run --args"/>
     <arg unless="$(arg gdb)" name="launch-prefix" value=""/>
@@ -14,16 +14,16 @@
     <arg name="robot_init_phi" default="$(optenv ROBOT_INIT_PHI 0)"/>
 
     <!-- start simulator -->
-    <node name="fast_simulator" pkg="fast_simulator" type="simulator" output="screen" launch-prefix="$(arg launch-prefix)"/>
+    <node name="fast_simulator" pkg="fast_simulator" type="simulator" output="log" launch-prefix="$(arg launch-prefix)"/>
 
     <!-- spawn world -->
-    <node pkg="fast_simulator" type="spawn" name="spawn_world" args="-i $(arg env) -m $(arg env)" output="screen"/>
+    <node pkg="fast_simulator" type="spawn" name="spawn_world" args="-i $(arg env) -m $(arg env)" output="log"/>
 
     <!-- spawn objects -->
-    <node name="fast_simulator_object_spawner" pkg="fast_simulator_data" type="$(arg env).py" output="screen"/>
+    <node name="fast_simulator_object_spawner" pkg="fast_simulator_data" type="$(arg env).py" output="log"/>
 
     <!-- spawn robot -->
-    <node pkg="fast_simulator" type="spawn" name="spawn_robot" args="-i $(arg robot_name) -m $(arg robot_name) -x $(arg robot_init_x) -y $(arg robot_init_y) -Z $(arg robot_init_phi)" output="screen"/>
+    <node pkg="fast_simulator" type="spawn" name="spawn_robot" args="-i $(arg robot_name) -m $(arg robot_name) -x $(arg robot_init_x) -y $(arg robot_init_y) -Z $(arg robot_init_phi)" output="log"/>
 
 
 </launch>

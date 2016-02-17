@@ -6,7 +6,7 @@
     <include file="$(env ROBOT_BRINGUP_PATH)/machines/$(arg machine).machine" />
 
     <!-- Launch the websocket server (communication via roslib) -->
-    <node name="rosbridge_websocket" pkg="rosbridge_server" type="rosbridge_websocket" output="screen" machine="$(arg machine)">
+    <node name="rosbridge_websocket" pkg="rosbridge_server" type="rosbridge_websocket" output="log" machine="$(arg machine)">
         <param name="authenticate" value="false" />
         <param name="port" value="9090"/>
         <param name="address" value=""/>
@@ -23,7 +23,7 @@
 	-->
 
     <!-- Start the simple webserver to handle static files -->
-    <node pkg="tue_mobile_ui" type="webserver.py" name="webserver" output="screen" machine="$(arg machine)">
+    <node pkg="tue_mobile_ui" type="webserver.py" name="webserver" output="log" machine="$(arg machine)">
         <rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/interaction/mobile_ui_server.yaml" />
     </node>
 
