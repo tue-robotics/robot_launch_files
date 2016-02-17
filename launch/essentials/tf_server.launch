@@ -6,6 +6,6 @@
     <include file="$(env ROBOT_BRINGUP_PATH)/machines/$(arg machine).machine" />
 
     <!-- TF Server: advertises services for looking up transformations -->
-    <node name="tf_server" pkg="tf_server" type="tf_server" output="screen" machine="$(arg machine)" />
+    <node name="tf_server" pkg="tf_server" type="tf_server" output="log" machine="$(arg machine)" />
 
  </launch>

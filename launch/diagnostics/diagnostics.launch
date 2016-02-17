@@ -15,7 +15,7 @@
 	</node>
 
 	<!-- Checks if all nodes are still running -->
-    <node name="node_alive_server" type="node_alive_server" pkg="node_alive" machine="$(arg machine)">
+    <node name="node_alive_server" type="node_alive_server" pkg="node_alive" machine="$(arg machine)" output="log">
 	    <rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/diagnostics/node_alive_neglect_nodes.yaml" />
     </node>
 
