@@ -20,7 +20,7 @@ e = robot.ears
 s = robot.speech
 
 last_update = rospy.Time.now()
-minutes = 0 
+minutes = 10 
 
 def joke():
     global minutes
