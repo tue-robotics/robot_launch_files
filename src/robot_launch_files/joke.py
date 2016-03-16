@@ -2,6 +2,7 @@
 
 import rospy, sys, random, time
 from geometry_msgs.msg import Twist
+from smach_msgs.msg import SmachContainerStatus
 
 rospy.init_node('joke')
 
@@ -20,9 +21,10 @@ e = robot.ears
 s = robot.speech
 
 last_update = rospy.Time.now()
-minutes = 30 
+minutes = 20
 
 def joke():
+    global last_update
     global minutes
 
     jokes = [
@@ -39,23 +41,20 @@ def joke():
     s.speak("Would you like to hear another one?")
     r = e.recognize("(yes|no)", {})
 
-    if r and r.result == "yes":
-        joke()
-    else:
+    if not r or r.result == "no":
         s.speak("Ok, I will be quiet for another %d minutes" % minutes)
+        last_update = rospy.Time.now()
 
 def timer_callback(event):
-    global last_update
 
     if (rospy.Time.now() - last_update).to_sec() > minutes * 60:
         joke()
-        last_update = rospy.Time.now()
 
 def callback(data):
     global last_update
-    rospy.loginfo("cmd_vel cb")
     last_update = rospy.Time.now()
 
 rospy.Subscriber("base/references", Twist, callback)
+rospy.Subscriber("smach/container_status", SmachContainerStatus, callback)
 rospy.Timer(rospy.Duration(2), timer_callback)
 rospy.spin()
