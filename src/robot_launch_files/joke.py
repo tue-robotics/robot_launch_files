@@ -41,10 +41,7 @@ def joke():
     s.speak("Would you like to hear another one?")
     r = None
 
-    try:
-        r = e.recognize("(yes|no)", {})
-    except:
-        pass
+    r = e.recognize("(yes|no)", {})
 
     if not r or r.result == "no":
         s.speak("Ok, I will be quiet for another %d minutes" % minutes)
@@ -53,7 +50,10 @@ def joke():
 def timer_callback(event):
 
     if (rospy.Time.now() - last_update).to_sec() > minutes * 60:
-        joke()
+        try:
+            joke()
+        except:
+            last_update = rospy.Time.now()
 
 def callback(data):
     global last_update
