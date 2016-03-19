@@ -4,16 +4,13 @@
 
     <!-- Get the machine file -->
     <arg name="machine" default="localhost"/>
-    <arg name="ip" />
-    <arg name="port" />
 
     <include file="$(env ROBOT_BRINGUP_PATH)/machines/$(arg machine).machine" />
 
 	<group if="$(optenv ROBOT_REAL false)">
 
         <node name="ed" pkg="multirobot_communication" type="ed_client_bridge.py" machine="$(arg machine)">
-            <param name="ip" value="$(arg ip)" />
-            <param name="port" value="$(arg port)" />
+		<rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/multirobot/world_model_client_bridge.yaml" />
         </node>
 
     </group>

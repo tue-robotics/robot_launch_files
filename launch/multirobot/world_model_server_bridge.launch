@@ -12,8 +12,7 @@
 	<group if="$(optenv ROBOT_REAL false)">
 
         <node name="sync_ed" pkg="multirobot_communication" type="ed_server_bridge.py" machine="$(arg machine)">
-            <param name="ip" value="$(arg ip)" />
-            <param name="port" value="$(arg port)" />
+		<rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/multirobot/world_model_server_bridge.yaml" />
         </node>
 
     </group>
