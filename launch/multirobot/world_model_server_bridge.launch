@@ -11,7 +11,7 @@
 
 	<group if="$(optenv ROBOT_REAL false)">
 
-        <node name="ed" pkg="challenge_final" type="client.py" machine="$(arg machine)">
+        <node name="sync_ed" pkg="multirobot_communication" type="ed_server_bridge.py" machine="$(arg machine)">
             <param name="ip" value="$(arg ip)" />
             <param name="port" value="$(arg port)" />
         </node>
