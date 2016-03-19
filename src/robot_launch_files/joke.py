@@ -48,6 +48,7 @@ def joke():
         last_update = rospy.Time.now()
 
 def timer_callback(event):
+    global last_update
 
     if (rospy.Time.now() - last_update).to_sec() > minutes * 60:
         try:
