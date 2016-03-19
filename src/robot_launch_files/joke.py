@@ -39,7 +39,12 @@ def joke():
     time.sleep(5.0)
 
     s.speak("Would you like to hear another one?")
-    r = e.recognize("(yes|no)", {})
+    r = None
+
+    try:
+        r = e.recognize("(yes|no)", {})
+    except:
+        pass
 
     if not r or r.result == "no":
         s.speak("Ok, I will be quiet for another %d minutes" % minutes)
