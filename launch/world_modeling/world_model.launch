@@ -13,8 +13,21 @@
     <!-- Configure world model -->
     <node name="ed_configure" pkg="ed" type="configure" args="$(env ROBOT_BRINGUP_PATH)/parameters/$(arg config)" output="log" machine="$(arg machine)"/>
 
-    <!-- Face recognition -->
-    <node name="face_recognition" pkg="ed_perception" type="face_recognition" output="log" machine="$(arg machine)"
-          args="--config $(env ROBOT_BRINGUP_PATH)/parameters/world_modeling/face_recognition.yaml" />
+    <group if="$(optenv ROBOT_REAL false)">
+
+        <group ns="face">
+
+            <node name="detector" pkg="openface_ros" type="openface_node.py" output="log" machine="$(arg machine)" />
+
+        </group>
+
+    </group>
+    <group unless="$(optenv ROBOT_REAL false)">
+
+        <!-- Face recognition -->
+        <node name="face_recognition" pkg="ed_perception" type="face_recognition" output="log" machine="$(arg machine)"
+              args="--config $(env ROBOT_BRINGUP_PATH)/parameters/world_modeling/face_recognition.yaml" />
+
+    </group>
 
 </launch>
