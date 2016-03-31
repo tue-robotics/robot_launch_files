@@ -33,6 +33,8 @@ def joke():
         "What is the difference between a snowman and a snowwomen? Snowballs.",
         "What is Bruce Lee's favorite drink? Wataaaaah!",
         "A blind man walks into a bar. And a table. And a chair.",
+        "It's color is yellow and when you push the button, it turns red?         A chick in the blender",
+        "Why was 6 afraid of 7?                  Because 7, 8, 9",
     ]
     s.speak(random.choice(jokes))
 
@@ -43,7 +45,7 @@ def joke():
 
     r = e.recognize("(yes|no)", {})
 
-    if not r or r.result == "no":
+    if not r or r.result == "no" or r.result == "":
         s.speak("Ok, I will be quiet for another %d minutes" % minutes)
         last_update = rospy.Time.now()
 
