@@ -10,7 +10,6 @@
         <param name="authenticate" value="false" />
         <param name="port" value="9090"/>
         <param name="address" value=""/>
-        <param name="binary_encoder" value="bson"/>
     </node>
 
 	<!-- HTTP Streaming of ROS Image Topics -->
