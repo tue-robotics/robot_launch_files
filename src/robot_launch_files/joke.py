@@ -35,6 +35,7 @@ def joke():
         "A blind man walks into a bar. And a table. And a chair.",
         "It's color is yellow and when you push the button, it turns red?         A chick in the blender",
         "Why was 6 afraid of 7?                  Because 7, 8, 9",
+        "What happens if you want to join a list but there is a None in it?                  sequence item x: expected string, NoneType found",
     ]
     s.speak(random.choice(jokes))
 
