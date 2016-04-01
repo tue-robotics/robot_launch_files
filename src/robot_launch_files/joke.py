@@ -23,21 +23,29 @@ s = robot.speech
 last_update = rospy.Time.now()
 minutes = 20
 
+from collections import deque
+
+jokes = [
+    "What do you call a fish with no eyes? A fsh.",
+    "You don't need a parachute to go skydiving. You need a parachute to go skydiving twice.",
+    "What is the difference between a snowman and a snowwomen? Snowballs.",
+    "What is Bruce Lee's favorite drink? Wataaaaah!",
+    "A blind man walks into a bar. And a table. And a chair.",
+    "It's color is yellow and when you push the button, it turns red?         A chick in the blender",
+    "Why was 6 afraid of 7?                  Because 7, 8, 9",
+    "What happens if you want to join a list but there is a None in it?                  sequence item x: expected string, NoneType found",
+]
+jokes = deque(jokes)
+random.shuffle(jokes)
+
 def joke():
     global last_update
     global minutes
+    global jokes
 
-    jokes = [
-        "What do you call a fish with no eyes? A fsh.",
-        "You don't need a parachute to go skydiving. You need a parachute to go skydiving twice.",
-        "What is the difference between a snowman and a snowwomen? Snowballs.",
-        "What is Bruce Lee's favorite drink? Wataaaaah!",
-        "A blind man walks into a bar. And a table. And a chair.",
-        "It's color is yellow and when you push the button, it turns red?         A chick in the blender",
-        "Why was 6 afraid of 7?                  Because 7, 8, 9",
-        "What happens if you want to join a list but there is a None in it?                  sequence item x: expected string, NoneType found",
-    ]
-    s.speak(random.choice(jokes))
+    jokes.rotate()
+
+    s.speak(jokes[0])
 
     time.sleep(5.0)
 
