@@ -11,10 +11,10 @@
         <remap from="/neck/measurements" to="neck/measurements"/>
     </node>
 
-    <node name="head_ref_client_look_around" pkg="head_ref" type="look_around_client" output="log">
-        <rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/manipulation/head_look_around_client.yaml" />
-        <remap from="/cmd_vel" to="base/references" />
-    </node>
+<!--    <node name="head_ref_client_look_around" pkg="head_ref" type="look_around_client" output="log">-->
+<!--        <rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/manipulation/head_look_around_client.yaml" />-->
+<!--        <remap from="/cmd_vel" to="base/references" />-->
+<!--    </node>-->
 
     <node name="head_ref_client_cmd_vel" pkg="head_ref" type="cmd_vel_client" output="log">
         <rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/manipulation/head_cmd_vel_client.yaml" />
