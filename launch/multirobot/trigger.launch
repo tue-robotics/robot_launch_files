@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+
+<launch>
+
+    <!-- Get the machine file -->
+    <arg name="machine" default="localhost"/>
+
+    <arg name="other_robot" />
+    <arg name="robot" />
+
+    <include file="$(env ROBOT_BRINGUP_PATH)/machines/$(arg machine).machine" />
+
+	<group if="$(optenv ROBOT_REAL false)">
+
+		<group ns="$(arg other_robot)">
+
+			<node name="trigger_client" pkg="multirobot_communication" type="trigger_client.py" machine="$(arg machine)">
+				<rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/multirobot/trigger_client.yaml" />
+			</node>
+
+		</group>
+
+		<group ns="$(arg robot)">
+
+			<node name="trigger_server" pkg="multirobot_communication" type="trigger_server.py" machine="$(arg machine)">
+				<rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/multirobot/trigger_server.yaml" />
+			</node>
+
+		</group>
+
+	</group>
+
+</launch>
