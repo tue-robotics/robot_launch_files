@@ -4,15 +4,20 @@
 
     <!-- Get the machine file -->
     <arg name="machine" default="localhost"/>
+    <arg name="other_robot" />
 
     <include file="$(env ROBOT_BRINGUP_PATH)/machines/$(arg machine).machine" />
 
-	<group if="$(optenv ROBOT_REAL false)">
+	<group ns="$(arg other_robot)">
 
-        <node name="ed" pkg="multirobot_communication" type="ed_client_bridge.py" machine="$(arg machine)">
-		<rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/multirobot/world_model_client_bridge.yaml" />
-        </node>
+		<group if="$(optenv ROBOT_REAL false)">
 
-    </group>
+			<node name="ed" pkg="multirobot_communication" type="ed_client_bridge.py" machine="$(arg machine)">
+				<rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/multirobot/world_model_client_bridge.yaml" />
+			</node>
+
+		</group>
+
+	</group>
 
 </launch>
