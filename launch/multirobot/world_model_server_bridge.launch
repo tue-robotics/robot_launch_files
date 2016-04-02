@@ -4,8 +4,6 @@
 
     <!-- Get the machine file -->
     <arg name="machine" default="localhost"/>
-    <arg name="ip" />
-    <arg name="port" />
 
     <include file="$(env ROBOT_BRINGUP_PATH)/machines/$(arg machine).machine" />
 
