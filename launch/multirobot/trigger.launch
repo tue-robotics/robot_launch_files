@@ -4,8 +4,6 @@
 
     <!-- Get the machine file -->
     <arg name="machine" default="localhost"/>
-    <arg name="robot_name" />
-
     <include file="$(env ROBOT_BRINGUP_PATH)/machines/$(arg machine).machine" />
 
 	<group if="$(optenv ROBOT_REAL false)">
@@ -14,13 +12,9 @@
             <rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/multirobot/trigger_client.yaml" />
         </node>
 
-        <group ns="$(arg robot_name)">
-
-            <node name="trigger_server" pkg="multirobot_communication" type="trigger_server.py" machine="$(arg machine)">
-                <rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/multirobot/trigger_server.yaml" />
-            </node>
-
-        </group> 
+        <node name="trigger_server" pkg="multirobot_communication" type="trigger_server.py" machine="$(arg machine)">
+            <rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/multirobot/trigger_server.yaml" />
+        </node>
 
 	</group>
 
