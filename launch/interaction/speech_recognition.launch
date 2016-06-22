@@ -22,7 +22,7 @@
     </group>
     <group unless="$(optenv ROBOT_REAL false)">
         <!-- speech dummy -->
-		<node name="hmi" pkg="hmi_server" type="random_answerer" machine="$(arg machine)" output="screen"/>
+		<node name="hmi_dummy_answerer" pkg="hmi_server" type="random_answerer" machine="$(arg machine)" output="screen"/>
     </group>
 
  </launch>
