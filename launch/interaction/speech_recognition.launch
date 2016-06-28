@@ -5,24 +5,29 @@
 	<arg name="machine" default="localhost"/>
 	<include file="$(env ROBOT_BRINGUP_PATH)/machines/$(arg machine).machine" />
 
-	<!-- QR-code / amigo-hear -->
+	<!-- Always run a multicast server with a string topic answerer for amigo-hear -->
+	<node name="hmi" pkg="hmi_server" type="multi_client" machine="$(arg machine)" output="screen"/>
+
 	<group ns="hmi">
-		<node name="string_topic_answerer" pkg="hmi_server" type="string_topic_answerer" />
-	</group>
 
-	<!-- If we are on the real robot, launch the server, otherwise a dummy -->
-	<group if="$(optenv ROBOT_REAL false)">
-		<!-- windows vbox -->
-		<node name="speech_server" pkg="dragonfly_speech_recognition" type="vbox.py" machine="$(arg machine)" output="log" />
+		<!-- QR-code / amigo-hear -->
+		<node name="string_topic_answerer" pkg="hmi_server" type="string_topic_answerer" output="screen"/>
 
-		<!-- bridge to windows -->
-		<node name="hmi" pkg="dragonfly_speech_recognition" type="ros_speech_bridge" machine="$(arg machine)" output="screen">
-			<rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/interaction/speech_client.yaml" />
-		</node>
-	</group>
-	<group unless="$(optenv ROBOT_REAL false)">
-		<!-- speech dummy -->
-		<node name="hmi" pkg="hmi_server" type="random_answerer" machine="$(arg machine)" output="screen"/>
-	</group>
+		<!-- If we are on the real robot, launch the server, otherwise a dummy -->
+		<group if="$(optenv ROBOT_REAL false)">
+			<!-- windows vbox -->
+			<node name="speech_server" pkg="dragonfly_speech_recognition" type="vbox.py" machine="$(arg machine)" output="log" />
+
+			<!-- bridge to windows -->
+			<node name="dragonfly_speech_recognition" pkg="dragonfly_speech_recognition" type="ros_speech_bridge" machine="$(arg machine)" output="screen">
+				<rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/interaction/speech_client.yaml" />
+			</node>
+		</group>
+		<group unless="$(optenv ROBOT_REAL false)">
+			<!-- speech dummy -->
+			<node name="random_answerer" pkg="hmi_server" type="random_answerer" machine="$(arg machine)" output="screen"/>
+		</group>
+
+	</group> <!-- ns="hmi" -->
 
  </launch>
