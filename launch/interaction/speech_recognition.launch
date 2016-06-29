@@ -19,7 +19,7 @@
 			<node name="speech_server" pkg="dragonfly_speech_recognition" type="vbox.py" machine="$(arg machine)" output="log" />
 
 			<!-- bridge to windows -->
-			<node name="dragonfly_speech_recognition" pkg="dragonfly_speech_recognition" type="ros_speech_bridge" machine="$(arg machine)" output="log">
+			<node name="dragonfly_speech_recognition" pkg="dragonfly_speech_recognition" type="ros_speech_bridge_xmlrpc" machine="$(arg machine)" output="log">
 				<rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/interaction/speech_client.yaml" />
 			</node>
 		</group>
