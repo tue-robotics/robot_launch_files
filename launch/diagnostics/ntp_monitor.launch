@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+
+	<!-- Get the machine file -->
+	<arg name="machine" default="localhost" />
+	<include file="$(env ROBOT_BRINGUP_PATH)/machines/$(arg machine).machine" />
+
+	<node pkg="diagnostic_common_diagnostics" name="ntp_monitor" type="ntp_monitor.py"
+		args="$(arg machine) --offset-tolerance 50000 --diag-hostname=$(arg machine)" machine="$(arg machine)" />
+
+</launch>
+

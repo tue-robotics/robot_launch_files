@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+
+	<!-- Get the machine file -->
+	<arg name="machine" default="localhost" />
+	<include file="$(env ROBOT_BRINGUP_PATH)/machines/$(arg machine).machine" />
+
+	<remap from="/diagnostics" to="diagnostics" />
+
+	<node pkg="pr2_computer_monitor" name="cpu_monitor" type="cpu_monitor.py"
+			args="--diag-hostname=$(arg machine)" machine="$(arg machine)">
+		<rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/diagnostics/cpu_monitor.yaml" />
+		<env name="LC_NUMERIC" value="en_US" />
+	</node>
+
+</launch>
+
