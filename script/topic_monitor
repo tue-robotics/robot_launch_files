@@ -1,0 +1,83 @@
+#!/usr/bin/python
+
+import rospy
+import rostopic
+import rosgraph
+import os
+import sys
+import fnmatch
+
+from std_msgs.msg import String
+
+master = rosgraph.Master('/rostopic')
+state = master.getSystemState()
+pubs, subs, _ = state
+
+rospy.init_node("topic_monitor")
+
+matches = None
+if sys.argv > 1:
+    matches = sys.argv[1:]
+    rospy.loginfo("Checking for topics with fnmatches %s", matches)
+
+class Topic:
+    def __init__(self, topic_name):
+        self._topic_name = topic_name
+        self._count = 0
+
+    def callback(self, data):
+        self._count += 1
+
+    def reset(self):
+        self._count = 0
+
+topic_names = []
+for pub in pubs:
+    topic_name  = pub[0]
+    if matches is not None:
+        for match in matches:
+            if fnmatch.fnmatch(topic_name, match):
+                rospy.loginfo("Adding %s for match %s", topic_name, match)
+                topic_names.append(topic_name)
+    else:
+        topic_names.append(topic_name)
+
+if not topic_names:
+    rospy.logwarn("No topics found for mathes %s", matches)
+    sys.exit()
+
+topics = []
+for topic_name in topic_names:
+    topic_class = rostopic.get_topic_class(topic_name)[0]
+    print "Subscribing to %s --- type: %s"%(topic_name, topic_class)
+    topic = Topic(topic_name)
+    rospy.Subscriber(topic_name, topic_class, topic.callback)
+    topics.append(topic)
+
+rospy.sleep(1.0)
+
+total_time = 2
+print "\nListening to all topics for %d seconds ..."%total_time
+
+while not rospy.is_shutdown():
+
+    for topic in topics:
+        topic.reset()
+
+    start_time = rospy.Time.now()
+
+    while not rospy.is_shutdown() and rospy.Time.now() - start_time < rospy.Duration(total_time):
+        rospy.sleep(0.1)
+
+    os.system('clear')
+    print "--------------------------------------\n| TOTAL MESSAGES RECEIVED PER TOPIC: |\n--------------------------------------"
+
+    # Sort topics by number of messages
+    topics = sorted(topics, key=lambda x: x._count, reverse=True)
+
+    for topic in topics:
+        string = "%8d msgs\t%4d Hz\t%s"%(topic._count, topic._count / total_time, topic._topic_name)
+        if topic._count == 0:
+            rospy.logerr(string)
+        else:
+            rospy.loginfo(string)
