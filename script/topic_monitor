@@ -10,8 +10,6 @@ import fnmatch
 from std_msgs.msg import String
 
 master = rosgraph.Master('/rostopic')
-state = master.getSystemState()
-pubs, subs, _ = state
 
 rospy.init_node("topic_monitor")
 
@@ -19,6 +17,23 @@ matches = None
 if sys.argv > 1:
     matches = sys.argv[1:]
     rospy.loginfo("Checking for topics with fnmatches %s", matches)
+
+def get_topic_names():
+    names = []
+
+    state = master.getSystemState()
+    pubs, subs, _ = state
+
+    for pub in pubs:
+        topic_name  = pub[0]
+        if matches is not None:
+            for match in matches:
+                if fnmatch.fnmatch(topic_name, match):
+                    names.append(topic_name)
+        else:
+            names.append(topic_name)
+
+    return names
 
 class Topic:
     def __init__(self, topic_name):
@@ -31,28 +46,24 @@ class Topic:
     def reset(self):
         self._count = 0
 
+topics = []
 topic_names = []
-for pub in pubs:
-    topic_name  = pub[0]
-    if matches is not None:
-        for match in matches:
-            if fnmatch.fnmatch(topic_name, match):
-                rospy.loginfo("Adding %s for match %s", topic_name, match)
-                topic_names.append(topic_name)
-    else:
-        topic_names.append(topic_name)
+def update_topics():
+    names = get_topic_names()
+    for name in names:
+        if name not in topic_names:
+            topic_names.append(name)
+            topic_class = rostopic.get_topic_class(name)[0]
+            print "Subscribing to %s --- type: %s"%(name, topic_class)
+            topic = Topic(name)
+            rospy.Subscriber(name, topic_class, topic.callback)
+            topics.append(topic)
+
+update_topics()
 
 if not topic_names:
     rospy.logwarn("No topics found for mathes %s", matches)
     sys.exit()
-
-topics = []
-for topic_name in topic_names:
-    topic_class = rostopic.get_topic_class(topic_name)[0]
-    print "Subscribing to %s --- type: %s"%(topic_name, topic_class)
-    topic = Topic(topic_name)
-    rospy.Subscriber(topic_name, topic_class, topic.callback)
-    topics.append(topic)
 
 rospy.sleep(1.0)
 
@@ -76,8 +87,10 @@ while not rospy.is_shutdown():
     topics = sorted(topics, key=lambda x: x._count, reverse=True)
 
     for topic in topics:
-        string = "%8d msgs\t%4d Hz\t%s"%(topic._count, topic._count / total_time, topic._topic_name)
+        string = "%3d Hz\t%s"%(topic._count / total_time, topic._topic_name)
         if topic._count == 0:
             rospy.logerr(string)
         else:
             rospy.loginfo(string)
+
+    update_topics()
