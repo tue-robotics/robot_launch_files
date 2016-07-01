@@ -13,6 +13,12 @@ master = rosgraph.Master('/rostopic')
 
 rospy.init_node("topic_monitor")
 
+def check_kinect(topic):
+    if topic._topic_name == "/sergio/top_kinect/rgbd":
+        rospy.logwarn("Killing kinect driver")
+        os.system("rosnode kill /sergio/top_kinect/driver")
+        rospy.sleep(1.0)
+
 matches = None
 if sys.argv > 1:
     matches = sys.argv[1:]
@@ -67,7 +73,7 @@ if not topic_names:
 
 rospy.sleep(1.0)
 
-total_time = 2
+total_time = 5
 print "\nListening to all topics for %d seconds ..."%total_time
 
 while not rospy.is_shutdown():
@@ -90,6 +96,7 @@ while not rospy.is_shutdown():
         string = "%3d Hz\t%s"%(topic._count / total_time, topic._topic_name)
         if topic._count == 0:
             rospy.logerr(string)
+            check_kinect(topic)
         else:
             rospy.loginfo(string)
 
