@@ -34,6 +34,37 @@ jokes = [
     "It's color is yellow and when you push the button, it turns red?         A chick in the blender",
     "Why was 6 afraid of 7?                  Because 7, 8, 9",
     "What happens if you want to join a list but there is a None in it?                  sequence item x: expected string, NoneType found",
+    "Why was the robot angry?           Because someone kept pushing his buttons!",  # Source: http://boyslife.org/about-scouts/merit-badge-resources/robotics/19223/robot-jokes/
+    "Why did the robot go back to robot school?        Because his skills were getting a little rusty!",
+    "What do you get when you cross a robot and a tractor?         A trans-farmer!"
+    "Are those real or were you upgraded in silicone valley?",
+    # Source: http://www.jokes4us.com/pickuplines/robotpickuplines.html
+    "Hey baby, want to grab some Java?",
+    "Hey baby, what's your OS?",
+    "Did you just break one of Asimov's Three Laws?          Because you've got 'fine' written all over you. ",
+    "I'm going to void your warranty! My docking station or yours?",
+    "Yes, I know you're metric- but I'm willing to convert.",
+    "I support portrait and landscape modes. ",
+    "Is it hot in here, or did your internal fan system just crash?",
+    "If I were a function, would you call me?",
+    "It that a joystick you're holding or are you just happy to see me?",
+    "roses are #FF0000, violets are #0000FF, all my base, belong to you. ",
+    "Is that a mirror in your anodized Titanium exterior plating?      Because I can see myself in your service port. ",
+    "Is 2GB really your maximum RAM capacity? I heard otherwise...",
+    "I hope you have an accellerometer, because I'm gonna rock your world. ",
+    "Rusting is red, and my chipset's blue. Will you let me assimilate you?",
+    "Your lips say 0 but your eyes say 1",
+    "I've got a case of WD-40 in the back, wanna get drunk?",
+    "Would you like a demo of my multitouch capabilities?",
+    "Was your father a thief? Because he stole some titanium bolts and put them in your eyes. ",
+    "Do you believe in love at first optical recognition, or should I ambulate by your location again?",
+    "Wanna be debugged?",
+    "You must be tired because you've been running your code through my cpu all night.",
+    "Was that my CPU malfunctioning or did I just feel a spark between us?",
+
+    #  Source: http://www.funcomet.com/for_kids/cool-robot-jokes/
+    "Do robots have sisters?           No, just transistors!",
+
 ]
 jokes = deque(jokes)
 random.shuffle(jokes)
