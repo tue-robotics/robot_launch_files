@@ -26,7 +26,7 @@
             <rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/world_modeling/face_recognition.yaml" />
         </node>
     
-        <node pkg="object_recognition" type="object_recognition_node.py" name="tensorflow_ros" output="screen" machine="$(arg machine)">
+        <node name="object_recognition" pkg="tensorflow_ros" type="object_recognition_node.py" output="log" machine="$(arg machine)">
             <!-- Settings file-->
             <rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/world_modeling/object_recognition.yaml" />
         </node>
