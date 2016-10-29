@@ -25,6 +25,11 @@
         <node name="face_recognition" pkg="openface_ros" type="face_recognition2" output="log" machine="$(arg machine)">
             <rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/world_modeling/face_recognition.yaml" />
         </node>
+    
+        <node pkg="object_recognition" type="object_recognition_node.py" name="tensorflow_ros" output="screen" machine="$(arg machine)">
+            <!-- Settings file-->
+            <rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/world_modeling/object_recognition.yaml" />
+        </node>
 
     </group>
     <group unless="$(optenv ROBOT_REAL false)">
