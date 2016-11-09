@@ -3,7 +3,8 @@
 
     <!-- Get the machine file -->
     <arg name="machine" default="localhost"/>
-    <arg name="robot_env" default="$(optenv ROBOT_ENV robotics_testlabs)"/>
+    <arg name="robot_env" default="$(optenv ROBOT_ENV robotics_testlabs)" />
+    <arg name="save_images" value="$(optenv ROBOT_REAL false)" />
 
     <include file="$(env ROBOT_BRINGUP_PATH)/machines/$(arg machine).machine" />
 
@@ -19,16 +20,17 @@
     <group ns="face_recognition">
 		<node name="face_recognition" pkg="openface_ros" type="face_recognition_node.py" output="log" machine="$(arg machine)">
 			<rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/world_modeling/face_recognition.yaml" />
-			<param name="save_images" value="true" />
+			<param name="save_images" value="$(arg save_images)" />
 			<param name="save_images_folder" value="~/MEGA/data/$(arg robot_env)/training_data" />
 		</node>
 	</group>
 
+	<!-- Object recognition -->
 	<group ns="object_recognition">
 		<node name="object_recognition" pkg="tensorflow_ros" type="object_recognition_node.py" output="log" machine="$(arg machine)">
 			<param name="graph_path" value="~/MEGA/data/$(arg robot_env)/models/tensorflow_ros/output_graph.pb" />
 			<param name="labels_path" value="~/MEGA/data/$(arg robot_env)/models/tensorflow_ros/output_labels.txt" />
-			<param name="save_images" value="true" />
+			<param name="save_images" value="$(arg save_images)" />
 			<param name="save_images_folder" value="~/MEGA/data/$(arg robot_env)/training_data" />
 		</node>
 	</group>
