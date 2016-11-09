@@ -3,6 +3,8 @@
 
     <!-- Get the machine file -->
     <arg name="machine" default="localhost"/>
+    <arg name="robot_env" default="$(optenv ROBOT_ENV robotics_testlabs)"/>
+
     <include file="$(env ROBOT_BRINGUP_PATH)/machines/$(arg machine).machine" />
 
     <arg name="config" default="world_modeling/world_model.yaml"/>
@@ -13,31 +15,22 @@
     <!-- Configure world model -->
     <node name="ed_configure" pkg="ed" type="configure" args="$(env ROBOT_BRINGUP_PATH)/parameters/$(arg config)" output="log" machine="$(arg machine)"/>
 
-    <group if="$(optenv ROBOT_REAL false)">
+    <!-- Face recognition -->
+    <group ns="face_recognition">
+		<node name="face_recognition" pkg="openface_ros" type="face_recognition_node.py" output="log" machine="$(arg machine)">
+			<rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/world_modeling/face_recognition.yaml" />
+			<param name="save_images" value="true" />
+			<param name="save_images_folder" value="~/MEGA/data/$(arg robot_env)/training_data" />
+		</node>
+	</group>
 
-        <group ns="face">
-
-            <node name="detector" pkg="openface_ros" type="openface_node.py" output="log" machine="$(arg machine)" />
-
-        </group>
-
-        <!-- Face recognition -->
-        <node name="face_recognition" pkg="openface_ros" type="face_recognition2" output="log" machine="$(arg machine)">
-            <rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/world_modeling/face_recognition.yaml" />
-        </node>
-    
-        <node name="object_recognition" pkg="tensorflow_ros" type="object_recognition_node.py" output="log" machine="$(arg machine)">
-            <!-- Settings file-->
-            <rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/world_modeling/object_recognition.yaml" />
-        </node>
-
-    </group>
-    <group unless="$(optenv ROBOT_REAL false)">
-
-        <!-- Face recognition -->
-        <node name="face_recognition" pkg="ed_perception" type="face_recognition" output="log" machine="$(arg machine)"
-              args="--config $(env ROBOT_BRINGUP_PATH)/parameters/world_modeling/face_recognition.yaml" />
-
-    </group>
+	<group ns="object_recognition">
+		<node name="object_recognition" pkg="tensorflow_ros" type="object_recognition_node.py" output="log" machine="$(arg machine)">
+			<param name="graph_path" value="~/MEGA/data/$(arg robot_env)/models/tensorflow_ros/output_graph.pb" />
+			<param name="labels_path" value="~/MEGA/data/$(arg robot_env)/models/tensorflow_ros/output_labels.txt" />
+			<param name="save_images" value="true" />
+			<param name="save_images_folder" value="~/MEGA/data/$(arg robot_env)/training_data" />
+		</node>
+	</group>
 
 </launch>
