@@ -34,6 +34,7 @@ jokes = [
     "It's color is yellow and when you push the button, it turns red?         A chick in the blender",
     "Why was 6 afraid of 7?                  Because 7, 8, 9",
     "What happens if you want to join a list but there is a None in it?                  sequence item x: expected string, NoneType found",
+    "How do you call a robot that always goes the long way around?                       R 2 detour",
 ]
 jokes = deque(jokes)
 random.shuffle(jokes)
