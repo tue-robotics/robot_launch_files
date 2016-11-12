@@ -4,7 +4,7 @@
     <!-- Get the machine file -->
     <arg name="machine" default="localhost"/>
     <arg name="robot_env" default="$(optenv ROBOT_ENV robotics_testlabs)" />
-    <arg name="save_images" value="$(optenv ROBOT_REAL false)" />
+    <arg name="robot_real" value="$(optenv ROBOT_REAL false)" />
 
     <include file="$(env ROBOT_BRINGUP_PATH)/machines/$(arg machine).machine" />
 
@@ -17,22 +17,38 @@
     <node name="ed_configure" pkg="ed" type="configure" args="$(env ROBOT_BRINGUP_PATH)/parameters/$(arg config)" output="log" machine="$(arg machine)"/>
 
     <!-- Face recognition -->
-	<node name="face_recognition" pkg="openface_ros" type="face_recognition_node.py" output="log" machine="$(arg machine)">
-		<rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/world_modeling/face_recognition.yaml" />
-		<param name="save_images" value="$(arg save_images)" />
-		<param name="save_images_folder" value="~/MEGA/data/$(arg robot_env)/training_data" />
+    <group if="$(arg robot_real)">
+		<node name="face_recognition" pkg="openface_ros" type="face_recognition_node.py" output="log" machine="$(arg machine)">
+			<rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/world_modeling/face_recognition.yaml" />
+			<param name="save_images" value="$(arg robot_real)" />
+			<param name="save_images_folder" value="~/MEGA/data/$(arg robot_env)/training_data" />
 
-		<remap from="recognize" to="face_recognition/recognize" />
-	</node>
+			<remap from="recognize" to="face_recognition/recognize" />
+		</node>
+	</group>
+	<group unless="$(arg robot_real)">
+		<node name="face_recognition" pkg="ed_perception" type="face_recognizer_dummy_node.py" output="log" machine="$(arg machine)">
+			<remap from="recognize" to="face_recognition/recognize" />
+		</node>
+	</group>
 
 	<!-- Object recognition -->
-	<node name="object_recognition" pkg="tensorflow_ros" type="object_recognition_node.py" output="log" machine="$(arg machine)">
-		<param name="graph_path" value="~/MEGA/data/$(arg robot_env)/models/tensorflow_ros/output_graph.pb" />
-		<param name="labels_path" value="~/MEGA/data/$(arg robot_env)/models/tensorflow_ros/output_labels.txt" />
-		<param name="save_images" value="$(arg save_images)" />
-		<param name="save_images_folder" value="~/MEGA/data/$(arg robot_env)/training_data" />
+	<group if="$(arg robot_real)">
+		<node name="object_recognition" pkg="tensorflow_ros" type="object_recognition_node.py" output="log" machine="$(arg machine)">
+			<param name="graph_path" value="~/MEGA/data/$(arg robot_env)/models/tensorflow_ros/output_graph.pb" />
+			<param name="labels_path" value="~/MEGA/data/$(arg robot_env)/models/tensorflow_ros/output_labels.txt" />
+			<param name="save_images" value="$(arg robot_real)" />
+			<param name="save_images_folder" value="~/MEGA/data/$(arg robot_env)/training_data" />
 
-		<remap from="recognize" to="object_recognition/recognize" />
-	</node>
+			<remap from="recognize" to="object_recognition/recognize" />
+		</node>
+	</group>
+	<group unless="$(arg robot_real)">
+		<node name="object_recognition" pkg="ed_perception" type="object_recognition_dummy_node.py" output="log" machine="$(arg machine)">
+			<param name="labels_path" value="~/MEGA/data/$(arg robot_env)/models/tensorflow_ros/output_labels.txt" />
+
+			<remap from="recognize" to="object_recognition/recognize" />
+		</node>
+	</group>
 
 </launch>
