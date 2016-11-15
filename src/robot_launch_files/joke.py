@@ -34,9 +34,9 @@ jokes = [
     "Its color is yellow and when you push the button, it turns red?         A chick in the blender",
     "Why was 6 afraid of 7?                  Because 7, 8, 9",
     "How do you call a robot that always goes the long way around?                       R 2 detour",
-    "Can a kangaroo jump higher than a house?                  Of course, a house doesn’t jump at all.",
-    "What should you put on the tomb stone of a mathematician?              He didn't count with this...",
-    "Why do cows wear bells?               Their horns don’t work.",
+    "Can a kangaroo jump higher than a house?                  Of course, a house does n0t jump at all.",
+    "What should you put on the tomb stone of a mathematician?              He did not count with this...",
+    "Why do cows wear bells?               Their horns do not work.",
     "Why did the physics teacher break up with the biology teacher?            There was no chemistry."
 ]
 jokes = deque(jokes)
