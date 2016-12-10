@@ -1,5 +1,8 @@
 <?xml version="1.0"?>
 <launch>
+  <!-- Set permissions for the deployer -->
+  <node name="setcap" pkg="soem_master" type="setcap.sh" />
+
   <!-- The node name for the deployer -->
   <arg name="NAME" default="$(anon deployer)"/>
   <!-- Orocos log level (never, fatal, critical, error, warning, info, debug, realtime) -->
