@@ -21,13 +21,14 @@ def callback(data):
     global pub, bodypart, timeout, pub_topic
     index = 0
     for status in data.status:
-        if status.name == bodypart and status.level == 4:
+        if status.name == bodypart:
             time.sleep(timeout)
             pub.publish(Command(data=[index, 24]))
             print "Sending reset command to topic %s for bodypart %s"%(pub_topic, bodypart)
             time.sleep(1)
             pub.publish(Command(data=[index, 22]))
             print "Sending start command to topic %s for bodypart %s"%(pub_topic, bodypart)
+            sys.exit()
         index += 1
 
 if __name__ == '__main__':
