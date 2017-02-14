@@ -1,7 +1,5 @@
 <?xml version="1.0"?>
 <launch>
-  <!-- Set permissions for the deployer -->
-  <node name="setcap" pkg="soem_master" type="setcap.sh" />
 
   <!-- The node name for the deployer -->
   <arg name="NAME" default="$(anon deployer)"/>
@@ -16,21 +14,35 @@
 
   <!-- Set DEBUG to true to run in GDB (don't forget to build in Debug mode) -->
   <arg name="DEBUG" default="false"/>
-  <arg if="$(arg DEBUG)" name="SUFFIX" value="-debug"/>
-  <arg unless="$(arg DEBUG)" name="SUFFIX" value=""/>
 
-    <!-- Get the machine file -->
-    <include file="$(env ROBOT_BRINGUP_PATH)/machines/$(arg machine).machine" />
-    <arg name="machine" default="localhost"/>
+  <!-- Get the machine file -->
+  <include file="$(env ROBOT_BRINGUP_PATH)/machines/$(arg machine).machine" />
+
+  <arg name="machine" default="localhost"/>
 
   <!-- Launch deployer -->
-  <node 
-    name="$(arg NAME)"
-    pkg="rtt_ros" type="deployer$(arg SUFFIX)" 
-    args="-l $(arg LOG_LEVEL) $(arg DEPLOYER_ARGS) --"
-    output="screen"
-    machine="$(arg machine)">
-    <env name="OROCOS_TARGET" value="$(arg OROCOS_TARGET)"/>
-    <env name="RTT_COMPONENT_PATH" value="$(arg RTT_COMPONENT_PATH)"/>
-  </node>
+  <group if="$(arg DEBUG)">
+	<node
+		name="$(arg NAME)"
+		pkg="rtt_ros" type="deployer"
+		args="-l $(arg LOG_LEVEL) $(arg DEPLOYER_ARGS) --"
+		output="screen"
+		machine="$(arg machine)">
+		<env name="OROCOS_TARGET" value="$(arg OROCOS_TARGET)"/>
+		<env name="RTT_COMPONENT_PATH" value="$(arg RTT_COMPONENT_PATH)"/>
+	</node>
+  </group>
+  <group unless="$(arg DEBUG)">
+	<node
+		name="hardware"
+		pkg="rtt_ros" type="rttscript"
+		args="-l $(arg LOG_LEVEL) $(arg DEPLOYER_ARGS) -s $(find robot_launch_files)/launch/hardware/wait_for_interrupt.ops --"
+		output="log"
+		respawn="true"
+		machine="$(arg machine)">
+		<env name="OROCOS_TARGET" value="$(arg OROCOS_TARGET)"/>
+		<env name="RTT_COMPONENT_PATH" value="$(arg RTT_COMPONENT_PATH)"/>
+	</node>
+  </group>
+
 </launch>
