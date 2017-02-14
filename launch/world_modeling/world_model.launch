@@ -18,7 +18,7 @@
 
     <!-- Face recognition -->
     <group if="$(arg robot_real)">
-		<node name="face_recognition" pkg="openface_ros" type="face_recognition_node.py" output="log" machine="$(arg machine)">
+		<node name="face_recognition" pkg="openface_ros" type="face_recognition_node" output="log" machine="$(arg machine)">
 			<rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/world_modeling/face_recognition.yaml" />
 			<param name="save_images" value="$(arg robot_real)" />
 			<param name="save_images_folder" value="~/MEGA/data/$(arg robot_env)/training_data" />
@@ -34,7 +34,7 @@
 
 	<!-- Object recognition -->
 	<group if="$(arg robot_real)">
-		<node name="object_recognition" pkg="tensorflow_ros" type="object_recognition_node.py" output="log" machine="$(arg machine)">
+		<node name="object_recognition" pkg="tensorflow_ros" type="object_recognition_node" output="log" machine="$(arg machine)">
 			<param name="graph_path" value="~/MEGA/data/$(arg robot_env)/models/tensorflow_ros/output_graph.pb" />
 			<param name="labels_path" value="~/MEGA/data/$(arg robot_env)/models/tensorflow_ros/output_labels.txt" />
 			<param name="save_images" value="$(arg robot_real)" />
