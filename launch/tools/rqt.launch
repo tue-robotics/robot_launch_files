@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+
+<launch>
+    <node name="$(anon rqt)" pkg="robot_launch_files" type="rqt.bash" args="$(env ROBOT_BRINGUP_PATH)/parameters/tools/rqt.perspective $(env ROBOT_BRINGUP_PATH)/parameters/tools/rviz_config.rviz" />
+</launch>
