@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+
+<launch>
+
+	<node pkg="rviz" type="rviz" name="$(anon foo)" args="-d $(env ROBOT_BRINGUP_PATH)/parameters/tools/rviz_config.rviz" />
+
+</launch>
