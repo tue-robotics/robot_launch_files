@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<launch>
+
+    <!-- Get the machine file -->
+    <arg name="machine" default="localhost"/>
+    <arg name="name" />
+    
+    <include file="$(env ROBOT_BRINGUP_PATH)/machines/$(arg machine).machine" />
+
+    <group ns="$(arg name)">
+
+    	<!-- rgbd to ros conversion -->
+    	<node pkg="rgbd" type="rgbd_to_ros" args="rgbd" name="rgbd_to_ros" machine="$(arg machine)" />
+
+    </group>
+
+</launch>
