@@ -45,4 +45,7 @@
 	</node>
   </group>
 
+  <!-- Launch ROSlogger -->
+  <node name="hardwarelog" pkg="rtt_control_components" type="orocoslog2roslog.py"/>
+
 </launch>
