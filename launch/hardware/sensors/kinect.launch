@@ -1,22 +1,23 @@
 <?xml version="1.0"?>
 
 <launch>
-    
+
     <!-- Get the machine file -->
     <arg name="machine" default="localhost"/>
     <include file="$(env ROBOT_BRINGUP_PATH)/machines/$(arg machine).machine" />
     <arg name="name" />
-    
+
     <arg name="gdb" default="false"/>
     <arg if="$(arg gdb)" name="launch-prefix" value="gdb -ex run --args"/>
     <arg unless="$(arg gdb)" name="launch-prefix" value=""/>
 
     <group ns="$(arg name)">
 
-        <node pkg="kinect_driver" type="kinect_driver" name="driver" machine="$(arg machine)" respawn="true"> 
+        <node pkg="kinect_driver" type="kinect_driver" name="driver" machine="$(arg machine)" respawn="true">
             <rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/hardware/sensors/$(arg name).yaml" />
         </node>
-    
+		<node pkg="rgbd" type="get_3d_point_from_image_roi_node" name="3d_point_from_image_roi" machine="$(arg machine)" respawn="true" />
+
     </group>
 
 </launch>
