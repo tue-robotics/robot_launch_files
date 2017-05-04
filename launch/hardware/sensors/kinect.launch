@@ -16,7 +16,6 @@
         <node pkg="kinect_driver" type="kinect_driver" name="driver" machine="$(arg machine)" respawn="true">
             <rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/hardware/sensors/$(arg name).yaml" />
         </node>
-		<node pkg="rgbd" type="get_3d_point_from_image_roi_node" name="3d_point_from_image_roi" machine="$(arg machine)" respawn="true" />
 
     </group>
 
