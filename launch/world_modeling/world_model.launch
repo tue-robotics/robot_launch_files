@@ -18,17 +18,12 @@
 
 	<!-- Face recognition -->
 	<group ns="face_recognition">
-		<group if="$(arg robot_real)">
-			<node name="face_recognition" pkg="openface_ros" type="face_recognition_node" output="log" machine="$(arg machine)">
-				<rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/world_modeling/face_recognition.yaml" />
-				<param name="save_images" value="$(arg robot_real)" />
-				<param name="save_images_folder" value="~/MEGA/data/$(arg robot_env)/training_data" />
-				<param name="db" value="~/MEGA/data/$(arg robot_env)/models/openface_ros/faces.pkl" />
-			</node>
-		</group>
-		<group unless="$(arg robot_real)">
-			<node name="face_recognition" pkg="ed_perception" type="face_recognizer_dummy_node.py" output="log" machine="$(arg machine)" />
-		</group>
+		<node name="face_recognition" pkg="openface_ros" type="face_recognition_node" output="log" machine="$(arg machine)">
+			<rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/world_modeling/face_recognition.yaml" />
+			<param name="save_images" value="$(arg robot_real)" />
+			<param name="save_images_folder" value="~/MEGA/data/$(arg robot_env)/training_data" />
+			<param name="db" value="~/MEGA/data/$(arg robot_env)/models/openface_ros/faces.pkl" />
+		</node>
 	</group>
 
 	<!-- Object recognition -->
