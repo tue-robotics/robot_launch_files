@@ -10,7 +10,7 @@
     <group ns="$(arg name)">
 
     	<!-- rgbd to ros conversion -->
-    	<node pkg="rgbd" type="rgbd_to_ros" args="rgbd" name="rgbd_to_ros" machine="$(arg machine)" />
+    	<node pkg="rgbd" type="rgbd_to_ros" args="rgbd" name="rgbd_to_ros" machine="$(arg machine)" respawn="true" />
 
 		<!-- Expose interface to query 3d points -->
 		<node pkg="rgbd" type="get_3d_point_from_image_roi_node" name="project_3d_point_from_image_roi" machine="$(arg machine)" respawn="true" />
