@@ -23,6 +23,7 @@
 				<rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/world_modeling/face_recognition.yaml" />
 				<param name="save_images" value="$(arg robot_real)" />
 				<param name="save_images_folder" value="~/MEGA/data/$(arg robot_env)/training_data" />
+				<param name="db" value="~/MEGA/data/$(arg robot_env)/models/openface_ros/faces.pkl" />
 			</node>
 		</group>
 		<group unless="$(arg robot_real)">
