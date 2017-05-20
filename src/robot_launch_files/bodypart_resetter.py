@@ -21,7 +21,7 @@ def callback(data):
     global pub, bodypart, timeout, pub_topic
     index = 0
     for status in data.status:
-        if status.name == bodypart and status.level == 4:
+        if status.name == bodypart and status.level == 4 and status.message == 'homed':
             rospy.logwarn("%s error detected", bodypart)
             time.sleep(timeout)
             pub.publish(Command(data=[index, 24]))
