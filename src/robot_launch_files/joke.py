@@ -56,9 +56,9 @@ def joke():
     s.speak("Would you like to hear another one?")
     r = None
 
-    r = e.recognize("(yes|no)", {})
+    r = robot.hmi.query('', 'T -> yes | no', 'T').sentence
 
-    if not r or r.result == "no" or r.result == "":
+    if not r or r == "no" or r.result == "":
         s.speak("Ok, I will be quiet for another %d minutes" % minutes)
         last_update = rospy.Time.now()
 
