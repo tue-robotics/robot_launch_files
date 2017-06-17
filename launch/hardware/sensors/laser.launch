@@ -17,7 +17,7 @@
             <remap from="/diagnostics" to="diagnostics"/>
         </node>
 
-        <node pkg="laser_filters" type="scan_to_scan_filter_chain" name="front_laser_scan_to_scan_filter_chain" machine="$(arg machine)">
+        <node pkg="laser_filters" type="scan_to_scan_filter_chain" name="laser_scan_to_scan_filter_chain" machine="$(arg machine)">
             <rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/hardware/sensors/$(arg name)_filters_parameters.yaml" />
             <remap from="scan" to="scan_raw" />
             <remap from="scan_filtered" to="scan" />
