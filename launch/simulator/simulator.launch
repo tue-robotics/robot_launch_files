@@ -8,7 +8,7 @@
     <arg if="$(arg gdb)" name="launch-prefix" value="gdb -ex run --args"/>
     <arg unless="$(arg gdb)" name="launch-prefix" value=""/>
 
-    <arg name="env" default="$(optenv ROBOT_ENV robotics_testlab_A)" />
+    <arg name="env" default="$(optenv ROBOT_ENV robotics_testlabs)" />
     <arg name="robot_init_x" default="$(optenv ROBOT_INIT_X 0)"/>
     <arg name="robot_init_y" default="$(optenv ROBOT_INIT_Y 0)"/>
     <arg name="robot_init_phi" default="$(optenv ROBOT_INIT_PHI 0)"/>
