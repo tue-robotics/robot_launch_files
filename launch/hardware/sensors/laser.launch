@@ -11,13 +11,13 @@
     <!-- Push down all topics/nodelets into "camera" namespace -->
     <group ns="$(arg name)">
 
-        <node pkg="urg_node" type="urg_node" name="front_urg_node" output="screen" machine="$(arg machine)">
+        <node pkg="urg_node" type="urg_node" name=$(arg name)_urg_node" output="screen" machine="$(arg machine)">
             <remap from="scan" to="scan_raw"/>
             <rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/hardware/sensors/$(arg name)_parameters.yaml" />
             <remap from="/diagnostics" to="diagnostics"/>
         </node>
 
-        <node pkg="laser_filters" type="scan_to_scan_filter_chain" name="laser_scan_to_scan_filter_chain" machine="$(arg machine)">
+        <node pkg="laser_filters" type="scan_to_scan_filter_chain" name="$(arg name)_scan_to_scan_filter_chain" machine="$(arg machine)">
             <rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/hardware/sensors/$(arg name)_filters_parameters.yaml" />
             <remap from="scan" to="scan_raw" />
             <remap from="scan_filtered" to="scan" />
@@ -26,4 +26,3 @@
     </group>
 
 </launch>
-
