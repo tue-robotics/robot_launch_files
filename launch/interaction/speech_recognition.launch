@@ -23,6 +23,7 @@
 		<group unless="$(optenv ROBOT_REAL false)">
 			<!-- speech dummy -->
 			<node name="random_answerer" pkg="hmi" type="random_answerer" machine="$(arg machine)" output="log"/>
+			<node name="dragonfly_speech_recognition" pkg="hmi" type="dragonfly_restart_mock" machine="$(arg machine)" output="log"/>
 		</group>
 
 	</group> <!-- ns="hmi" -->
