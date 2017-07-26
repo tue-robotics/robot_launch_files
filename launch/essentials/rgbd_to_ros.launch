@@ -11,12 +11,9 @@
 
     	<!-- rgbd to ros conversion -->
     	<node pkg="rgbd" type="rgbd_to_ros" args="rgbd" name="rgbd_to_ros" machine="$(arg machine)" respawn="true" />
-    	
+
     	<!-- watch dog for the rgbd to ros conversion -->
     	<node pkg="rgbd" type="rgbd_monitor" name="rgbd_watch_dog" respawn="true"/>
-
-		<!-- Expose interface to query 3d points -->
-		<node pkg="rgbd" type="get_3d_point_from_image_roi_node" name="project_3d_point_from_image_roi" machine="$(arg machine)" respawn="true" />
 
     </group>
 
