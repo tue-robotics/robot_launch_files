@@ -44,4 +44,21 @@
 		</group>
 	</group>
 
+	<!-- People recognition -->
+	<node name="people_detector" pkg="people_detector" type="people_detector" output="log" machine="$(arg machine)">
+		<param name="link_threshold" value="0.8" />
+
+		<!-- amigo -->
+		<remap from="camera/rgb/image" to="top_kinect/rgb/image" />\
+		<remap from="camera/depth/image" to="top_kinect/depth/image" />
+		<remap from="camera/depth/camera_info" to="top_kinect/depth/camera_info" />
+
+		<!-- freenect -->
+		<!-- <remap from="camera/rgb/image" to="top_kinect/rgb/image_rect_color" />\ -->
+		<!-- <remap from="camera/depth/image" to="top_kinect/depth_registered/sw_registered/image_rect" /> -->
+		<!-- <remap from="camera/depth/camera_info" to="top_kinect/depth_registered/sw_registered/camera_info" /> -->
+
+		<remap from="pose_detector/recognize" to="openpose/recognize" />
+	</node>
+
 </launch>
