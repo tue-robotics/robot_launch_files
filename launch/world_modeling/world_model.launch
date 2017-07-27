@@ -57,8 +57,6 @@
 		<!-- <remap from="camera/rgb/image" to="top_kinect/rgb/image_rect_color" />\ -->
 		<!-- <remap from="camera/depth/image" to="top_kinect/depth_registered/sw_registered/image_rect" /> -->
 		<!-- <remap from="camera/depth/camera_info" to="top_kinect/depth_registered/sw_registered/camera_info" /> -->
-
-		<remap from="pose_detector/recognize" to="openpose/recognize" />
 	</node>
 
 </launch>
