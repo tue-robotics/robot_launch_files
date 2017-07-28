@@ -23,6 +23,7 @@
 	<!-- People recognition -->
 	<node name="people_detector" pkg="people_detector" type="people_detector" output="log" machine="$(arg machine)">
 		<param name="link_threshold" value="0.8" />
+		<param name="probability_threshold" value="0.6" />
 
 		<!-- amigo -->
 		<remap from="camera/rgb/image" to="top_kinect/rgb/image" />\
