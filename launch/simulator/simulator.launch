@@ -25,5 +25,8 @@
     <!-- spawn robot -->
     <node pkg="fast_simulator" type="spawn" name="spawn_robot" args="-i $(arg robot_name) -m $(arg robot_name) -x $(arg robot_init_x) -y $(arg robot_init_y) -Z $(arg robot_init_phi)" output="log"/>
 
+    <node pkg="robot_launch_files" type="ssl_dummy" name="ssl">
+		<param name="frame_id" value="$(arg robot_name)/matrix" />
+    </node>
 
 </launch>
