@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<launch>
+
+    <!-- Get the machine file -->
+    <arg name="machine" default="localhost"/>
+    <include file="$(env ROBOT_BRINGUP_PATH)/machines/$(arg machine).machine" />
+
+		<!-- HMI Recorder -->
+		<group ns="hmi">
+			  <node pkg="test_tools" type="hmi_logger.py" name="hmi_logger" machine="$(arg machine)" />
+		</group>
+
+		<!-- Topics that are going to be recorded, throttle them if required -->
+		<node pkg="topic_tools" type="throttle" name="record_throttle_tf" args="bytes /tf 100000 1 record/tf" machine="$(arg machine)" />
+		<node pkg="topic_tools" type="throttle" name="record_throttle_ed_map" args="messages ed/navigation/map 0.05 record/map" machine="$(arg machine)" />
+		<node pkg="topic_tools" type="throttle" name="record_throttle_gmapping_map" args="messages ed/gmapping/map 0.05 record/map" machine="$(arg machine)" />
+		<node pkg="topic_tools" type="relay" name="record_relay_base_plan" args="local_planner/action_server/goal record/base_plan" machine="$(arg machine)" />
+		<node pkg="topic_tools" type="relay" name="record_relay_body_plan" args="body/joint_trajectory_action/goal record/body_plan" machine="$(arg machine)" />
+		<node pkg="topic_tools" type="throttle" name="record_throttle_odom" args="messages base/measurements 5 record/odom" machine="$(arg machine)" />
+		<node pkg="topic_tools" type="throttle" name="record_throttle_base_laser" args="messages base_laser/scan 5 record/scan" machine="$(arg machine)" />
+
+		<!-- recorder server -->
+    <node pkg="test_tools" type="robocup_recorder.py" name="robocup_recorder_server" machine="$(arg machine)" />
+
+</launch>
