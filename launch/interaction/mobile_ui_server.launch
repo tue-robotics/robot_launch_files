@@ -12,7 +12,7 @@
         <param name="address" value=""/>
     </node>
     
-    <!--rosrun rosapi rosapi_node-->
+    <!-- ROS API: required to get parameters using ROSLIB -->
     <node name="rosapi" pkg="rosapi" type="rosapi_node" output="log" machine="$(arg machine)"/>
 
 	<!-- HTTP Streaming of ROS Image Topics -->
