@@ -11,6 +11,9 @@
         <param name="port" value="9090"/>
         <param name="address" value=""/>
     </node>
+    
+    <!--rosrun rosapi rosapi_node-->
+    <node name="rosapi" pkg="rosapi" type="rosapi_node" output="log" machine="$(arg machine)"/>
 
 	<!-- HTTP Streaming of ROS Image Topics -->
 	<!--
