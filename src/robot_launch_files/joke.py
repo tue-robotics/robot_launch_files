@@ -17,7 +17,7 @@ else:
     rospy.loginfo("Unknown robot namespace %s" % robot_name)
     sys.exit(1)
 
-e = robot.ears
+hmi = robot.hmi
 s = robot.speech
 
 last_update = rospy.Time.now()
@@ -56,7 +56,7 @@ def joke():
     s.speak("Would you like to hear another one?")
     r = None
 
-    r = robot.hmi.query('', 'T -> yes | no', 'T').sentence
+    r = hmi.query('', 'T -> yes | no', 'T').sentence
 
     if not r or r == "no" or r.result == "":
         s.speak("Ok, I will be quiet for another %d minutes" % minutes)
