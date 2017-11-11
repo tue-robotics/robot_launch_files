@@ -25,6 +25,9 @@
 			<param name="save_images_folder" value="~/MEGA/data/$(arg robot_env)/training_data" />
 			<param name="db" value="$(arg faces_db)" />
 		</node>
+                <node pkg="skybiometry_ros" type="face_properties_node" name="skybiometry_face_properties">
+                        <param name="api_timeout" value="60" />
+                </node>
 	</group>
 
 	<!-- Object recognition -->
