@@ -58,7 +58,7 @@ def joke():
 
     r = hmi.query('', 'T -> yes | no', 'T').sentence
 
-    if not r or r == "no" or r.result == "":
+    if not r or r == "no" or r == "":
         s.speak("Ok, I will be quiet for another %d minutes" % minutes)
         last_update = rospy.Time.now()
 
