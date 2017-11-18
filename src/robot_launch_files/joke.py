@@ -3,6 +3,7 @@
 import rospy, sys, random, time
 from geometry_msgs.msg import Twist
 from smach_msgs.msg import SmachContainerStatus
+from hmi import TimeoutException
 
 rospy.init_node('joke')
 
@@ -56,9 +57,12 @@ def joke():
     s.speak("Would you like to hear another one?")
     r = None
 
-    r = hmi.query('', 'T -> yes | no', 'T').sentence
+    try:
+        r = hmi.query('', 'T -> yes | no', 'T').sentence
+    except TimeoutException:
+        pass
 
-    if not r or r == "no" or r.result == "":
+    if not r or r == "no":
         s.speak("Ok, I will be quiet for another %d minutes" % minutes)
         last_update = rospy.Time.now()
 
