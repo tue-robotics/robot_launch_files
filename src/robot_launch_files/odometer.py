@@ -13,7 +13,7 @@ from tf.transformations import euler_from_quaternion
 
 from nav_msgs.msg import Odometry
 
-DEFAULT_PATH = "~/MEGA/Odometer"
+DEFAULT_PATH = "~/MEGA/odometer"
 DEFAULT_FILENAME = 'odometer'
 EXT = '.csv'
 ROUND_LEVEL = 5
@@ -28,7 +28,7 @@ class Odometer:
         hostname = socket.gethostname()
         date = time.strftime("%Y_%m_%d")
 
-        hostfolderpath = os.path.join(os.path.expanduser(path), hostname)
+        hostfolderpath = os.path.join(os.path.expanduser(path), hostname.lower())
         newfilepath = os.path.join(hostfolderpath, filename + "_" + date + EXT)
         lastfilepath = ""
 
@@ -110,7 +110,7 @@ class Odometer:
                 rospy.logdebug("Folder of today doesn't exist yet")
             self.new_file = open(newfilepath, "w+")
 
-        rospy.Subscriber("base/measurements", Odometry, self.callback)
+        rospy.Subscriber("odom", Odometry, self.callback)
         rospy.on_shutdown(lambda: self.shutdown())
 
     def sample(self):

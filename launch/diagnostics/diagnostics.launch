@@ -6,22 +6,28 @@
     <arg name="machine" default="localhost"/>
     <include file="$(env ROBOT_BRINGUP_PATH)/machines/$(arg machine).machine" />
 
-	<!-- Collects all the diagnostics messages -->
-	<node pkg="diagnostic_aggregator" type="aggregator_node" respawn="false" name="diagnostics_aggegrator" output="screen" args="CPP" machine="$(arg machine)">
-	    <rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/diagnostics/aggegrator.yaml" />
+    <!-- Collects all the diagnostics messages -->
+    <node pkg="diagnostic_aggregator" type="aggregator_node" respawn="false" name="diagnostics_aggegrator" output="screen" args="CPP" machine="$(arg machine)">
+        <rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/diagnostics/aggegrator.yaml" />
         <remap from="/diagnostics" to="diagnostics" />
         <remap from="/diagnostics_agg" to="diagnostics_agg" />
         <remap from="/diagnostics_toplevel_state" to="diagnostics_toplevel_state" />
-	</node>
-
-	<!-- Checks if all nodes are still running -->
-    <node name="node_alive_server" type="node_alive_server" pkg="node_alive" machine="$(arg machine)" output="log">
-	    <rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/diagnostics/node_alive_neglect_nodes.yaml" />
     </node>
 
-	<!-- TODO: Start challenge logger --> <!-- Do we need this one? -->
+    <!-- Checks if all nodes are still running -->
+    <node name="node_alive_server" type="node_alive_server" pkg="node_alive" machine="$(arg machine)" output="log">
+        <rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/diagnostics/node_alive_neglect_nodes.yaml" />
+    </node>
 
-	<!-- TODO: The challenge_logger needs cpu_monitor information -->
+    <node name="odometer" type="odometer.py" pkg="robot_launch_files" machine="$(arg machine)" output="log">
+        <remap from="odom" to="base/measurements" />
+        <rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/diagnostics/odometer.yaml" />
+    </node>
+
+
+    <!-- TODO: Start challenge logger --> <!-- Do we need this one? -->
+
+    <!-- TODO: The challenge_logger needs cpu_monitor information -->
 
 </launch>
 
