@@ -9,7 +9,6 @@ import csv
 import rospy
 from math import sqrt, pow, pi
 from tf.transformations import euler_from_quaternion
-from geometry_msgs.msg import Quaternion
 
 from nav_msgs.msg import Odometry
 
