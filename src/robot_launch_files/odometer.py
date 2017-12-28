@@ -1,12 +1,12 @@
 #! /usr/bin/python
 
-# from __future__ import print_function
+from __future__ import print_function
 
 import os
-import fnmatch
 import socket
 import time
 import csv
+from fnmatch import fnmatch
 import rospy
 from math import sqrt, pow, pi
 from tf.transformations import euler_from_quaternion
@@ -14,18 +14,22 @@ from tf.transformations import euler_from_quaternion
 from nav_msgs.msg import Odometry
 
 DEFAULT_PATH = "~/MEGA/Odometer"
-FILENAME = 'odometer_'
+DEFAULT_FILENAME = 'odometer'
 EXT = '.csv'
 ROUND_LEVEL = 5
 
 
-class Odometer(object):
-    def __init__(self):
+class Odometer:
+    def __init__(self, path=DEFAULT_PATH, filename=DEFAULT_FILENAME):
+        if fnmatch(path, "~*"):  # if path is in home folder
+            path = os.path.expanduser(path)
+        path = os.path.abspath(path)  # returns abs path, also when path is already abs.
+
         hostname = socket.gethostname()
         date = time.strftime("%Y_%m_%d")
 
-        hostfolderpath = os.path.join(os.path.expanduser(DEFAULT_PATH), hostname)
-        newfilepath = os.path.join(hostfolderpath, FILENAME + date + EXT)
+        hostfolderpath = os.path.join(os.path.expanduser(path), hostname)
+        newfilepath = os.path.join(hostfolderpath, filename + "_" + date + EXT)
         lastfilepath = ""
 
         self.file_has_header = False
@@ -48,11 +52,12 @@ class Odometer(object):
                          os.path.isfile(os.path.join(hostfolderpath, item))]
                 if files:
                     for file in files:
-                        if fnmatch.fnmatch(file, FILENAME+"*"+EXT):
+                        if fnmatch(file, filename+"_*"+EXT):
                             filepath = os.path.join(hostfolderpath, file)
                             lastfilepath = filepath
                             rospy.logdebug("Found last file: {}".format(lastfilepath))
                             break
+
                     if not lastfilepath:
                         rospy.logdebug("Not found a correct data file in the folder: {}".format(hostfolderpath))
                 else:
@@ -157,7 +162,7 @@ class Odometer(object):
                     rotation_delta += 2*pi
                 self.total_rotation += abs(rotation_delta)
             else:
-                rospy.logerr("Distance too big")
+                rospy.logerr("Distance delta too big (%f m), ignoring this step" % distance_delta)
 
         self.last_pose = msg.pose.pose
 
@@ -174,11 +179,13 @@ class Odometer(object):
 if __name__ == '__main__':
     rospy.init_node("Odometer")
 
-    r = float(rospy.get_param("~rate", float(1/60.0)))
-    length = rospy.get_param("~data_length", 50)
+    r = float(rospy.get_param("~rate", 1/60.0))
+    length = int(rospy.get_param("~cache_length", 50))
+    path = rospy.get_param("~path", DEFAULT_PATH)
+    filename = rospy.get_param("~filename", DEFAULT_FILENAME)
 
     # robot_name = rospy.get_namespace().split("/")[-2]
-    meter = Odometer()
+    meter = Odometer(path, filename)
     rate = rospy.Rate(max(r, 1e-3))
 
     while not rospy.is_shutdown():
