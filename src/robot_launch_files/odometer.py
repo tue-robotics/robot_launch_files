@@ -2,13 +2,14 @@
 
 # from __future__ import print_function
 
-import sys
 import os
 import socket
 import time
 import csv
 import rospy
-from math import sqrt, pow
+from math import sqrt, pow, pi
+from tf.transformations import euler_from_quaternion
+from geometry_msgs.msg import Quaternion
 
 from nav_msgs.msg import Odometry
 
@@ -45,7 +46,6 @@ class Odometer(object):
             else:
                 dirs = [item for item in sorted(os.listdir(hostfolderpath), reverse=True) if
                         os.path.isdir(os.path.join(hostfolderpath, item))]
-                print(dirs)
                 if dirs:
                     for dir in dirs:
                         filepath = os.path.join(hostfolderpath, dir, FILENAME)
@@ -85,8 +85,9 @@ class Odometer(object):
                             self.total_distance = float(last_row['distance'])
                             self.total_rotation = float(last_row['rotation'])
                             self.total_time = int(float(last_row['time']))
-                            self.file_has_header = True
-                            print("File should have header")
+                            if lastfilepath == newfilepath:
+                                self.file_has_header = True
+                            rospy.logdebug("Loaded data from file: {}".format(lastfilepath))
                         except Exception as e:
                             rospy.logerr(e)
                             rospy.signal_shutdown("Unable to read last data. Last data is corrupt")
@@ -135,7 +136,25 @@ class Odometer(object):
             pos = new_pose.position
             pos_old = self.last_pose.position
             distance_delta = sqrt(pow(pos.x-pos_old.x, 2) + pow(pos.y-pos_old.y, 2))
-            self.total_distance += distance_delta
+            if distance_delta < 0.5:  # If delta is too big, it is incorrect. Not doing anything with this data
+                self.total_distance += distance_delta
+
+                new_orientation = new_pose.orientation
+                old_orientation = self.last_pose.orientation
+                new_rotation = euler_from_quaternion([new_orientation.x,
+                                                      new_orientation.y,
+                                                      new_orientation.z,
+                                                      new_orientation.w])
+                old_rotation = euler_from_quaternion([old_orientation.x,
+                                                      old_orientation.y,
+                                                      old_orientation.z,
+                                                      old_orientation.w])
+                rotation_delta = new_rotation[2] - old_rotation[2]
+                if rotation_delta >= pi:
+                    rotation_delta -= 2*pi
+                elif rotation_delta <= -pi:
+                    rotation_delta += 2*pi
+                self.total_rotation += abs(rotation_delta)
 
         self.last_pose = msg.pose.pose
 
@@ -157,7 +176,7 @@ if __name__ == '__main__':
 
     # robot_name = rospy.get_namespace().split("/")[-2]
     meter = Odometer()
-    rate = rospy.Rate(max(r, 1e-9))
+    rate = rospy.Rate(max(r, 1e-3))
 
     while not rospy.is_shutdown():
         meter.sample()
