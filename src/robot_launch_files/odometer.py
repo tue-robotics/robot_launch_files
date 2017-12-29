@@ -219,7 +219,7 @@ if __name__ == '__main__':
     rospy.init_node("odometer")
 
     r = float(rospy.get_param("~rate", 1/60.0))
-    length = int(rospy.get_param("~cache_length", 1))
+    length = int(rospy.get_param("~buffer_length", 1))
     path = rospy.get_param("~path", DEFAULT_PATH)
     filename = rospy.get_param("~filename", DEFAULT_FILENAME)
 
