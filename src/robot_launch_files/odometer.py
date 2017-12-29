@@ -102,13 +102,13 @@ class Odometer:
 
         # Create today's file if not already there
         if os.path.exists(newfilepath):
-            self.new_file = open(newfilepath, "a")
+            self.new_file = open(newfilepath, "a", 1) # 1=line-buffered
             rospy.logdebug("Today's file already exists")
         else:
             if not os.path.exists(hostfolderpath):
                 os.makedirs(hostfolderpath)
                 rospy.logdebug("Folder of today doesn't exist yet")
-            self.new_file = open(newfilepath, "w+")
+            self.new_file = open(newfilepath, "w+", 1) # 1=line-buffered
 
         rospy.Subscriber("odom", Odometry, self.callback)
         rospy.on_shutdown(lambda: self.shutdown())
@@ -166,9 +166,8 @@ class Odometer:
 
         self.last_pose = msg.pose.pose
 
-    def activate_write(self, length):
-        if len(self.data) >= length:
-            self.write()
+    def activate_write(self):
+        self.write()
 
     def shutdown(self):
         self.sample()
@@ -180,7 +179,6 @@ if __name__ == '__main__':
     rospy.init_node("Odometer")
 
     r = float(rospy.get_param("~rate", 1/60.0))
-    length = int(rospy.get_param("~cache_length", 50))
     path = rospy.get_param("~path", DEFAULT_PATH)
     filename = rospy.get_param("~filename", DEFAULT_FILENAME)
 
@@ -190,5 +188,5 @@ if __name__ == '__main__':
 
     while not rospy.is_shutdown():
         meter.sample()
-        meter.activate_write(length)
+        meter.activate_write()
         rate.sleep()
