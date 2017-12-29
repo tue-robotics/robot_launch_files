@@ -20,7 +20,21 @@ ROUND_LEVEL = 5
 
 
 class Odometer:
+    """
+    Odometer logs odometry. The odometry is measured in a callback function and sampled to a data storage in sample().
+    The data is written to a csv file, which is appended with a date. This is done is write(). In shutdown(), sample() and
+    write() are called to prevent data lost. This function is called on rospy shutdown. You can activate periodic
+    writing by calling active_write() in a loop, which the maximum length of your data storage as argument.
+    """
     def __init__(self, path=DEFAULT_PATH, filename=DEFAULT_FILENAME):
+        """
+        Constructor
+        In the constructor old data is retrieved, if possible. Otherwise it starts from zero.
+        :param path: Path to store the data. Path is expanded by hostname(lowercase). Can be relative or in home folder
+        :type path: str
+        :param filename: Filename of data file. Filenames are appended with date and extension.
+        :type filename: str
+        """
         if fnmatch(path, "~*"):  # if path is in home folder
             path = os.path.expanduser(path)
         path = os.path.abspath(path)  # returns abs path, also when path is already abs.
@@ -29,7 +43,7 @@ class Odometer:
         date = time.strftime("%Y_%m_%d")
 
         hostfolderpath = os.path.join(os.path.expanduser(path), hostname.lower())
-        newfilepath = os.path.join(hostfolderpath, filename + "_" + date + EXT)
+        self.newfilepath = os.path.join(hostfolderpath, filename + "_" + date + EXT)
         lastfilepath = ""
 
         self.file_has_header = False
@@ -44,8 +58,8 @@ class Odometer:
 
         # Check if there exist a previous file to read from
         if os.path.exists(hostfolderpath):
-            if os.path.exists(newfilepath):
-                lastfilepath = newfilepath
+            if os.path.exists(self.newfilepath):
+                lastfilepath = self.newfilepath
                 rospy.logdebug("Last data file is today's file")
             else:
                 files = [item for item in sorted(os.listdir(hostfolderpath), reverse=True) if
@@ -90,7 +104,7 @@ class Odometer:
                             self.total_distance = float(last_row['distance'])
                             self.total_rotation = float(last_row['rotation'])
                             self.total_time = int(float(last_row['time']))
-                            if lastfilepath == newfilepath:
+                            if lastfilepath == self.newfilepath:
                                 self.file_has_header = True
                             rospy.logdebug("Loaded data from file: {}".format(lastfilepath))
                         except Exception as e:
@@ -100,20 +114,16 @@ class Odometer:
                     rospy.logerr("No header found in file: {}".format(lastfilepath))
                     rospy.signal_shutdown("Shutdown, because last data file has no header")
 
-        # Create today's file if not already there
-        if os.path.exists(newfilepath):
-            self.new_file = open(newfilepath, "a")
-            rospy.logdebug("Today's file already exists")
-        else:
-            if not os.path.exists(hostfolderpath):
-                os.makedirs(hostfolderpath)
-                rospy.logdebug("Folder of today doesn't exist yet")
-            self.new_file = open(newfilepath, "w+")
+        rospy.loginfo("Logging odometry to file: {}".format(self.newfilepath))
 
         rospy.Subscriber("odom", Odometry, self.callback)
         rospy.on_shutdown(lambda: self.shutdown())
 
     def sample(self):
+        """
+        Current measurements are stored in self.data
+        :return: no return
+        """
         new_time = rospy.Time.now().secs
         time_delta = new_time - self.last_time
         self.total_time += time_delta
@@ -126,7 +136,19 @@ class Odometer:
         self.data.append({'timestamp': timestamp, 'distance': dist, 'rotation': rot, 'time': t})
 
     def write(self):
-        writer = csv.DictWriter(self.new_file, fieldnames=['timestamp', 'distance', 'rotation', 'time'])
+        """
+        Writing all data in self.data to the data file and closing it again. This should prevent file corruption.
+        :return: no return
+        """
+        # Create today's file if not already there
+        if os.path.exists(self.newfilepath):
+            new_file = open(self.newfilepath, "a", 1)  # 1=line-buffered
+            rospy.logdebug("Today's file already exists")
+        else:
+            new_file = open(self.newfilepath, "w+", 1)  # 1=line-buffered
+            rospy.logdebug("First time writing in today's file")
+
+        writer = csv.DictWriter(new_file, fieldnames=['timestamp', 'distance', 'rotation', 'time'])
         if not self.file_has_header:
             rospy.logdebug("Printing header of csv file")
             writer.writeheader()
@@ -136,7 +158,15 @@ class Odometer:
             writer.writerows(self.data)
             self.data = []
 
+        new_file.close()
+
     def callback(self, msg):
+        """
+        Measuring the displacement based on the new position
+        :param msg: Odometry msg with position and rotation information
+        :type msg: nag_msgs.msg.Odometry
+        :return: no return
+        """
         if self.last_pose:
             new_pose = msg.pose.pose
             pos = new_pose.position
@@ -167,24 +197,32 @@ class Odometer:
         self.last_pose = msg.pose.pose
 
     def activate_write(self, length):
+        """
+        If self.data contains more than X samples, all the data is written to the file
+        :param length:
+        :type length: int
+        :return: no return
+        """
         if len(self.data) >= length:
             self.write()
 
     def shutdown(self):
+        """
+        To prevent data loss between last sample and shutdown, this function is called to sample and write all the data.
+        :return: no return
+        """
         self.sample()
         self.write()
-        self.new_file.close()
 
 
 if __name__ == '__main__':
-    rospy.init_node("Odometer")
+    rospy.init_node("odometer")
 
     r = float(rospy.get_param("~rate", 1/60.0))
-    length = int(rospy.get_param("~cache_length", 50))
+    length = int(rospy.get_param("~cache_length", 1))
     path = rospy.get_param("~path", DEFAULT_PATH)
     filename = rospy.get_param("~filename", DEFAULT_FILENAME)
 
-    # robot_name = rospy.get_namespace().split("/")[-2]
     meter = Odometer(path, filename)
     rate = rospy.Rate(max(r, 1e-3))
 
