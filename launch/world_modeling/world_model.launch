@@ -21,7 +21,8 @@
 	<group ns="face_recognition">
 		<node name="face_recognition" pkg="openface_ros" type="face_recognition_node" output="log" machine="$(arg machine)">
 			<rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/world_modeling/face_recognition.yaml" />
-			<param name="save_images" value="$(arg robot_real)" />
+			<param name="topic_save_images" value="false" />
+			<param name="service_save_images" value="$(arg robot_real)" />
 			<param name="save_images_folder" value="~/MEGA/data/$(arg robot_env)/training_data" />
 			<param name="db" value="$(arg faces_db)" />
 		</node>
