@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+
+<launch>
+
+	<!-- Get the machine file -->
+	<arg name="machine" default="localhost"/>
+	<include file="$(env ROBOT_BRINGUP_PATH)/machines/$(arg machine).machine" />
+
+
+	<node pkg="vizbox" type="server.py" name="vizbox" cwd="node" output="screen">
+		<remap to="/amigo/text_to_speech/output" from="robot_text"/>
+	</node>
+
+</launch>
