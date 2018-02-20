@@ -2,13 +2,18 @@
 
 <launch>
 
-	<!-- Get the machine file -->
-	<arg name="machine" default="localhost"/>
-	<include file="$(env ROBOT_BRINGUP_PATH)/machines/$(arg machine).machine" />
+    <!-- Get the machine file -->
+    <arg name="machine" default="localhost"/>
+    <include file="$(env ROBOT_BRINGUP_PATH)/machines/$(arg machine).machine" />
 
 
-	<node pkg="vizbox" type="server.py" name="vizbox" cwd="node" output="screen">
-		<remap to="/amigo/text_to_speech/output" from="robot_text"/>
-	</node>
+    <node pkg="vizbox" type="server.py" name="vizbox" cwd="node" output="screen">
+        <remap to="/amigo/text_to_speech/output" from="robot_text"/>
+        <remap to="/amigo/hmi/result/sentence" from="operator_text"/>
+    </node>
+
+    <!--rosrun topic_tools transform /amigo/hmi/result /parsed std_msgs/String 'm.result.sentence'-->
+    <node pkg="topic_tools" type="transform" name="extract_hmi_result_sentence"
+        args="/amigo/hmi/result /amigo/hmi/result/sentence std_msgs/String 'm.result.sentence'"/>
 
 </launch>
