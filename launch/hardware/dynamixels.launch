@@ -14,6 +14,7 @@
                     max_motor_id: 3
                     update_rate: 20
         </rosparam>
+        <remap from="neck/follow_joint_trajectory" to="neck/joint_trajectory_action"/>
     </node>
 
 
@@ -24,9 +25,18 @@
     <node name="dynamixel_controller_spawner" pkg="dynamixel_controllers" type="controller_spawner.py"
           args="--manager=dxl_manager
                 --port=pan_tilt_laser_port
-		pan_controller
-		tilt_controller
-		laser_controller"
+                neck_pan
+                neck_tilt
+                torso_laser"
           output="screen"/>
 
+    <!-- Start joints trajectory controller controller -->
+    <rosparam file="$(env ROBOT_BRINGUP_PATH)/parameters/hardware/actuators/neck_joint_trajectory_controller.yaml" command="load"/>
+    <node name="controller_spawner_meta" pkg="dynamixel_controllers" type="controller_spawner.py"
+          args="--manager=dxl_manager
+                --type=meta
+                neck
+                neck_pan
+                neck_tilt"
+          output="screen"/>
 </launch>
