@@ -34,7 +34,4 @@
         <remap to="neck_pan/state" from="dynamixel_topic"/>
     </node>
 
-    <node name="republish_dynamixel_torsolaser_jointstates" pkg="dynamixel_jointstate_conversion" type="republish_dynamixels_as_jointstates.py" required="true">
-        <remap to="torse_laser/state" from="dynamixel_topic"/>
-    </node>
 </launch>
