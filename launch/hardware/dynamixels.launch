@@ -27,10 +27,14 @@
           output="screen"/>
 
     <node name="republish_dynamixel_tilt_jointstates" pkg="dynamixel_jointstate_conversion" type="republish_dynamixels_as_jointstates.py" required="true">
-        <remap to="neck_tilt" from="dynamixel_topic"/>
+        <remap to="neck_tilt/state" from="dynamixel_topic"/>
     </node>
 
     <node name="republish_dynamixel_pan_jointstates" pkg="dynamixel_jointstate_conversion" type="republish_dynamixels_as_jointstates.py" required="true">
-        <remap to="neck_pan" from="dynamixel_topic"/>
+        <remap to="neck_pan/state" from="dynamixel_topic"/>
+    </node>
+
+    <node name="republish_dynamixel_torsolaser_jointstates" pkg="dynamixel_jointstate_conversion" type="republish_dynamixels_as_jointstates.py" required="true">
+        <remap to="torse_laser/state" from="dynamixel_topic"/>
     </node>
 </launch>
