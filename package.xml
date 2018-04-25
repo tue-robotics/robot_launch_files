@@ -10,4 +10,6 @@
 
   <buildtool_depend>catkin</buildtool_depend>
 
+  <exec_depend>dynamixel_jointstate_conversion</exec_depend>
+
 </package>
