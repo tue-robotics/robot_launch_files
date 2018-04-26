@@ -2,32 +2,35 @@
 <launch>
 
     <arg name="machine" default="localhost"/>
-
-    <node name="dynamixel_manager" pkg="dynamixel_controllers" type="controller_manager.py" required="true">
-        <rosparam>
-            namespace: dxl_manager
-            serial_ports:
-                pan_tilt_laser_port:
-                    port_name: "/dev/ttyUSB0"
-                    baud_rate: 57142
-                    min_motor_id: 1
-                    max_motor_id: 3
-                    update_rate: 20
-        </rosparam>
-    </node>
-
+    <arg name="dynamixel_controller_args"/>
 
     <!-- Load controller configuration to parameter server -->
     <rosparam file="$(env ROBOT_BRINGUP_PATH)/parameters/hardware/actuators/dynamixel_joint_controllers.yaml" command="load"/>
-    
+
+    <node name="dynamixel_manager" pkg="dynamixel_controllers" type="controller_manager.py" required="true">
+        <remap from="neck/follow_joint_trajectory" to="neck/joint_trajectory_action"/>
+    </node>
+
     <!-- start specified joint controllers -->
     <node name="dynamixel_controller_spawner" pkg="dynamixel_controllers" type="controller_spawner.py"
-          args="--manager=dxl_manager
-                --port=pan_tilt_port
-                --type=simple
-                pan_controller
-                tilt_controller
-                laser_controller"
+          args="$(arg dynamixel_controller_args)"
           output="screen"/>
 
+    <!-- Start joint trajectory meta controller -->
+    <rosparam file="$(env ROBOT_BRINGUP_PATH)/parameters/hardware/actuators/neck_joint_trajectory_controller.yaml" command="load"/>
+    <node name="controller_spawner_meta" pkg="dynamixel_controllers" type="controller_spawner.py"
+          args="--manager=dxl_manager
+                --type=meta
+                neck
+                neck_pan
+                neck_tilt"
+          output="screen"/>
+
+    <node name="republish_dynamixel_tilt_jointstates" pkg="dynamixel_jointstate_conversion" type="republish_dynamixels_as_jointstates.py" required="true">
+        <remap to="neck_tilt/state" from="dynamixel_topic"/>
+    </node>
+
+    <node name="republish_dynamixel_pan_jointstates" pkg="dynamixel_jointstate_conversion" type="republish_dynamixels_as_jointstates.py" required="true">
+        <remap to="neck_pan/state" from="dynamixel_topic"/>
+    </node>
 </launch>
