@@ -19,12 +19,6 @@
         <rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/diagnostics/node_alive_neglect_nodes.yaml" />
     </node>
 
-    <node name="odometer" type="odometer.py" pkg="test_tools" machine="$(arg machine)" output="log">
-        <rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/diagnostics/odometer.yaml" />
-        <remap from="odom" to="base/measurements" />
-    </node>
-
-
     <!-- TODO: Start challenge logger --> <!-- Do we need this one? -->
 
     <!-- TODO: The challenge_logger needs cpu_monitor information -->
