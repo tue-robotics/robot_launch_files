@@ -16,16 +16,6 @@
           args="$(arg dynamixel_controller_args)"
           output="screen"/>
 
-    <!-- Start joint trajectory meta controller -->
-    <rosparam file="$(env ROBOT_BRINGUP_PATH)/parameters/hardware/actuators/neck_joint_trajectory_controller.yaml" command="load"/>
-    <node name="controller_spawner_meta" pkg="dynamixel_controllers" type="controller_spawner.py"
-          args="--manager=dxl_manager
-                --type=meta
-                neck
-                neck_pan
-                neck_tilt"
-          output="screen"/>
-
     <node name="republish_dynamixel_tilt_jointstates" pkg="dynamixel_jointstate_conversion" type="republish_dynamixels_as_jointstates.py" required="true">
         <remap to="neck_tilt/state" from="dynamixel_topic"/>
     </node>
