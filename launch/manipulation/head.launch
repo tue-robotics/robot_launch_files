@@ -9,6 +9,8 @@
         <rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/manipulation/head_server.yaml" />
         <remap from="/neck/references" to="neck/references"/>
         <remap from="/neck/measurements" to="neck/measurements"/>
+        <remap from="pan_controller/command" to="neck_pan/command"/>
+        <remap from="tilt_controller/command" to="neck_tilt/command"/>
     </node>
 
 <!--    <node name="head_ref_client_look_around" pkg="head_ref" type="look_around_client" output="log">-->
