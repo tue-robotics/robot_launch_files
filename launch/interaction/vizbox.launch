@@ -7,7 +7,7 @@
     <include file="$(env ROBOT_BRINGUP_PATH)/machines/$(arg machine).machine" />
 
 
-    <node pkg="vizbox" type="server.py" name="vizbox" cwd="node" output="screen">
+    <node pkg="vizbox" type="server.py" name="vizbox" cwd="node" output="log">
         <remap to="text_to_speech/output" from="robot_text"/>
         <remap to="hmi/result/sentence" from="operator_text"/>
         <remap to="top_kinect/rgb/image" from="image"/>
