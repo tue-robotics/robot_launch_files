@@ -6,6 +6,7 @@
     <arg name="machine" default="localhost"/>
     <include file="$(env ROBOT_BRINGUP_PATH)/machines/$(arg machine).machine" />
 
+    <arg name="robot_name"/>
 
     <node pkg="vizbox" type="server.py" name="vizbox" cwd="node" output="log">
         <remap to="text_to_speech/output" from="robot_text"/>
@@ -14,6 +15,6 @@
     </node>
 
     <node pkg="topic_tools" type="transform" name="extract_hmi_result_sentence"
-        args="hmi/result hmi/result/sentence std_msgs/String 'm.result.sentence'"/>
+        args="/$(arg robot_name)/hmi/result hmi/result/sentence std_msgs/String 'm.result.sentence'"/>
 
 </launch>
