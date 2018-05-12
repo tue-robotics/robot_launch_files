@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<launch>
+
+    <arg name="token" doc="Token for the Slack API"/>
+
+    <!-- Get the machine file -->
+    <arg name="machine" default="localhost"/>
+
+    <include file="$(env ROBOT_BRINGUP_PATH)/machines/$(arg machine).machine" />
+	
+    <!-- Slack ROS Bridge -->
+    <node name="slack_ros_bridge" pkg="slack_ros" type="slack_ros_bridge" output="screen" respawn="true">
+        <param name="token" value="$(arg token)" />
+        <remap from="message_to_ros" to="message_from_telegram" />
+        <remap from="message_from_ros" to="message_to_telegram" />
+        <remap from="image_to_ros" to="photo_from_telegram" />
+        <remap from="image_from_ros" to="photo_to_telegram" />
+    </node>
+		
+ </launch>
