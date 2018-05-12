@@ -8,7 +8,7 @@
 
     <arg name="robot_name"/>
 
-    <node pkg="vizbox" type="server.py" name="vizbox" cwd="node" output="log">
+    <node pkg="vizbox" type="server.py" name="vizbox" cwd="node" output="log" machine="$(arg machine)" >
         <remap to="text_to_speech/output" from="robot_text"/>
         <remap to="hmi/result/sentence" from="operator_text"/>
         <remap to="top_kinect/rgb/image" from="image"/>
