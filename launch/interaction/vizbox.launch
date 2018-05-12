@@ -9,9 +9,9 @@
     <arg name="robot_name"/>
 
     <node pkg="vizbox" type="server.py" name="vizbox" cwd="node" output="log" machine="$(arg machine)" >
-        <remap to="text_to_speech/output" from="robot_text"/>
-        <remap to="hmi/result/sentence" from="operator_text"/>
-        <remap to="top_kinect/rgb/image" from="image"/>
+        <remap from="robot_text" to="text_to_speech/output"/>
+        <remap from="operator_text" to="hmi/result/sentence"/>
+        <remap from="image" to="top_kinect/rgb/image"/>
     </node>
 
     <node pkg="topic_tools" type="transform" name="extract_hmi_result_sentence"
