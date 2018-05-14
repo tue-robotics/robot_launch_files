@@ -1,8 +1,5 @@
 <?xml version="1.0"?>
 <launch>
-
-    <arg name="token" doc="Token for the Slack API"/>
-
     <!-- Get the machine file -->
     <arg name="machine" default="localhost"/>
 

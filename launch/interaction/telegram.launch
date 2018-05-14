@@ -1,7 +1,5 @@
 <?xml version="1.0"?>
 <launch>
-
-    <arg name="token" doc="Token for the Telegram API"/>
     <arg name="robot_name"/>
 
     <!-- Get the machine file -->
