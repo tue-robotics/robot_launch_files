@@ -2,6 +2,7 @@
 <launch>
 
     <arg name="token" doc="Token for the Telegram API"/>
+    <arg name="robot_name"/>
 
     <!-- Get the machine file -->
     <arg name="machine" default="localhost"/>
@@ -10,8 +11,15 @@
 	
     <!-- Telegram ROS Bridge -->
     <node name="telegram_ros_bridge" pkg="telegram_ros" type="telegram_ros_bridge" output="screen" respawn="true">
-        <param name="token" value="$(arg token)" />
-        <!-- TODO: Not sure what this hould be <param name="caption_as_frame_id" value="false" /> -->
+        <!--
+            Token must be stored in ~/MEGA/credentials/telegram/token_<robot_name>.yaml
+            Content of file must be:
+
+            token: "API_TOKEN"
+
+        -->
+        <rosparam if="$(optenv ROBOT_REAL false)" command="load" file="$(env HOME)/MEGA/credentials/telegram/token_$(arg robot_name).yaml"/>
+        <rosparam unless="$(optenv ROBOT_REAL false)" command="load" file="$(env HOME)/MEGA/credentials/telegram/token_test.yaml"/>
         <remap from="message_to_ros" to="message_from_telegram" />
         <remap from="message_from_ros" to="message_to_telegram" />
         <remap from="image_to_ros" to="photo_from_telegram" />
