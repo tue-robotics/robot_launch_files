@@ -2,9 +2,10 @@
 <launch>
     <!-- Get the machine file -->
     <arg name="machine" default="localhost"/>
+    <arg name="robot_name"/>
 
     <include file="$(env ROBOT_BRINGUP_PATH)/machines/$(arg machine).machine" />
-	
+
     <!-- Slack ROS Bridge -->
     <node name="slack_ros_bridge" pkg="slack_ros" type="slack_ros_bridge" output="screen" respawn="true">
         <!--
@@ -21,5 +22,5 @@
         <remap from="image_to_ros" to="photo_from_user" />
         <remap from="image_from_ros" to="photo_to_user" />
     </node>
-		
+
  </launch>
