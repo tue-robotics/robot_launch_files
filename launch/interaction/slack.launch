@@ -16,10 +16,10 @@
         -->
         <rosparam if="$(optenv ROBOT_REAL false)" command="load" file="$(env HOME)/MEGA/credentials/slack/token_$(arg robot_name).yaml"/>
         <rosparam unless="$(optenv ROBOT_REAL false)" command="load" file="$(env HOME)/MEGA/credentials/slack/token_test.yaml"/>
-        <remap from="message_to_ros" to="message_from_telegram" />
-        <remap from="message_from_ros" to="message_to_telegram" />
-        <remap from="image_to_ros" to="photo_from_telegram" />
-        <remap from="image_from_ros" to="photo_to_telegram" />
+        <remap from="message_to_ros" to="message_from_user" />
+        <remap from="message_from_ros" to="message_to_user" />
+        <remap from="image_to_ros" to="photo_from_user" />
+        <remap from="image_from_ros" to="photo_to_user" />
     </node>
 		
  </launch>
