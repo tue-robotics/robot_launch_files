@@ -25,9 +25,9 @@
           args="--manager=dxl_manager
                 --port=pan_tilt_port
                 --type=simple
-                neck_pan
-                neck_tilt
-                torso_laser"
+                pan_controller
+                tilt_controller
+                laser_controller"
           output="screen"/>
 
 </launch>
