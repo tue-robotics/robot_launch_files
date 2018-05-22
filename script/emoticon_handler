@@ -4,15 +4,13 @@
 import rospy
 from std_msgs.msg import String
 from sensor_msgs.msg import Image
-from robot_skills.amigo import Amigo
 
-rospy.init_node('emoticon_handler')
-robot = Amigo()
 
 def pp(msg):
     pub.publish(String(data=msg))
     rospy.loginfo(msg)
     robot.speech.speak(msg, block=False)
+
 
 def cb(msg):
     text = msg.data
@@ -32,8 +30,19 @@ def cb(msg):
         pp("I am a robot, beep boop beep!")
 
 
-rospy.Subscriber("/amigo/message_from_telegram", String, cb)
-pub = rospy.Publisher("/amigo/message_to_telegram", String, queue_size=1)
-image_pub = rospy.Publisher("/amigo/photo_to_telegram", Image, queue_size=1)
+rospy.init_node('emoticon_handler')
+ns = rospy.get_namespace()
+if "amigo" in ns:
+    from robot_skills.amigo import Amigo
+    robot = Amigo()
+elif "sergio" in ns:
+    from robot_skills.sergio import Sergio
+    robot = Sergio()
+else:
+    raise RuntimeError("Emoticonhandler should be run in amigo or sergio namespace")
+
+rospy.Subscriber("message_from_telegram", String, cb)
+pub = rospy.Publisher("message_to_telegram", String, queue_size=1)
+image_pub = rospy.Publisher("photo_to_telegram", Image, queue_size=1)
 rospy.loginfo("Emoticon handler spinning ...")
 rospy.spin()
