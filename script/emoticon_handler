@@ -1,0 +1,48 @@
+#! /usr/bin/python
+# -*- coding: utf-8 -*-
+
+import rospy
+from std_msgs.msg import String
+from sensor_msgs.msg import Image
+
+
+def pp(msg):
+    pub.publish(String(data=msg))
+    rospy.loginfo(msg)
+    robot.speech.speak(msg, block=False)
+
+
+def cb(msg):
+    text = msg.data
+    if text == ":rainbow:" or text == "🌈":
+        robot.lights.taste_the_rainbow()
+        pp("Taste the rainbow baby")
+    if text == ":heart:" or text == "❤":
+        pp("I love you too!")
+    if text == ":eggplant:" or text == "🍆":
+        pp("Let's save that for later!")
+    if text == ":camera:" or text == "📷":
+        pp("Cheese!")
+        robot.head.look_at_standing_person(timeout=2)
+        image_pub.publish(robot.perception.get_image())
+        robot.head.close()
+    if text == ":robot_face:" or text == "🤖":
+        pp("I am a robot, beep boop beep!")
+
+
+rospy.init_node('emoticon_handler')
+ns = rospy.get_namespace()
+if "amigo" in ns:
+    from robot_skills.amigo import Amigo
+    robot = Amigo()
+elif "sergio" in ns:
+    from robot_skills.sergio import Sergio
+    robot = Sergio()
+else:
+    raise RuntimeError("Emoticonhandler should be run in amigo or sergio namespace")
+
+rospy.Subscriber("message_from_telegram", String, cb)
+pub = rospy.Publisher("message_to_telegram", String, queue_size=1)
+image_pub = rospy.Publisher("photo_to_telegram", Image, queue_size=1)
+rospy.loginfo("Emoticon handler spinning ...")
+rospy.spin()
