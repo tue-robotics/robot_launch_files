@@ -3,6 +3,7 @@
 
 import rospy
 from std_msgs.msg import String
+from sensor_msgs.msg import Image
 from robot_skills.amigo import Amigo
 
 rospy.init_node('emoticon_handler')
@@ -15,20 +16,24 @@ def pp(msg):
 
 def cb(msg):
     text = msg.data
-    if text == "🌈":
+    if text == ":rainbow:" or text == "🌈":
         robot.lights.taste_the_rainbow()
         pp("Taste the rainbow baby")
-    if text == "❤":
+    if text == ":heart:" or text == "❤":
         pp("I love you too!")
-    if text == "🍆":
+    if text == ":eggplant:" or text == "🍆":
         pp("Let's save that for later!")
-    if text == "📷":
+    if text == ":camera:" or text == "📷":
         pp("Cheese!")
-    if text == "🤖":
+        robot.head.look_at_standing_person(timeout=2)
+        image_pub.publish(robot.perception.get_image())
+        robot.head.close()
+    if text == ":robot_face:" or text == "🤖":
         pp("I am a robot, beep boop beep!")
 
 
 rospy.Subscriber("/amigo/message_from_telegram", String, cb)
 pub = rospy.Publisher("/amigo/message_to_telegram", String, queue_size=1)
+image_pub = rospy.Publisher("/amigo/photo_to_telegram", Image, queue_size=1)
 rospy.loginfo("Emoticon handler spinning ...")
 rospy.spin()

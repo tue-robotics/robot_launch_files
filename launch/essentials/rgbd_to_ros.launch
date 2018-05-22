@@ -21,11 +21,12 @@
     </group>
 
 	<!-- People recognition -->
-	<!--<node name="people_detector" pkg="people_detector" type="people_detector" output="log" machine="$(arg machine)" respawn="true">
+	<node name="people_detector" pkg="people_detector" type="people_detector" output="log" machine="$(arg machine)" respawn="true">
 		<param name="link_threshold" value="0.8" />
+		<param name="wave_threshold" value="0.0" />
 		<param name="probability_threshold" value="0.6" />
 		<param name="arm_norm_threshold" value="0.9" />
-		<param name="heuristic" value="head" /> -->
+		<param name="heuristic" value="shoulder" />
 
 		<!-- amigo 
 		<remap from="camera/rgb/image" to="top_kinect/rgb/image" />\
