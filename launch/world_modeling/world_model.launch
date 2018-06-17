@@ -28,6 +28,8 @@
 		</node>
 		<node pkg="keras_ros" type="face_properties_node" name="keras_face_properties">
 			<param name="weights_file_path" value="~/src/keras_models/age_gender/weights.18-4.06.hdf5" />
+			<param name="save_images" value="$(arg robot_real)" />
+			<param name="save_images_folder" value="~/MEGA/data/$(arg robot_env)/training_data" />
 		</node>
 	</group>
 
