@@ -38,6 +38,10 @@ jokes = [
     "Can a kangaroo jump higher than a house?                  Of course, a house does not jump at all.",
     "What should you put on the tomb stone of a mathematician?              He did not count with this...",
     "Why do cows wear bells?               Their horns do not work.",
+    "What did one ocean say to the other?         Nothing, they just waved",
+    "What does the roof say to the house?         I got you covered",
+    "People used to laugh at me when I would say     I want to be a comedian    , well nobody's laughing now.",
+    "My superpower is making people laugh. Which would be great if I was trying to be funny.",
     "Why did the physics teacher break up with the biology teacher?            There was no chemistry."
 ]
 jokes = deque(jokes)
