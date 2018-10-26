@@ -14,6 +14,9 @@ if robot_name == "amigo":
 elif robot_name == "sergio":
     from robot_skills.sergio import Sergio
     robot = Sergio()
+elif robot_name == "hero":
+    from robot_skills.hero import Hero
+    robot = Hero()
 else:
     rospy.loginfo("Unknown robot namespace %s" % robot_name)
     sys.exit(1)
