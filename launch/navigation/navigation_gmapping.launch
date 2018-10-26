@@ -13,8 +13,8 @@
         <!-- Local Costmap Settings -->
         <rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/navigation/local_costmap_gmapping.yaml" ns="local_costmap" />
         <!-- Topic remapping -->
-        <remap from="odom" to="base/measurements" />
-        <remap from="cmd_vel" to="base/references" />
+        <remap from="/hero/odom" to="/hsrb/odom" />
+        <remap from="/hero/cmd_vel" to="/hsrb/command_velocity" />
     </node>
 
     <!-- Global planner for path calculation from origin pose to goal constraint region -->

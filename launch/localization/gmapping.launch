@@ -15,7 +15,7 @@
     </node>
 
     <node name="scan_gmapping" pkg="robot_launch_files" type="scan_gmapping.py" respawn="true" machine="$(arg machine)" >
-        <remap from="scan" to="$(arg sensor)/scan"/>
+        <remap from="scan" to="/hsrb/base_scan"/>
         <remap from="scan_gmapping" to="$(arg sensor)/scan_gmapping"/>
     </node>
 
