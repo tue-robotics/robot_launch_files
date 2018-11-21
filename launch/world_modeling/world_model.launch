@@ -19,15 +19,16 @@
 
 	<!-- Face recognition -->
 	<group ns="face_recognition">
-		<node name="face_recognition" pkg="openface_ros" type="face_recognition_node" output="log" machine="$(arg machine)">
+		<node name="face_recognition" pkg="image_recognition_openface" type="face_recognition_node" output="log" machine="$(arg machine)">
 			<rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/world_modeling/face_recognition.yaml" />
 			<param name="topic_save_images" value="false" />
 			<param name="service_save_images" value="$(arg robot_real)" />
 			<param name="save_images_folder" value="~/MEGA/data/$(arg robot_env)/training_data" />
 			<param name="db" value="$(arg faces_db)" />
 		</node>
-		<node pkg="keras_ros" type="face_properties_node" name="keras_face_properties">
-			<param name="weights_file_path" value="~/src/keras_models/age_gender/weights.18-4.06.hdf5" />
+
+		<node pkg="image_recognition_keras" type="face_properties_node" name="keras_face_properties">
+			<param name="weights_file_path" value="~/src/keras_models/age_gender/weights.28-3.73.hdf5" />
 			<param name="save_images" value="$(arg robot_real)" />
 			<param name="save_images_folder" value="~/MEGA/data/$(arg robot_env)/training_data" />
 		</node>
@@ -36,16 +37,16 @@
 	<!-- Object recognition -->
 	<group ns="object_recognition">
 		<group if="$(arg robot_real)">
-			<node name="object_recognition" pkg="tensorflow_ros" type="object_recognition_node" output="log" machine="$(arg machine)">
-				<param name="graph_path" value="~/MEGA/data/$(arg robot_env)/models/tensorflow_ros/output_graph.pb" />
-				<param name="labels_path" value="~/MEGA/data/$(arg robot_env)/models/tensorflow_ros/output_labels.txt" />
+			<node name="object_recognition" pkg="image_recognition_tensorflow" type="object_recognition_node" output="log" machine="$(arg machine)">
+				<param name="graph_path" value="~/MEGA/data/$(arg robot_env)/models/image_recognition_tensorflow/output_graph.pb" />
+				<param name="labels_path" value="~/MEGA/data/$(arg robot_env)/models/image_recognition_tensorflow/output_labels.txt" />
 				<param name="save_images" value="$(arg robot_real)" />
 				<param name="save_images_folder" value="~/MEGA/data/$(arg robot_env)/training_data" />
 			</node>
 		</group>
 		<group unless="$(arg robot_real)">
 			<node name="object_recognition" pkg="ed_perception" type="object_recognition_dummy_node.py" output="log" machine="$(arg machine)">
-				<param name="labels_path" value="~/MEGA/data/$(arg robot_env)/models/tensorflow_ros/output_labels.txt" />
+				<param name="labels_path" value="~/MEGA/data/$(arg robot_env)/models/image_recognition_tensorflow/output_labels.txt" />
 			</node>
 		</group>
 	</group>
