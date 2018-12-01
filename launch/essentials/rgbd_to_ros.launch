@@ -23,7 +23,7 @@
 	<!-- People recognition -->
 	<node name="people_detector" pkg="people_detector" type="people_detector" output="log" machine="$(arg machine)" respawn="true">
 		<param name="link_threshold" value="0.8" />
-		<param name="wave_threshold" value="0.0" />
+		<param name="wave_threshold" value="0.3" />
 		<param name="probability_threshold" value="0.6" />
 		<param name="arm_norm_threshold" value="0.9" />
 		<param name="heuristic" value="shoulder" />
@@ -38,5 +38,10 @@
 		<!-- <remap from="camera/depth/image" to="top_kinect/depth_registered/sw_registered/image_rect" /> -->
 		<!-- <remap from="camera/depth/camera_info" to="top_kinect/depth_registered/sw_registered/camera_info" /> -->
 	</node>
+
+	<!-- Launch a mock of the pose detector in sim -->
+	<group unless="$(optenv ROBOT_REAL false)" ns="pose_detector">
+		<node name="dummy_image_recognition_openpose_node" pkg="image_recognition_openpose" type="image_recognition_openpose_node"  machine="$(arg machine)" />
+	</group>
 
 </launch>
