@@ -1,89 +1,127 @@
 #! /usr/bin/python
 
-import rospy, sys, random, time
+import sys
+import random
+from collections import deque
+
+# ROS
+import rospy
 from geometry_msgs.msg import Twist
 from smach_msgs.msg import SmachContainerStatus
 from hmi import TimeoutException
 
-rospy.init_node('joke')
 
-robot_name = rospy.get_namespace().split("/")[-2]
-if robot_name == "amigo":
-    from robot_skills.amigo import Amigo
-    robot = Amigo()
-elif robot_name == "sergio":
-    from robot_skills.sergio import Sergio
-    robot = Sergio()
-else:
-    rospy.loginfo("Unknown robot namespace %s" % robot_name)
-    sys.exit(1)
-
-hmi = robot.hmi
-s = robot.speech
-
-last_update = rospy.Time.now()
-minutes = 20
-
-from collections import deque
-
+# clue should be seperated with 15 spaces
 jokes = [
-    "What do you call a fish with no eyes? An fsh.",
+    "What do you call a fish with no eyes?               An fsh.",
     "You don't need a parachute to go skydiving. You need a parachute to go skydiving twice.",
-    "What is the difference between a snowman and a snowwoman? Snowballs.",
-    "What is Bruce Lee's favorite drink? Wataaaaah!",
+    "What is the difference between a snowman and a snowwoman?               Snowballs.",
+    "What is Bruce Lee's favorite drink?               Wataaaaah!",
     "A blind man walks into a bar. And a table. And a chair.",
-    "What is yellow and when you push the button, it turns red?         A chick in the blender",
-    "Why was 6 afraid of 7?                  Because 7, 8, 9",
-    "What do you call a robot that always goes the long way around?                       R 2 detour",
-    "Can a kangaroo jump higher than a house?                  Of course, a house does not jump at all.",
-    "What should you put on the tomb stone of a mathematician?              He did not count with this...",
+    "What is yellow and when you push the button, it turns red?               A chick in the blender",
+    "Why was 6 afraid of 7?               Because 7, 8, 9",
+    "What do you call a robot that always goes the long way around?               R 2 detour",
+    "Can a kangaroo jump higher than a house?               Of course, a house does not jump at all.",
+    "What should you put on the tomb stone of a mathematician?               He did not count with this...",
     "Why do cows wear bells?               Their horns do not work.",
-    "What did one ocean say to the other?         Nothing, they just waved",
+    "What did one ocean say to the other?               Nothing, they just waved",
     "What does the roof say to the house?         I got you covered",
     "People used to laugh at me when I would say     I want to be a comedian    , well nobody's laughing now.",
     "My superpower is making people laugh. Which would be great if I was trying to be funny.",
-    "Why did the physics teacher break up with the biology teacher?            There was no chemistry."
+    "Why did the physics teacher break up with the biology teacher?               There was no chemistry."
 ]
-jokes = deque(jokes)
-random.shuffle(jokes)
 
-def joke():
-    global last_update
-    global minutes
-    global jokes
 
-    jokes.rotate()
+class Joke:
+    """
+    Joke class
+    """
+    def __init__(self, robot, jokes=None, standby_min=20):
+        """
+        Constructor
+        :param robot: Robot object
+        :type robot: robot_skills.Robot
+        :param jokes: Joke or list of jokes
+        :type jokes: str or [str]
+        :param standby_min: number of minutes of standby after which the robot will tell a joke
+        :type standby_min: numerical
+        """
+        if isinstance(jokes, str):
+            self._jokes = deque([jokes])
+        elif isinstance(jokes, list) and isinstance(jokes[0], str):
+            self._jokes = deque(jokes)
+            random.shuffle(self._jokes)
+        else:
+            rospy.logerr("jokes should be a string or a list of strings")
+            sys.exit(1)
 
-    s.speak(jokes[0])
+        self._robot = robot
+        self._standby_min = standby_min
 
-    time.sleep(5.0)
+        self._base_sub = rospy.Subscriber("base/references", Twist, self.callback)
+        self._smach_sub = rospy.Subscriber("smach/container_status", SmachContainerStatus, self.callback)
+        self._trigger = rospy.Timer(rospy.Duration(2), self.timer_callback)
 
-    s.speak("Would you like to hear another one?")
-    r = None
+        self._last_update = rospy.Time.now()
 
-    try:
-        r = hmi.query('', 'T -> yes | no', 'T').sentence
-    except TimeoutException:
-        pass
+    def callback(self, data):
+        """
+        callback for robot being active
+        :param data: unused msg data
+        """
+        self._last_update = rospy.Time.now()
 
-    if not r or r == "no":
-        s.speak("Ok, I will be quiet for another %d minutes" % minutes)
-        last_update = rospy.Time.now()
+    def timer_callback(self, event):
+        """
+        Timer callback to check if enough time has passed
+        :param event: unused timer event
+        """
+        if (rospy.Time.now() - self._last_update).to_sec() > self._standby_min * 60:
+            try:
+                self.joke()
+            except:
+                self._last_update = rospy.Time.now()
 
-def timer_callback(event):
-    global last_update
+    def joke(self):
+        """
+        Tell a joke from self._jokes
+        """
+        self._jokes.rotate()
 
-    if (rospy.Time.now() - last_update).to_sec() > minutes * 60:
+        self._robot.speech.speak(self._jokes[0])
+
+        rospy.sleep(4.0)
+
+        self._robot.speech.speak("Would you like to hear another one?")
+
+        r = None
         try:
-            joke()
-        except:
-            last_update = rospy.Time.now()
+            r = self._robot.hmi.query('', 'T -> yes | no', 'T').sentence
+        except TimeoutException:
+            pass
 
-def callback(data):
-    global last_update
-    last_update = rospy.Time.now()
+        if not r or r == "no":
+            self._robot.speech.speak("Ok, I will be quiet for another %d minutes" % self._standby_min)
+            self._last_update = rospy.Time.now()
 
-rospy.Subscriber("base/references", Twist, callback)
-rospy.Subscriber("smach/container_status", SmachContainerStatus, callback)
-rospy.Timer(rospy.Duration(2), timer_callback)
-rospy.spin()
+
+if __name__ == '__main__':
+    rospy.init_node('joke')
+
+    robot_name = rospy.get_namespace().split("/")[-2]
+    if robot_name == "amigo":
+        from robot_skills.amigo import Amigo
+        robot = Amigo()
+    elif robot_name == "sergio":
+        from robot_skills.sergio import Sergio
+        robot = Sergio()
+    elif robot_name == "hero":
+        from robot_skills.hero import Hero
+        robot = Hero()
+    else:
+        rospy.loginfo("Unknown robot namespace %s" % robot_name)
+        sys.exit(1)
+
+    joke = Joke(robot, jokes, 0.5)
+
+    rospy.spin()
