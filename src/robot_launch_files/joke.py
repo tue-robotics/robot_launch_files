@@ -122,6 +122,6 @@ if __name__ == '__main__':
         rospy.loginfo("Unknown robot namespace %s" % robot_name)
         sys.exit(1)
 
-    joke = Joke(robot, jokes, 0.5)
+    joke = Joke(robot, jokes, 20)
 
     rospy.spin()
