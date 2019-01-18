@@ -41,7 +41,7 @@
 
 	<!-- Launch a mock of the pose detector in sim -->
 	<group unless="$(optenv ROBOT_REAL false)" ns="pose_detector">
-		<node name="dummy_image_recognition_openpose_node" pkg="image_recognition_openpose" type="image_recognition_openpose_node"  machine="$(arg machine)" />
+		<node name="openpose_node" pkg="image_recognition_openpose" type="openpose_node"  machine="$(arg machine)" />
 	</group>
 
 </launch>
