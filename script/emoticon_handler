@@ -14,20 +14,37 @@ def pp(msg):
 
 def cb(msg):
     text = msg.data
+    print text
     if text == ":rainbow:" or text == "🌈":
         robot.lights.taste_the_rainbow()
         pp("Taste the rainbow baby")
-    if text == ":heart:" or text == "❤":
+    if text == ":heart:" or text == "❤️":
         pp("I love you too!")
     if text == ":eggplant:" or text == "🍆":
         pp("Let's save that for later!")
     if text == ":camera:" or text == "📷":
         pp("Cheese!")
-        robot.head.look_at_standing_person(timeout=2)
+        # robot.head.look_at_standing_person(timeout=2)
         image_pub.publish(robot.perception.get_image())
-        robot.head.close()
+        # robot.head.close()
     if text == ":robot_face:" or text == "🤖":
         pp("I am a robot, beep boop beep!")
+    if text == ":ghost:" or text == "👻":
+        pp("AAAAAAAAAAH, that is scary!")
+    if text == ":taco:" or text == "🌮":
+        pp("What would you like to taco bout?")
+    if text == ":moyai:" or text == "🗿":
+        pp("I don't look like that!")
+    if text == ":pensive:" or text == "😔":
+        pp("Am I disappointing you?")
+    if text == ":heart_eyes:" or text == "😍":
+        pp("You look pretty today as well!")
+    if text == ":thumbup:" or text == "👍":
+        pp("Am I being a good little robot?")
+    if text == ":banana:" or text == "🍌":
+        pp("Banananananananananananana")
+    if text == ":clown:" or text == "🤡":
+        pp("For a joke, send -tell a joke-")
 
 
 rospy.init_node('emoticon_handler')
@@ -38,11 +55,14 @@ if "amigo" in ns:
 elif "sergio" in ns:
     from robot_skills.sergio import Sergio
     robot = Sergio()
+elif "hero" in ns or "/" in ns:
+    from robot_skills.hero import Hero
+    robot = Hero()
 else:
     raise RuntimeError("Emoticonhandler should be run in amigo or sergio namespace")
 
-rospy.Subscriber("message_from_telegram", String, cb)
-pub = rospy.Publisher("message_to_telegram", String, queue_size=1)
-image_pub = rospy.Publisher("photo_to_telegram", Image, queue_size=1)
+rospy.Subscriber("/hero/message_to_ros", String, cb)
+pub = rospy.Publisher("/hero/message_from_ros", String, queue_size=1)
+image_pub = rospy.Publisher("/hero/image_from_ros", Image, queue_size=1)
 rospy.loginfo("Emoticon handler spinning ...")
 rospy.spin()
