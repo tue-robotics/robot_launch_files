@@ -39,9 +39,4 @@
 		<!-- <remap from="camera/depth/camera_info" to="top_kinect/depth_registered/sw_registered/camera_info" /> -->
 	</node>
 
-	<!-- Launch a mock of the pose detector in sim -->
-	<group unless="$(optenv ROBOT_REAL false)" ns="pose_detector">
-		<node name="openpose_node" pkg="image_recognition_openpose" type="openpose_node"  machine="$(arg machine)" />
-	</group>
-
 </launch>
