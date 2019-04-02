@@ -29,7 +29,7 @@ jokes = [
     "People used to laugh at me when I would say     I want to be a comedian    , well nobody's laughing now.",
     "My superpower is making people laugh. Which would be great if I was trying to be funny.",
     "Why did the physics teacher break up with the biology teacher?               There was no chemistry.",
-    "Did you hear about the kidnapping at school?               It’s all right, he woke up."
+    "Did you hear about the kidnapping at school?               It's all right, he woke up."
 ]
 
 
