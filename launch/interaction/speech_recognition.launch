@@ -4,6 +4,7 @@
 	<!-- Get the machine file -->
 	<arg name="machine" default="localhost"/>
         <arg name="dragonfly" default="true" />
+        <arg name="kaldi" default="false" />
 	<include file="$(env ROBOT_BRINGUP_PATH)/machines/$(arg machine).machine" />
 
 	<!-- Always run a multicast server with a string topic answerer for amigo-hear -->
@@ -20,7 +21,9 @@
                         <node name="dragonfly_speech_recognition" pkg="dragonfly_speech_recognition" type="hmi_server_dragonfly_client" machine="$(arg machine)" output="log" if="$(arg dragonfly)" >
 				<rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/interaction/speech_client.yaml" />
 			</node>
-                        <!-- Kaldi, when ready-->
+
+                        <!-- Kaldi -->
+                        <node name="kaldi_speech_recognition" pkg="speech_recognition" type="hmi_kaldi_node" machine="$(arg machine)" output="log" if="$(arg kaldi)" />
 		</group>
 		<group unless="$(optenv ROBOT_REAL false)">
 			<!-- speech dummy -->
