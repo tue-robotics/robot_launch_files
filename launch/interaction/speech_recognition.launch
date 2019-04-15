@@ -6,11 +6,7 @@
     <arg name="dragonfly" default="true" />
     <arg name="kaldi" default="false" />
 
-    <group if="$(arg kaldi)">
-        <!-- Kaldi model path default to ~/data/kaldi_speech_recognition -->
-        <arg name="model_path" default="$(env HOME)/data/speech_models/model/"/>
-        <param name="/kaldi_model_path" type="string" value="$(arg model_path)"/>
-    </group>
+    <arg name="model_path" default="$(env HOME)/data/speech_models/model/"/>
 
 	<include file="$(env ROBOT_BRINGUP_PATH)/machines/$(arg machine).machine" />
 
@@ -30,7 +26,9 @@
 			</node>
 
             <!-- Kaldi -->
-            <node name="kaldi_speech_recognition" pkg="speech_recognition" type="hmi_kaldi_node" machine="$(arg machine)" output="log" if="$(arg kaldi)" />
+            <node name="kaldi_speech_recognition" pkg="speech_recognition" type="hmi_kaldi_node" machine="$(arg machine)" output="log" if="$(arg kaldi)" >
+				<param name="kaldi_model_path" type="string" value="$(arg model_path)" />
+			</node>
 		</group>
 		<group unless="$(optenv ROBOT_REAL false)">
 			<!-- speech dummy -->
