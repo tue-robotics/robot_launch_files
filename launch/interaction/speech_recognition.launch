@@ -3,7 +3,11 @@
 
 	<!-- Get the machine file -->
 	<arg name="machine" default="localhost"/>
-        <arg name="dragonfly" default="true" />
+    <arg name="dragonfly" default="true" />
+    <arg name="kaldi" default="false" />
+
+    <arg name="model_path" default="$(env HOME)/data/speech_models/model/"/>
+
 	<include file="$(env ROBOT_BRINGUP_PATH)/machines/$(arg machine).machine" />
 
 	<!-- Always run a multicast server with a string topic answerer for amigo-hear -->
@@ -17,10 +21,14 @@
 		<!-- If we are on the real robot, launch the server, otherwise a dummy -->
 		<group if="$(optenv ROBOT_REAL false)">
 			<!-- bridge to windows -->
-                        <node name="dragonfly_speech_recognition" pkg="dragonfly_speech_recognition" type="hmi_server_dragonfly_client" machine="$(arg machine)" output="log" if="$(arg dragonfly)" >
+            <node name="dragonfly_speech_recognition" pkg="dragonfly_speech_recognition" type="hmi_server_dragonfly_client" machine="$(arg machine)" output="log" if="$(arg dragonfly)" >
 				<rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/interaction/speech_client.yaml" />
 			</node>
-                        <!-- Kaldi, when ready-->
+
+            <!-- Kaldi -->
+            <node name="kaldi_speech_recognition" pkg="speech_recognition" type="hmi_kaldi_node" machine="$(arg machine)" output="log" if="$(arg kaldi)" >
+				<param name="kaldi_model_path" type="string" value="$(arg model_path)" />
+			</node>
 		</group>
 		<group unless="$(optenv ROBOT_REAL false)">
 			<!-- speech dummy -->
