@@ -4,6 +4,7 @@
 
     <!-- Get the machine file -->
     <arg name="machine" default="localhost"/>
+    <arg name="image" default="top_kinect/rgb/image"/>
     <include file="$(env ROBOT_BRINGUP_PATH)/machines/$(arg machine).machine" />
 
     <arg name="robot_name"/>
@@ -11,10 +12,13 @@
     <node pkg="vizbox" type="server.py" name="vizbox" cwd="node" output="log" machine="$(arg machine)" >
         <remap to="text_to_speech/output" from="robot_text"/>
         <remap to="hmi/result/sentence" from="operator_text"/>
-        <remap to="top_kinect/rgb/image" from="image"/>
+        <remap to="vizbox/image/throttled" from="image"/>
     </node>
 
     <node pkg="topic_tools" type="transform" name="extract_hmi_result_sentence"
         args="/$(arg robot_name)/hmi/result hmi/result/sentence std_msgs/String 'm.result.sentence'"/>
+
+    <node pkg="topic_tools" type="throttle" name="throttle_vizbox_img"
+        args="messages $(arg image) 5.0 vizbox/image/throttled"/>
 
 </launch>
