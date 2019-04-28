@@ -4,8 +4,9 @@
 
     <!-- Get the machine file -->
     <arg name="machine" default="localhost"/>
-    <arg name="image" default="top_kinect/rgb/image"/>
-    <include file="$(env ROBOT_BRINGUP_PATH)/machines/$(arg machine).machine" />
+	<include file="$(env ROBOT_BRINGUP_PATH)/machines/$(arg machine).machine" />
+
+	<arg name="image" default="top_kinect/rgb/image"/>
 
     <arg name="robot_name"/>
 
