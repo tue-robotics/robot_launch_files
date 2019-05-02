@@ -10,6 +10,6 @@
 
   <buildtool_depend>catkin</buildtool_depend>
 
-  <exec_depend>vizbox</exec_depend>
+  <run_depend>vizbox</run_depend>
 
 </package>
