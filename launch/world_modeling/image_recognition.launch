@@ -55,7 +55,7 @@
         </group>
 
         <!-- Colour extraction -->
-        <node pkg="image_recognition_util" type="colour_extractor.py" name="colour_extractor_node" />
+        <node pkg="image_recognition_util" type="colour_extractor_node" name="colour_extractor_node" />
     </group>
 
     <!-- Object recognition -->
