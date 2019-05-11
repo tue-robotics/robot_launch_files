@@ -28,7 +28,7 @@
         <node name="people_detection_3d_node" pkg="people_detection_3d" type="people_detection_3d_node" output="log" machine="$(arg machine)" />
 
         <!-- People detection 2D-->
-        <node name="people_detection_2d_node" pkg="image_recognition_people_detector" type="people_detection_node" output="log" machine="$(arg machine)" >
+        <node name="people_detection_2d_node" pkg="image_recognition_people_detection" type="people_detection_node" output="log" machine="$(arg machine)" >
             <param name="colour_extractor_srv_name" value="$(arg colour_extractor_srv_name)" />
             <param name="openface_srv_name" value="$(arg openface_srv_name)" />
             <param name="openpose_srv_name" value="$(arg openpose_srv_name)" />
