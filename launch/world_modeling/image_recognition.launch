@@ -9,7 +9,7 @@
     <arg name="robot_real" default="$(optenv ROBOT_REAL false)" />
     <arg name="robot_name"/>
 
-    <arg name="colour_extractor_srv_name" default="/$(arg robot_name)/people_detection/extract_colour" />
+    <arg name="colour_extractor_srv_name" default="/$(arg robot_name)/people_recognition/extract_colour" />
     <arg name="openface_srv_name" default="face_recognition/recognize" />
     <arg name="openpose_srv_name" default="/$(arg robot_name)/openpose/recognize" />
     <arg name="keras_srv_name" default="face_recognition/get_face_properties" />
@@ -21,14 +21,14 @@
     <arg name="tensorflow_graph" default="~/MEGA/data/$(arg robot_env)/models/image_recognition_tensorflow/output_graph.pb" />
     <arg name="tensorflow_labels" default="~/MEGA/data/$(arg robot_env)/models/image_recognition_tensorflow/output_labels.txt" />
 
-    <!-- People detection -->
-    <group ns="people_detection">
+    <!-- People recognition -->
+    <group ns="people_recognition">
 
-        <!-- People detection 3D-->
-        <node name="people_detection_3d_node" pkg="people_detection_3d" type="people_detection_3d_node" output="log" machine="$(arg machine)" />
+        <!-- People recognition 3D-->
+        <node name="people_recognition_3d_node" pkg="people_recognition_3d" type="people_recognition_3d_node" output="log" machine="$(arg machine)" />
 
-        <!-- People detection 2D-->
-        <node name="people_detection_2d_node" pkg="image_recognition_people_detection" type="people_detection_node" output="log" machine="$(arg machine)" >
+        <!-- People recognition 2D-->
+        <node name="people_recognition_2d_node" pkg="image_recognition_people_recognition" type="people_recognition_node" output="log" machine="$(arg machine)" >
             <param name="colour_extractor_srv_name" value="$(arg colour_extractor_srv_name)" />
             <param name="openface_srv_name" value="$(arg openface_srv_name)" />
             <param name="openpose_srv_name" value="$(arg openpose_srv_name)" />
