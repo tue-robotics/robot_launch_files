@@ -9,7 +9,7 @@
     <arg name="robot_real" default="$(optenv ROBOT_REAL false)" />
     <arg name="robot_name"/>
 
-    <arg name="colour_extractor_srv_name" default="/$(arg robot_name)/people_recognition/extract_colour" />
+    <arg name="color_extractor_srv_name" default="/$(arg robot_name)/people_recognition/extract_color" />
     <arg name="openface_srv_name" default="face_recognition/recognize" />
     <arg name="openpose_srv_name" default="/$(arg robot_name)/openpose/recognize" />
     <arg name="keras_srv_name" default="face_recognition/get_face_properties" />
@@ -29,7 +29,7 @@
 
         <!-- People recognition 2D-->
         <node name="people_recognition_2d_node" pkg="people_recognition_2d" type="people_recognition_2d_node" output="log" machine="$(arg machine)" >
-            <param name="colour_extractor_srv_name" value="$(arg colour_extractor_srv_name)" />
+            <param name="color_extractor_srv_name" value="$(arg color_extractor_srv_name)" />
             <param name="openface_srv_name" value="$(arg openface_srv_name)" />
             <param name="openpose_srv_name" value="$(arg openpose_srv_name)" />
             <param name="keras_srv_name" value="$(arg keras_srv_name)" />
@@ -55,7 +55,7 @@
         </group>
 
         <!-- Colour extraction -->
-        <node pkg="image_recognition_util" type="colour_extractor_node" name="colour_extractor_node" />
+        <node pkg="image_recognition_util" type="color_extractor_node" name="color_extractor_node" />
     </group>
 
     <!-- Object recognition -->
