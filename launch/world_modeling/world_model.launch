@@ -8,16 +8,12 @@
     <arg name="robot_real" value="$(optenv ROBOT_REAL false)" />
 
     <arg name="robot_env" default="$(optenv ROBOT_ENV robotics_testlabs)" />
-
     <arg name="config" default="world_modeling/world_model.yaml"/>
-    <arg name="config_sim" default="$(arg config)"/>
 
     <!-- World model -->
     <node name="ed" pkg="ed" type="ed" output="log" machine="$(arg machine)" />
 
     <!-- Configure world model -->
-    <node name="ed_configure" pkg="ed" type="configure" args="$(env ROBOT_BRINGUP_PATH)/parameters/$(arg config)" output="log" machine="$(arg machine)" if="$(optenv ROBOT_REAL false)" />
-
-    <node name="ed_configure" pkg="ed" type="configure" args="$(env ROBOT_BRINGUP_PATH)/parameters/$(arg config_sim)" output="log" machine="$(arg machine)" unless="$(optenv ROBOT_REAL false)" />
+    <node name="ed_configure" pkg="ed" type="configure" args="$(env ROBOT_BRINGUP_PATH)/parameters/$(arg config)" output="log" machine="$(arg machine)"/>
 
 </launch>
