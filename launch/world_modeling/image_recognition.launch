@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<launch>
+
+    <!-- Get the machine file -->
+    <arg name="machine" default="localhost"/>
+    <include file="$(env ROBOT_BRINGUP_PATH)/machines/$(arg machine).machine" />
+
+    <arg name="robot_env" default="$(optenv ROBOT_ENV robotics_testlabs)" />
+    <arg name="robot_real" default="$(optenv ROBOT_REAL false)" />
+
+    <arg name="tensorflow_graph" default="~/MEGA/data/$(arg robot_env)/models/image_recognition_tensorflow/output_graph.pb" />
+    <arg name="tensorflow_labels" default="~/MEGA/data/$(arg robot_env)/models/image_recognition_tensorflow/output_labels.txt" />
+
+    <!-- Object recognition -->
+    <group ns="object_recognition">
+        <node name="object_recognition" pkg="image_recognition_tensorflow" type="object_recognition_node" output="log" machine="$(arg machine)">
+            <param name="graph_path" value="$(arg tensorflow_graph)" />
+            <param name="labels_path" value="$(arg tensorflow_labels)" />
+            <param name="save_images" value="$(arg robot_real)" />
+            <param name="save_images_folder" value="~/MEGA/data/$(arg robot_env)/training_data" />
+        </node>
+    </group>
+
+</launch>

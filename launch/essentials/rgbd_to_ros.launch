@@ -20,23 +20,4 @@
 
     </group>
 
-	<!-- People recognition -->
-	<node name="people_detector" pkg="people_detector" type="people_detector" output="log" machine="$(arg machine)" respawn="true">
-		<param name="link_threshold" value="0.8" />
-		<param name="wave_threshold" value="0.3" />
-		<param name="probability_threshold" value="0.6" />
-		<param name="arm_norm_threshold" value="0.9" />
-		<param name="heuristic" value="shoulder" />
-
-		<!-- amigo -->
-		<remap from="camera/rgb/image" to="top_kinect/rgb/image" />\
-		<remap from="camera/depth/image" to="top_kinect/depth/image" />
-		<remap from="camera/depth/camera_info" to="top_kinect/depth/camera_info" />
-
-		<!-- freenect -->
-		<!-- <remap from="camera/rgb/image" to="top_kinect/rgb/image_rect_color" />\ -->
-		<!-- <remap from="camera/depth/image" to="top_kinect/depth_registered/sw_registered/image_rect" /> -->
-		<!-- <remap from="camera/depth/camera_info" to="top_kinect/depth_registered/sw_registered/camera_info" /> -->
-	</node>
-
 </launch>
