@@ -9,6 +9,13 @@
     <arg name="robot_real" default="$(optenv ROBOT_REAL false)" />
     <arg name="robot_name"/>
 
+    <!-- People recognition 3D node args -->
+    <arg name="enable_topic_mode" default=False />
+    <arg name="camera_info_depth" default="/$(arg robot_name)/head_rgbd_sensor/depth_registered/camera_info" />
+    <arg name="image_depth" default="/$(arg robot_name)/head_rgbd_sensor/depth_registered/depth" />
+    <arg name="image_rgb" default="/$(arg robot_name)/head_rgbd_sensor/rgb/image_raw" />
+
+    <!-- People recognition 2D node args -->
     <arg name="color_extractor_srv_name" default="/$(arg robot_name)/people_recognition/extract_color" />
     <arg name="openface_srv_name" default="face_recognition/recognize" />
     <arg name="openpose_srv_name" default="/$(arg robot_name)/openpose/recognize" />
@@ -22,7 +29,12 @@
     <group ns="people_recognition">
 
         <!-- People recognition 3D-->
-        <node name="people_recognition_3d_node" pkg="people_recognition_3d" type="people_recognition_3d_node" output="log" machine="$(arg machine)" />
+        <node name="people_recognition_3d_node" pkg="people_recognition_3d" type="people_recognition_3d_node" output="log" machine="$(arg machine)" >
+            <param name="enable_topic_mode" value="$(arg enable_topic_mode)" />
+            <param name="camera_info_depth" value="$(arg camera_info_depth)" />
+            <param name="image_depth" value="$(arg image_depth)" />
+            <param name="image_rgb" value="$(arg image_rgb)" />
+        </node>
 
         <!-- People recognition 2D-->
         <node name="people_recognition_2d_node" pkg="people_recognition_2d" type="people_recognition_2d_node" output="log" machine="$(arg machine)" >
