@@ -10,15 +10,15 @@
     <arg name="robot_name"/>
 
     <!-- People recognition 3D node args -->
-    <arg name="probability_threshold" default=0.2 />
-    <arg name="link_threshold" default=0.5 />
+    <arg name="probability_threshold" default="0.2" />
+    <arg name="link_threshold" default="0.5" />
     <arg name="heuristic" default="head" />
-    <arg name="arm_norm_threshold" default=0.5 />
-    <arg name="neck_norm_threshold" default=0.7 />
-    <arg name="wave_threshold" default=0.2 />
-    <arg name="vert_threshold" default=0.7 />
-    <arg name="hor_threshold" default=0.4 />
-    <arg name="padding" default=5 />
+    <arg name="arm_norm_threshold" default="0.5" />
+    <arg name="neck_norm_threshold" default="0.7" />
+    <arg name="wave_threshold" default="0.2" />
+    <arg name="vert_threshold" default="0.7" />
+    <arg name="hor_threshold" default="0.4" />
+    <arg name="padding" default="5" />
     <arg name="enable_topic_mode" default="False" />
     <arg name="camera_info_depth" default="/$(arg robot_name)/head_rgbd_sensor/depth_registered/camera_info" />
     <arg name="image_depth" default="/$(arg robot_name)/head_rgbd_sensor/depth_registered/image" />
