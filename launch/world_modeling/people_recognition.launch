@@ -10,9 +10,9 @@
     <arg name="robot_name"/>
 
     <!-- People recognition 3D node args -->
-    <arg name="enable_topic_mode" default=False />
+    <arg name="enable_topic_mode" default="False" />
     <arg name="camera_info_depth" default="/$(arg robot_name)/head_rgbd_sensor/depth_registered/camera_info" />
-    <arg name="image_depth" default="/$(arg robot_name)/head_rgbd_sensor/depth_registered/depth" />
+    <arg name="image_depth" default="/$(arg robot_name)/head_rgbd_sensor/depth_registered/image" />
     <arg name="image_rgb" default="/$(arg robot_name)/head_rgbd_sensor/rgb/image_raw" />
 
     <!-- People recognition 2D node args -->
