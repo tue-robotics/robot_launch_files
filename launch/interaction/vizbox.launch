@@ -8,6 +8,9 @@
 
     <arg name="robot_name"/>
 
+    <arg name="param_file"/>
+    <rosparam command="load" file="$(arg param_file)"/>
+
     <node pkg="vizbox" type="server.py" name="vizbox" cwd="node" output="log" machine="$(arg machine)" >
         <remap to="text_to_speech/output" from="robot_text"/>
         <remap to="hmi/result/sentence" from="operator_text"/>
