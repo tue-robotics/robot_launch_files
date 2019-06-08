@@ -49,9 +49,9 @@
             <param name="hor_threshold" value="$(arg hor_threshold)" />
             <param name="padding" value="$(arg padding)" />
             <param name="enable_topic_mode" value="$(arg enable_topic_mode)" />
-            <param name="camera_info_depth" value="$(arg camera_info_depth)" />
-            <param name="image_depth" value="$(arg image_depth)" />
-            <param name="image_rgb" value="$(arg image_rgb)" />
+            <remap from="camera_info_depth" to="$(arg camera_info_depth)" />
+            <remap from="image_depth" to="$(arg image_depth)" />
+            <remap from="image_rgb" to="$(arg image_rgb)" />
         </node>
 
         <!-- People recognition 2D-->
