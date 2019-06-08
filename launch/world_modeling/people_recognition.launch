@@ -12,7 +12,7 @@
     <!-- People recognition 3D node args -->
     <arg name="probability_threshold" default="0.2" />
     <arg name="link_threshold" default="0.5" />
-    <arg name="heuristic" default="head" />
+    <arg name="heuristic" default="shoulder" />
     <arg name="arm_norm_threshold" default="0.5" />
     <arg name="neck_norm_threshold" default="0.7" />
     <arg name="wave_threshold" default="0.2" />
@@ -49,8 +49,8 @@
             <param name="padding" value="$(arg padding)" />
             <param name="enable_topic_mode" value="$(arg enable_topic_mode)" />
             <remap from="camera_info_depth" to="$(arg camera_info_depth)" />
-            <remap from="image_depth" to="$(arg image_depth)" />
-            <remap from="image_rgb" to="$(arg image_rgb)" />
+            <remap from="depth" to="$(arg image_depth)" />
+            <remap from="rgb" to="$(arg image_rgb)" />
         </node>
 
         <!-- People recognition 2D-->
