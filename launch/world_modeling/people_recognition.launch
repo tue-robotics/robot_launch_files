@@ -24,8 +24,7 @@
     <arg name="image_depth" default="/$(arg robot_name)/head_rgbd_sensor/depth_registered/image" />
     <arg name="image_rgb" default="/$(arg robot_name)/head_rgbd_sensor/rgb/image_raw" />
 
-    <!-- People recognition 2D node args -->
-    <arg name="color_extractor_srv_name" default="/$(arg robot_name)/people_recognition/extract_color" />
+    <arg name="color_extractor_srv_name" default="extract_color" />
     <arg name="openface_srv_name" default="face_recognition/recognize" />
     <arg name="openpose_srv_name" default="/$(arg robot_name)/openpose/recognize" />
     <arg name="keras_srv_name" default="face_recognition/get_face_properties" />
@@ -82,7 +81,7 @@
         </group>
 
         <!-- Colour extraction -->
-        <node pkg="image_recognition_util" type="color_extractor_node" name="color_extractor_node" />
+        <node pkg="image_recognition_color_extractor" type="color_extractor_node" name="color_extractor_node" />
     </group>
 
 </launch>
