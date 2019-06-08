@@ -52,7 +52,7 @@
         </group>
 
         <!-- Colour extraction -->
-        <node pkg="image_recognition_util" type="color_extractor_node" name="color_extractor_node" />
+        <node pkg="image_recognition_color_extractor" type="color_extractor_node" name="color_extractor_node" />
     </group>
 
 </launch>
