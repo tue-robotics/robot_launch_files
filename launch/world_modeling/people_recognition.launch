@@ -22,7 +22,12 @@
     <group ns="people_recognition">
 
         <!-- People recognition 3D-->
-        <node name="people_recognition_3d_node" pkg="people_recognition_3d" type="people_recognition_3d_node" output="log" machine="$(arg machine)" />
+        <group if="$(arg robot_real)">
+            <node name="people_recognition_3d_node" pkg="people_recognition_3d" type="people_recognition_3d_node" output="log" machine="$(arg machine)" />
+        </group>
+        <group unless="$(arg robot_real)">
+            <node name="people_recognition_3d_node" pkg="people_recognition_3d" type="dummy_people_recognition_3d_node.py" output="log" machine="$(arg machine)" />
+        </group>
 
         <!-- People recognition 2D-->
         <node name="people_recognition_2d_node" pkg="people_recognition_2d" type="people_recognition_2d_node" output="log" machine="$(arg machine)" >
