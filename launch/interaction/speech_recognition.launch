@@ -1,41 +1,32 @@
 <?xml version="1.0"?>
 <launch>
 
-	<!-- Get the machine file -->
-	<arg name="machine" default="localhost"/>
-    <arg name="dragonfly" default="true" />
-    <arg name="kaldi" default="false" />
+  <!-- Get the machine file -->
+  <arg name="machine" default="localhost"/>
+  <arg name="dragonfly" default="true" />
+  <arg name="kaldi" default="false" />
 
-    <arg name="model_path" default="$(env HOME)/data/speech_models/model/"/>
+  <arg name="model_path" default="$(env HOME)/data/speech_models/model/"/>
 
-	<include file="$(env ROBOT_BRINGUP_PATH)/machines/$(arg machine).machine" />
+  <include file="$(env ROBOT_BRINGUP_PATH)/machines/$(arg machine).machine" />
 
-	<!-- Always run a multicast server with a string topic answerer for amigo-hear -->
-	<node name="hmi" pkg="hmi" type="multi_client" machine="$(arg machine)" output="log"/>
+  <group if="$(optenv ROBOT_REAL false)">
+    <node name="hmi" pkg="dragonfly_speech_recognition" type="hmi_server_dragonfly_client" machine="$(arg machine)" output="log">
+      <remap from="~restart_node" to="~dragonfly_speech_recognition/restart_node" />
+      <rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/interaction/speech_client.yaml" />
+    </node>
+  </group>
 
-	<group ns="hmi">
+  <group unless="$(optenv ROBOT_REAL false)">
+    <!-- Always run a multicast server with a string topic answerer for amigo-hear -->
+    <node name="hmi" pkg="hmi" type="multi_client" machine="$(arg machine)" output="log"/>
 
-		<!-- QR-code / amigo-hear -->
-		<node name="string_topic_answerer" pkg="hmi" type="string_topic_answerer" output="log"/>
-
-		<!-- If we are on the real robot, launch the server, otherwise a dummy -->
-		<group if="$(optenv ROBOT_REAL false)">
-			<!-- bridge to windows -->
-            <node name="dragonfly_speech_recognition" pkg="dragonfly_speech_recognition" type="hmi_server_dragonfly_client" machine="$(arg machine)" output="log" if="$(arg dragonfly)" >
-				<rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/interaction/speech_client.yaml" />
-			</node>
-
-            <!-- Kaldi -->
-            <node name="kaldi_speech_recognition" pkg="speech_recognition" type="hmi_kaldi_node" machine="$(arg machine)" output="log" if="$(arg kaldi)" >
-				<param name="kaldi_model_path" type="string" value="$(arg model_path)" />
-			</node>
-		</group>
-		<group unless="$(optenv ROBOT_REAL false)">
-			<!-- speech dummy -->
-			<node name="random_answerer" pkg="hmi" type="random_answerer" machine="$(arg machine)" output="log"/>
-			<node name="dragonfly_speech_recognition" pkg="hmi" type="dragonfly_restart_mock" machine="$(arg machine)" output="log"/>
-		</group>
-
-	</group> <!-- ns="hmi" -->
-
- </launch>
+    <group ns="hmi">
+      <!-- QR-code / amigo-hear -->
+      <node name="string_topic_answerer" pkg="hmi" type="string_topic_answerer" output="log"/>
+      <!-- speech dummy -->
+      <node name="random_answerer" pkg="hmi" type="random_answerer" machine="$(arg machine)" output="log"/>
+      <node name="dragonfly_speech_recognition" pkg="hmi" type="dragonfly_restart_mock" machine="$(arg machine)" output="log"/>
+    </group> <!-- ns="hmi" -->
+  </group>
+</launch>
