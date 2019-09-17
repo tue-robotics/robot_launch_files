@@ -12,6 +12,10 @@
         <rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/navigation/local_planner.yaml" />
         <!-- Local Costmap Settings -->
         <rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/navigation/local_costmap_gmapping.yaml" ns="local_costmap" />
+        <rosparam unless="$(optenv ROBOT_REAL false)" ns="local_costmap">
+        recent_obstacles:
+            observation_sources: base_laser
+        </rosparam>
         <!-- Topic remapping -->
         <remap from="odom" to="base/measurements" />
         <remap from="cmd_vel" to="base/references" />
@@ -23,6 +27,10 @@
         <rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/navigation/global_planner.yaml" />
         <!-- Global Costmap Settings -->
         <rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/navigation/global_costmap_gmapping.yaml" ns="global_costmap" />
+        <rosparam unless="$(optenv ROBOT_REAL false)" ns="global_costmap">
+        recent_obstacles:
+            observation_sources: base_laser
+        </rosparam>
     </node>
 
 </launch>

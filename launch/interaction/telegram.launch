@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <launch>
     <arg name="robot_name"/>
+    <arg name="caption_as_frame_id" default="false"/>
 
     <!-- Get the machine file -->
     <arg name="machine" default="localhost"/>
@@ -18,6 +19,7 @@
         -->
         <rosparam if="$(optenv ROBOT_REAL false)" command="load" file="$(env HOME)/MEGA/credentials/telegram/token_$(arg robot_name).yaml"/>
         <rosparam unless="$(optenv ROBOT_REAL false)" command="load" file="$(env HOME)/MEGA/credentials/telegram/token_test.yaml"/>
+        <rosparam param="caption_as_frame_id">$(arg caption_as_frame_id)</rosparam>
         <remap from="message_from_telegram" to="message_from_user" />
         <remap from="message_to_telegram" to="message_to_user" />
         <remap from="photo_from_telegram" to="photo_from_user" />

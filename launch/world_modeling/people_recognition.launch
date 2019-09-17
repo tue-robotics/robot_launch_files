@@ -13,16 +13,45 @@
     <arg name="openface_srv_name" default="face_recognition/recognize" />
     <arg name="openpose_srv_name" default="/$(arg robot_name)/openpose/recognize" />
     <arg name="keras_srv_name" default="face_recognition/get_face_properties" />
+    <arg name="enable_topic_mode" default="False" />
+    <arg name="camera_info_depth" default="/$(arg robot_name)/head_rgbd_sensor/depth_registered/camera_info" />
+    <arg name="image_depth" default="/$(arg robot_name)/head_rgbd_sensor/depth_registered/image" />
+    <arg name="image_rgb" default="/$(arg robot_name)/head_rgbd_sensor/rgb/image_raw" />
 
     <arg name="openface_db" default="" />
     <arg name="openface_config" default="$(env ROBOT_BRINGUP_PATH)/parameters/world_modeling/face_recognition.yaml" />
     <arg name="keras_face_model" default="~/data/keras_models/age_gender/weights.28-3.73.hdf5" />
+    <arg name="openpose_models" default="~/openpose/models/" />
+
+    <!-- Openpose -->
+    <group ns="openpose" if="$(arg robot_real)">
+        <!-- Openpose node -->
+        <node pkg="image_recognition_openpose" type="openpose_node" name="openpose_node" output="log" machine="$(arg machine)">
+            <param name="net_input_width" value="368" />
+            <param name="net_input_height" value="368" />
+            <param name="net_output_width" value="368" />
+            <param name="net_output_height" value="368" />
+            <param name="model_folder" value="$(arg openpose_models)" />
+            <remap from="image" to="openpose_input_image" />
+        </node>
+
+    </group>
 
     <!-- People recognition -->
     <group ns="people_recognition">
 
         <!-- People recognition 3D-->
-        <node name="people_recognition_3d_node" pkg="people_recognition_3d" type="people_recognition_3d_node" output="log" machine="$(arg machine)" />
+        <group if="$(arg robot_real)">
+            <node name="people_recognition_3d_node" pkg="people_recognition_3d" type="people_recognition_3d_node" output="log" machine="$(arg machine)" >
+                <param name="enable_topic_mode" value="$(arg enable_topic_mode)" />
+                <remap from="camera_info_depth" to="$(arg camera_info_depth)" />
+                <remap from="depth" to="$(arg image_depth)" />
+                <remap from="rgb" to="$(arg image_rgb)" />
+            </node>
+        </group>
+        <group unless="$(arg robot_real)">
+            <node name="people_recognition_3d_node" pkg="people_recognition_3d" type="dummy_people_recognition_3d_node.py" output="log" machine="$(arg machine)" />
+        </group>
 
         <!-- People recognition 2D-->
         <node name="people_recognition_2d_node" pkg="people_recognition_2d" type="people_recognition_2d_node" output="log" machine="$(arg machine)" >
@@ -44,7 +73,7 @@
             </node>
 
             <!-- Keras face properties -->
-            <node pkg="image_recognition_keras" type="face_properties_node" name="keras_face_properties">
+            <node pkg="image_recognition_keras" type="face_properties_node" name="keras_face_properties" output="log" machine="$(arg machine)">
                 <param name="weights_file_path" value="$(arg keras_face_model)" />
                 <param name="save_images" value="$(arg robot_real)" />
                 <param name="save_images_folder" value="~/MEGA/data/$(arg robot_env)/training_data" />
@@ -52,7 +81,8 @@
         </group>
 
         <!-- Colour extraction -->
-        <node pkg="image_recognition_color_extractor" type="color_extractor_node" name="color_extractor_node" />
+        <node pkg="image_recognition_color_extractor" type="color_extractor_node" name="color_extractor_node" output="log" machine="$(arg machine)"/>
     </group>
+
 
 </launch>
