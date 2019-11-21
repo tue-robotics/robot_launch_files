@@ -20,15 +20,10 @@
 		<rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/interaction/text_to_speech.yaml" />
 	</group>
 
-	<!-- Start TTS node -->
-	<node pkg="text_to_speech" type="text_to_speech_node.py" respawn="false" name="text_to_speech" machine="$(arg machine-tts)" output="log">
-        <remap from="play" to="audio_player/play"/>
-    </node>
+    <!-- Start TTS node -->
+    <node pkg="text_to_speech" type="text_to_speech_node.py" respawn="false" name="text_to_speech" machine="$(arg machine-tts)" output="log" />
 
-	<!-- Start play node -->
-	<node pkg="text_to_speech" type="player.py" respawn="false" name="audio_player" machine="$(arg machine-play)" output="log">
-        <remap from="play" to="audio_player/play"/>
-    </node>
-
+    <!-- Start play node -->
+    <node pkg="text_to_speech" type="player.py" respawn="false" name="audio_player" machine="$(arg machine-play)" output="log" />
 
  </launch>
