@@ -31,7 +31,8 @@ jokes = [
     "Why did the physics teacher break up with the biology teacher?               There was no chemistry.",
     "Did you hear about the kidnapping at school?               It's all right, he woke up.",
     "Did you hear about the claustrophobic astronaut?                He just needs a little space.",
-    "What is your favorite thing about Switzerland?                I don't know but the flag is a big plus"
+    "What is your favorite thing about Switzerland?                I don't know but the flag is a big plus.",
+    "How do you kill a hipster?               You drown him in the mainstream."
 ]
 
 
