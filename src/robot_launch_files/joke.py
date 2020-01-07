@@ -11,10 +11,10 @@ from smach_msgs.msg import SmachContainerStatus
 from hmi import TimeoutException
 
 
-# clue should be seperated with 15 spaces
+# clue should be separated with 15 spaces
 jokes = [
-    "What do you call a fish with no eyes?               A fsh.",
-    "You don't need a parachute to go skydiving. You need a parachute to go skydiving twice.",
+    "What do you call a fish with no eyes?               An fsh.",
+    "You don't need a parachute to go skydiving.               You need a parachute to go skydiving twice.",
     "What is the difference between a snowman and a snowwoman?               Snowballs.",
     "What is Bruce Lee's favorite drink?               Wataaaaah!",
     "A blind man walks into a bar. And a table. And a chair.",
@@ -25,11 +25,14 @@ jokes = [
     "What should you put on the tomb stone of a mathematician?               He did not count with this...",
     "Why do cows wear bells?               Their horns do not work.",
     "What did one ocean say to the other?               Nothing, they just waved",
-    "What does the roof say to the house?         I got you covered",
-    "People used to laugh at me when I would say     I want to be a comedian    , well nobody's laughing now.",
-    "My superpower is making people laugh. Which would be great if I was trying to be funny.",
+    "What does the roof say to the house?               I got you covered",
+    "People used to laugh at me when I would say I want to be a comedian,               well nobody's laughing now.",
+    "My superpower is making people laugh.               Which would be great if I was trying to be funny.",
     "Why did the physics teacher break up with the biology teacher?               There was no chemistry.",
-    "Did you hear about the kidnapping at school?               It's all right, he woke up."
+    "Did you hear about the kidnapping at school?               It's all right, he woke up.",
+    "Did you hear about the claustrophobic astronaut?                He just needs a little space.",
+    "What is your favorite thing about Switzerland?                I don't know but the flag is a big plus.",
+    "How do you kill a hipster?               You drown him in the mainstream."
 ]
 
 
