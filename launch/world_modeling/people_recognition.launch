@@ -15,6 +15,7 @@
     <arg name="keras_srv_name" default="face_recognition/get_face_properties" />
 
     <arg name="3d_config" default="world_modeling/people_recognition_3d.yaml"/>
+    <arg name="enable_topic_mode" default="False" />
 
     <arg name="openface_db" default="" />
     <arg name="openface_config" default="$(env ROBOT_BRINGUP_PATH)/parameters/world_modeling/face_recognition.yaml" />
@@ -42,6 +43,7 @@
         <group if="$(arg robot_real)">
             <node name="people_recognition_3d_node" pkg="people_recognition_3d" type="people_recognition_3d_node" output="log" machine="$(arg machine)">
                 <rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/$(arg 3d_config)"/>
+                <param name="enable_topic_mode" value="$(arg enable_topic_mode)" />
             </node>
         </group>
         <group unless="$(arg robot_real)">
