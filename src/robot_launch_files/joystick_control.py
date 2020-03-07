@@ -47,12 +47,12 @@ class ControllerJoystick:
             x_move = self._data.axes[1]
             y_move = self._data.axes[0]
             th_move = self._data.axes[3]
-            self._move_base(x_move/10, y_move/10, th_move/2)
+            self._move_base(x_move/5, y_move/5, th_move)
         return
 
     def _move_base(self, x, y, th):
         rospy.loginfo("moving base with x:{}, y:{}, th{}".format(x, y, th))
-        self._robot.base.force_drive(x, y, th, 1)
+        self._robot.base.force_drive(x, y, th, 0.5)
 
     def _close_gripper(self):
         rospy.loginfo("closing gripper")
