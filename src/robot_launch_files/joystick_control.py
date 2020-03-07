@@ -5,11 +5,12 @@ import sys
 # ROS
 import rospy
 from sensor_msgs.msg import Joy
+from robot_skills import arms
 
 
 class ControllerJoystick:
     """
-    Joke class
+    ControllerJoystick class
     """
     def __init__(self, robot):
         """
@@ -19,8 +20,9 @@ class ControllerJoystick:
         """
 
         self._robot = robot
+        self._arm = self._robot.get_arm(required_gripper_types=[arms.GripperTypes.GRASPING])
         self._data = Joy()
-        self._base_sub = rospy.Subscriber("joy", Joy, self.callback)
+        self._base_sub = rospy.Subscriber("/joy", Joy, self.callback)
 
     def callback(self, data):
         """
@@ -34,21 +36,27 @@ class ControllerJoystick:
         This function should be called at a sufficiently high frequency
         :return:
         """
-        for button, i in enumerate(self._data.buttons):
-            if button:
-                rospy.loginfo("button {} pressed".format(i))
-                self._test_function()
-        if self._data.buttons[6] or self._data.buttons[7] or self._data.buttons[8]:
-            x_move = self._data.buttons[6]
-            y_move = self._data.buttons[7]
-            th_move = self._data.buttons[8]
-            self._move_base(x_move, y_move, th_move)
+        if len(self._data.buttons) == 0:
+            rospy.loginfo("Buttons list was empty")
+            return
+
+        if self._data.buttons[0]:
+            self._close_gripper()
+
+        if self._data.axes[0] or self._data.axes[1] or self._data.axes[3]:
+            x_move = self._data.axes[1]
+            y_move = self._data.axes[0]
+            th_move = self._data.axes[3]
+            self._move_base(x_move/10, y_move/10, th_move/2)
+        return
 
     def _move_base(self, x, y, th):
-        self._robot.base.force_drive(x, y, th, 0.1)
+        rospy.loginfo("moving base with x:{}, y:{}, th{}".format(x, y, th))
+        self._robot.base.force_drive(x, y, th, 1)
 
-    def _test_function(self):
-        rospy.loginfo("In this case, move base")
+    def _close_gripper(self):
+        rospy.loginfo("closing gripper")
+        self._arm.send_gripper_goal("close")
 
 
 if __name__ == '__main__':
@@ -69,11 +77,10 @@ if __name__ == '__main__':
         sys.exit(1)
 
     controller = ControllerJoystick(robot)
-    rate = rospy.Rate(10)  # ROS Rate at 5Hz
+    rate = rospy.Rate(10.0)  # ROS Rate at 10Hz
 
     while not rospy.is_shutdown():
         controller.process_controller_data()
-        rospy.loginfo("Process data")
         rate.sleep()
 
-    rospy.spin()
+    rospy.logdebug("While loop exited")

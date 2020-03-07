@@ -1,10 +1,13 @@
 <?xml version="1.0"?>
 <launch>
+    <arg name="robot_name" value="hero"/>
 
-    <!-- Get the machine file -->
-    <arg name="machine" default="localhost"/>
-    <include file="$(env ROBOT_BRINGUP_PATH)/machines/$(arg machine).machine" />
+    <group ns="$(arg robot_name)">
 
-    <node pkg="robot_launch_files" type="joystick_control.py" name="joystick_control" machine="$(arg machine)" />
+        <!-- Get the machine file -->
+        <arg name="machine" default="localhost"/>
+        <include file="$(env ROBOT_BRINGUP_PATH)/machines/$(arg machine).machine" />
 
+        <node pkg="robot_launch_files" type="joystick_control.py" name="joystick_control" machine="$(arg machine)" />
+    </group>
 </launch>
