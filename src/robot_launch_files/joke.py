@@ -33,6 +33,7 @@ jokes = [
     "Did you hear about the claustrophobic astronaut?                He just needs a little space.",
     "What is your favorite thing about Switzerland?                I don't know but the flag is a big plus.",
     "How do you kill a hipster?               You drown him in the mainstream."
+    "What is the name of Bruce Lee's vegetarian brother?                Brocco Lee."
 ]
 
 
