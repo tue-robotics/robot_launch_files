@@ -23,19 +23,7 @@
     <arg name="keras_face_model" default="~/data/keras_models/age_gender/weights.28-3.73.hdf5" />
     <arg name="openpose_models" default="~/openpose/models/" />
 
-    <!-- Openpose -->
-    <group ns="openpose" if="$(arg robot_real)">
-        <!-- Openpose node -->
-        <node pkg="image_recognition_openpose" type="openpose_node" name="openpose_node" output="log" machine="$(arg machine)">
-            <param name="net_input_width" value="368" />
-            <param name="net_input_height" value="368" />
-            <param name="net_output_width" value="368" />
-            <param name="net_output_height" value="368" />
-            <param name="model_folder" value="$(arg openpose_models)" />
-            <remap from="image" to="openpose_input_image" />
-        </node>
-
-    </group>
+    <!-- Openpose should be launched manually -->
 
     <!-- People recognition -->
     <group ns="people_recognition">
