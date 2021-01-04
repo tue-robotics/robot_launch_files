@@ -20,6 +20,7 @@
      <node pkg="amcl" type="amcl" name="amcl" machine="$(arg machine)" output="log">
          <remap from="scan" to="$(arg laser)/scan" />
          <remap from="map" to="loc_map" />
+         <remap from="/diagnostics" to="diagnostics" />
 
          <param name="initial_pose_x" value="$(arg robot_init_x)"/>
          <param name="initial_pose_y" value="$(arg robot_init_y)"/>
