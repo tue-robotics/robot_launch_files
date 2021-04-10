@@ -9,6 +9,7 @@ import rospy
 from geometry_msgs.msg import Twist
 from smach_msgs.msg import SmachContainerStatus
 from hmi import TimeoutException
+from robot_skills import get_robot
 
 
 # clue should be separated with 15 spaces
@@ -114,18 +115,8 @@ if __name__ == '__main__':
     rospy.init_node('joke')
 
     robot_name = rospy.get_namespace().split("/")[-2]
-    if robot_name == "amigo":
-        from robot_skills.amigo import Amigo
-        robot = Amigo()
-    elif robot_name == "sergio":
-        from robot_skills.sergio import Sergio
-        robot = Sergio()
-    elif robot_name == "hero":
-        from robot_skills.hero import Hero
-        robot = Hero()
-    else:
-        rospy.loginfo("Unknown robot namespace %s" % robot_name)
-        sys.exit(1)
+
+    robot = get_robot(robot_name)
 
     joke = Joke(robot, jokes, 20)
 
