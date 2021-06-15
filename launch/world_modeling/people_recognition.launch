@@ -31,6 +31,7 @@
         <!-- People recognition 3D-->
         <group if="$(arg robot_real)">
             <node name="people_recognition_3d_node" pkg="people_recognition_3d" type="people_recognition_3d_node" output="log" machine="$(arg machine)" >
+                <rosparam command="load" file="$(find people_recognition_3d)/config/config.yaml" />
                 <param name="enable_topic_mode" value="$(arg enable_topic_mode)" />
                 <remap from="camera_info_depth" to="$(arg camera_info_depth)" />
                 <remap from="depth" to="$(arg image_depth)" />
