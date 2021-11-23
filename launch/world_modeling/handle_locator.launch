@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<launch>
+
+    <!-- Get the machine file -->
+    <arg name="machine" default="localhost"/>
+    <include file="$(env ROBOT_BRINGUP_PATH)/machines/$(arg machine).machine" />
+
+    <!-- Handle recognition -->
+    <group ns="handle_locator">
+        <node name="locate_handle_action" pkg="handle_locator" type="locate_handle_action" output="log" machine="$(arg machine)" />
+    </group>
+
+</launch>
