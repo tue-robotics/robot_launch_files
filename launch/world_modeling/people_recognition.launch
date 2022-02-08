@@ -24,7 +24,7 @@
 
     <arg name="openface_db" default="" />
     <arg name="openface_config" default="$(env ROBOT_BRINGUP_PATH)/parameters/world_modeling/face_recognition.yaml" />
-    <arg name="pytorch_face_model" default="~/pytorch/models/best-epoch47-0.9314.onnx" />
+    <arg name="pytorch_face_model" default="~/data/pytorch_models/best-epoch47-0.9314.onnx" />
     <arg name="openpose_models" default="~/openpose/models/" />
 
     <arg name="people_recognition_3d_config" default="$(find people_recognition_3d)/config/config.yaml" />
