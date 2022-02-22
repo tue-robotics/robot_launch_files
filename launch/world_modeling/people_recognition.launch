@@ -27,6 +27,7 @@
     <arg name="pytorch_face_model" default="~/data/pytorch_models/best-epoch47-0.9314.onnx" />
     <arg name="openpose_models" default="~/openpose/models/" />
 
+
     <arg name="people_recognition_3d_config" default="$(find people_recognition_3d)/config/config.yaml" />
 
     <!-- Openpose should be launched manually -->
@@ -74,6 +75,7 @@
                 <param name="weights_file_path" value="$(arg pytorch_face_model)" />
                 <param name="save_images" value="$(arg robot_real)" />
                 <param name="save_images_folder" value="~/MEGA/data/$(arg robot_env)/training_data" />
+                <param name="use_gpu" value="$(arg robot_real)">
             </node>
         </group>
 
