@@ -9,6 +9,8 @@
     <arg name="robot_real" default="$(optenv ROBOT_REAL false)" />
     <arg name="robot_name"/>
 
+    <arg name="age_gender_use_gpu" default="$(arg robot_real)"/>
+
     <arg name="color_extractor_srv_name" default="extract_color" />
     <arg name="openface_srv_name" default="face_recognition/recognize" />
     <arg name="openpose_srv_name" default="/$(arg robot_name)/openpose/recognize" />
@@ -24,8 +26,9 @@
 
     <arg name="openface_db" default="" />
     <arg name="openface_config" default="$(env ROBOT_BRINGUP_PATH)/parameters/world_modeling/face_recognition.yaml" />
-    <arg name="keras_face_model" default="~/data/keras_models/age_gender/weights.28-3.73.hdf5" />
+    <arg name="pytorch_age_gender_model" default="~/data/pytorch_models/best-epoch47-0.9314.onnx" />
     <arg name="openpose_models" default="~/openpose/models/" />
+
 
     <arg name="people_recognition_3d_config" default="$(find people_recognition_3d)/config/config.yaml" />
 
@@ -69,11 +72,12 @@
                 <param name="db" value="$(arg openface_db)" />
             </node>
 
-            <!-- Keras face properties -->
-            <node pkg="image_recognition_keras" type="face_properties_node" name="keras_face_properties" output="log" machine="$(arg machine)">
-                <param name="weights_file_path" value="$(arg keras_face_model)" />
+            <!-- Age gender classification -->
+            <node pkg="image_recognition_age_gender" type="face_properties_node" name="age_gender_estimation" output="log" machine="$(arg machine)">
+                <param name="weights_file_path" value="$(arg pytorch_age_gender_model)" />
                 <param name="save_images" value="$(arg robot_real)" />
                 <param name="save_images_folder" value="~/MEGA/data/$(arg robot_env)/training_data" />
+                <param name="use_gpu" value="$(arg age_gender_use_gpu)"/>
             </node>
         </group>
 
