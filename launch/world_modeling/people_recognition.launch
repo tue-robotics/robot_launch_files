@@ -24,7 +24,7 @@
 
     <arg name="openface_db" default="" />
     <arg name="openface_config" default="$(env ROBOT_BRINGUP_PATH)/parameters/world_modeling/face_recognition.yaml" />
-    <arg name="pytorch_face_model" default="~/data/pytorch_models/best-epoch47-0.9314.onnx" />
+    <arg name="pytorch_age_gender_model" default="~/data/pytorch_models/best-epoch47-0.9314.onnx" />
     <arg name="openpose_models" default="~/openpose/models/" />
 
 
@@ -70,9 +70,9 @@
                 <param name="db" value="$(arg openface_db)" />
             </node>
 
-            <!-- Keras face properties -->
-            <node pkg="image_recognition_pytorch" type="face_properties_node" name="pytorch_face_properties" output="log" machine="$(arg machine)">
-                <param name="weights_file_path" value="$(arg pytorch_face_model)" />
+            <!-- Age gender classification -->
+            <node pkg="image_recognition_age_gender" type="face_properties_node" name="age_gender_estimation" output="log" machine="$(arg machine)">
+                <param name="weights_file_path" value="$(arg pytorch_age_gender_model)" />
                 <param name="save_images" value="$(arg robot_real)" />
                 <param name="save_images_folder" value="~/MEGA/data/$(arg robot_env)/training_data" />
                 <param name="use_gpu" value="$(arg robot_real)">
