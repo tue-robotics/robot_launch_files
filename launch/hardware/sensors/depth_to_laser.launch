@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+
+<launch>
+
+    <!-- Get the machine file -->
+    <arg name="machine" default="localhost"/>
+    <include file="$(env ROBOT_BRINGUP_PATH)/machines/$(arg machine).machine" />
+
+    <arg name="robot_name" />
+    <arg name="camera_info_depth" default="/$(arg robot_name)/head_rgbd_sensor/depth_registered/camera_info" />
+    <arg name="image_depth" default="/$(arg robot_name)/head_rgbd_sensor/depth_registered/image" />
+    <arg name="scan_projected" default="/$(arg robot_name)/head_rgbd_sensor/scan" />
+
+        <node pkg="depthimage_to_laserscan" type="depthimage_to_laserscan" name="depthimage_to_laserscan" output="screen" machine="$(arg machine)">
+            <remap from="image" to="$(arg image_depth)" />
+            <remap from="camera_info" to="$(arg camera_info_depth)" />
+            <remap from="scan" to="$(arg scan_projected)"/>
+            <rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/hardware/sensors/head_camera_laser_projection.yaml" />
+        </node>
+
+</launch>
