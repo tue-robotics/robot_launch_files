@@ -11,11 +11,14 @@
     <arg name="image_depth" default="/$(arg robot_name)/head_rgbd_sensor/depth_registered/image" />
     <arg name="scan_projected" default="/$(arg robot_name)/head_rgbd_sensor/scan" />
 
-        <node pkg="depthimage_to_laserscan" type="depthimage_to_laserscan" name="depthimage_to_laserscan" output="screen" machine="$(arg machine)">
-            <remap from="image" to="$(arg image_depth)" />
-            <remap from="camera_info" to="$(arg camera_info_depth)" />
-            <remap from="scan" to="$(arg scan_projected)"/>
-            <rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/hardware/sensors/head_camera_laser_projection.yaml" />
-        </node>
+    <node pkg="depthimage_to_laserscan" type="depthimage_to_laserscan" name="depthimage_to_laserscan" output="screen" machine="$(arg machine)">
+        <remap from="image" to="$(arg image_depth)" />
+        <remap from="camera_info" to="$(arg camera_info_depth)" />
+        <remap from="scan" to="$(arg scan_projected)"/>
+        <rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/hardware/sensors/head_camera_laser_projection.yaml" />
+    </node>
+
+    <node pkg="tf2_ros" type="static_transform_publisher" name="head_camera_laser_broadcaster" args="0 0 0 0 -1.57 1.57 head_rgbd_sensor_depth_frame head_rgbd_sensor_laser_frame" />
+
 
 </launch>
