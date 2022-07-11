@@ -18,7 +18,7 @@
         <rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/hardware/sensors/head_camera_laser_projection.yaml" />
     </node>
 
-    <node pkg="tf2_ros" type="static_transform_publisher" name="head_camera_laser_broadcaster" args="0 0 0 0 -1.57 1.57 head_rgbd_sensor_depth_frame head_rgbd_sensor_laser_frame" />
+    <node pkg="tf2_ros" type="static_transform_publisher" name="head_camera_laser_broadcaster" args="0 0 0 0 -1.57 1.57 head_rgbd_sensor_rgb_frame head_rgbd_sensor_laser_frame" />
 
 
 </launch>
