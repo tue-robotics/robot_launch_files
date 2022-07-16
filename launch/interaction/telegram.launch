@@ -11,19 +11,17 @@
     <include file="$(env ROBOT_BRINGUP_PATH)/machines/$(arg machine).machine" />
 
     <!-- Telegram ROS Bridge -->
-    <group ns="$(arg robot_name)">
-        <node name="telegram_ros_bridge" pkg="telegram_ros" type="telegram_ros_bridge" output="screen" respawn="true">
-            <!--
-                Token must be stored in ~/MEGA/credentials/telegram/token_<robot_name>.yaml
-                Content of file must be:
+    <node name="telegram_ros_bridge" pkg="telegram_ros" type="telegram_ros_bridge" output="screen" respawn="true">
+        <!--
+            Token must be stored in ~/MEGA/credentials/telegram/token_<robot_name>.yaml
+            Content of file must be:
 
-                token: "API_TOKEN"
+            token: "API_TOKEN"
 
-            -->
-            <rosparam if="$(optenv ROBOT_REAL false)" command="load" file="$(arg telegram_robot_config)"/>
-            <rosparam unless="$(optenv ROBOT_REAL false)" command="load" file="$(arg telegram_test_config)"/>
-            <rosparam param="caption_as_frame_id">$(arg caption_as_frame_id)</rosparam>
-        </node>
-    </group>
+        -->
+        <rosparam if="$(optenv ROBOT_REAL false)" command="load" file="$(arg telegram_robot_config)"/>
+        <rosparam unless="$(optenv ROBOT_REAL false)" command="load" file="$(arg telegram_test_config)"/>
+        <rosparam param="caption_as_frame_id">$(arg caption_as_frame_id)</rosparam>
+    </node>
 
  </launch>
