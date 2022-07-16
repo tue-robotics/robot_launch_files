@@ -11,21 +11,23 @@
     <include file="$(env ROBOT_BRINGUP_PATH)/machines/$(arg machine).machine" />
 
     <!-- Telegram ROS Bridge -->
-    <node name="telegram_ros_bridge" pkg="telegram_ros" type="telegram_ros_bridge" output="screen" respawn="true">
-        <!--
-            Token must be stored in ~/MEGA/credentials/telegram/token_<robot_name>.yaml
-            Content of file must be:
+    <group ns="$(arg robot_name)">
+        <node name="telegram_ros_bridge" pkg="telegram_ros" type="telegram_ros_bridge" output="screen" respawn="true">
+            <!--
+                Token must be stored in ~/MEGA/credentials/telegram/token_<robot_name>.yaml
+                Content of file must be:
 
-            token: "API_TOKEN"
+                token: "API_TOKEN"
 
-        -->
-        <rosparam if="$(optenv ROBOT_REAL false)" command="load" file="$(arg telegram_robot_config)"/>
-        <rosparam unless="$(optenv ROBOT_REAL false)" command="load" file="$(arg telegram_test_config)"/>
-        <rosparam param="caption_as_frame_id">$(arg caption_as_frame_id)</rosparam>
-        <remap from="message_from_telegram" to="message_from_user" />
-        <remap from="message_to_telegram" to="message_to_user" />
-        <remap from="photo_from_telegram" to="photo_from_user" />
-        <remap from="photo_to_telegram" to="photo_to_user" />
-    </node>
+            -->
+            <rosparam if="$(optenv ROBOT_REAL false)" command="load" file="$(arg telegram_robot_config)"/>
+            <rosparam unless="$(optenv ROBOT_REAL false)" command="load" file="$(arg telegram_test_config)"/>
+            <rosparam param="caption_as_frame_id">$(arg caption_as_frame_id)</rosparam>
+            <!-- <remap from="message_from_telegram" to="message_from_user" />
+            <remap from="message_to_telegram" to="message_to_user" />
+            <remap from="photo_from_telegram" to="photo_from_user" />
+            <remap from="photo_to_telegram" to="photo_to_user" /> -->
+        </node>
+    </group>
 
  </launch>
