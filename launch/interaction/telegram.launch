@@ -23,10 +23,6 @@
             <rosparam if="$(optenv ROBOT_REAL false)" command="load" file="$(arg telegram_robot_config)"/>
             <rosparam unless="$(optenv ROBOT_REAL false)" command="load" file="$(arg telegram_test_config)"/>
             <rosparam param="caption_as_frame_id">$(arg caption_as_frame_id)</rosparam>
-            <!-- <remap from="message_from_telegram" to="message_from_user" />
-            <remap from="message_to_telegram" to="message_to_user" />
-            <remap from="photo_from_telegram" to="photo_from_user" />
-            <remap from="photo_to_telegram" to="photo_to_user" /> -->
         </node>
     </group>
 
