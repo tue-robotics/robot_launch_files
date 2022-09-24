@@ -6,9 +6,9 @@
     <include file="$(env ROBOT_BRINGUP_PATH)/machines/$(arg machine).machine" />
 
     <arg name="robot_name" />
-    <arg name="camera_info_depth" default="/$(arg robot_name)/head_rgbd_sensor/depth_registered/camera_info" />
-    <arg name="image_depth" default="/$(arg robot_name)/head_rgbd_sensor/depth_registered/image" />
-    <arg name="scan_projected" default="/$(arg robot_name)/head_rgbd_sensor/scan" />
+    <arg name="camera_info_depth" default="head_rgbd_sensor/depth_registered/camera_info" />
+    <arg name="image_depth" default="head_rgbd_sensor/depth_registered/image" />
+    <arg name="scan_projected" default="head_rgbd_sensor/scan" />
 
     <node pkg="depthimage_to_laserscan" type="depthimage_to_laserscan" name="depthimage_to_laserscan" output="screen" machine="$(arg machine)">
         <remap from="image" to="$(arg image_depth)" />
