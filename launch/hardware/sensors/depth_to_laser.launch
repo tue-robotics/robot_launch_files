@@ -23,5 +23,4 @@
     <!-- transform between camera frame to laser frame -->
     <node pkg="tf2_ros" type="static_transform_publisher" name="head_camera_laser_broadcaster" args="0 0 0 0 -1.57 1.57 $(arg camera_frame) $(arg laser_frame)" />
 
-
 </launch>
