@@ -10,6 +10,7 @@
     <arg name="image_depth" default="head_rgbd_sensor/depth_registered/image" />
     <arg name="scan_projected" default="head_rgbd_sensor/scan" />
 
+    <arg name="camera_laser_transform" default="0 0 0 0 -1.57 1.57" />
     <arg name="camera_frame" default="head_rgbd_sensor_rgb_frame" />
     <arg name="laser_frame" default="head_rgbd_sensor_laser_frame" />
 
@@ -21,6 +22,6 @@
     </node>
 
     <!-- transform between camera frame to laser frame -->
-    <node pkg="tf2_ros" type="static_transform_publisher" name="head_camera_laser_broadcaster" args="0 0 0 0 -1.57 1.57 $(arg camera_frame) $(arg laser_frame)" />
+    <node pkg="tf2_ros" type="static_transform_publisher" name="head_camera_laser_broadcaster" args="$(arg camera_laser_transform) $(arg camera_frame) $(arg laser_frame)" />
 
 </launch>
