@@ -4,6 +4,7 @@
 
     <!-- Get the machine file -->
     <arg name="machine" default="localhost"/>
+    <arg name="robot_real" default="$(optenv ROBOT_REAL false)" />
     <include file="$(env ROBOT_BRINGUP_PATH)/machines/$(arg machine).machine" />
 
     <!-- Local planner that sends cmd_vels to the robot_base -->
