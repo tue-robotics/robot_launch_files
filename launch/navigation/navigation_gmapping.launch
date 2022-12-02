@@ -34,7 +34,7 @@
     </node>
 
     <!-- RGBD to navscan for obstacle avoidance-->
-    <node pkg="depthimage_to_navscan_rgbd" type="depthimage_to_navscan_rgbd" name="depthimage_to_navscan_rgbd" output="log" machine="$(arg machine)">
+    <node if="$(arg robot_real)" pkg="depthimage_to_navscan_rgbd" type="depthimage_to_navscan_rgbd" name="depthimage_to_navscan" output="log" machine="$(arg machine)">
         <!-- Navscan Settings -->
         <rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/navigation/navscan.yaml" />
     </node>
