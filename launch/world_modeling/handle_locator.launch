@@ -7,7 +7,7 @@
 
     <!-- Handle recognition -->
     <group ns="handle_locator">
-        <node name="locate_handle_action" pkg="handle_locator" type="locate_handle_action" output="log" machine="$(arg machine)" />
+        <node name="locate_handle_action" pkg="handle_locator" type="locate_handle" output="log" machine="$(arg machine)" />
     </group>
 
 </launch>
