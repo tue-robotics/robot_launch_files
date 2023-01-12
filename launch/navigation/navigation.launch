@@ -4,6 +4,7 @@
 
     <!-- Get the machine file -->
     <arg name="machine" default="localhost"/>
+    <arg name="use_navscan" default="$(optenv ROBOT_REAL false)" />
     <include file="$(env ROBOT_BRINGUP_PATH)/machines/$(arg machine).machine" />
 
     <!-- Local planner that sends cmd_vels to the robot_base -->
@@ -31,6 +32,12 @@
         recent_obstacles:
             observation_sources: base_laser
         </rosparam>
+    </node>
+
+    <!-- RGBD to navscan for obstacle avoidance-->
+    <node if="$(arg use_navscan)" pkg="depthimage_to_navscan_rgbd" type="depthimage_to_navscan_rgbd" name="depthimage_to_navscan" output="log" machine="$(arg machine)">
+        <!-- Navscan Settings -->
+        <rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/navigation/navscan.yaml" />
     </node>
 
 </launch>
