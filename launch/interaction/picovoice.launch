@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<launch>
+    <!-- Get the machine file -->
+    <arg name="machine" default="localhost"/>
+
+    <arg name="robot_name"/>
+    <arg name="picovoice_robot_config" default="$(env HOME)/MEGA/credentials/picovoice/access_key_$(arg robot_name).yaml" />
+    <arg name="picovoice_test_config" default="$(env HOME)/MEGA/credentials/picovoice/access_key_test.yaml" />
+
+    <include file="$(env ROBOT_BRINGUP_PATH)/machines/$(arg machine).machine" />
+
+    <!-- Telegram ROS Bridge -->
+    <node name="picovoice_driver_rhino" pkg="picovoice_driver" type="picovoice_driver_rhino" output="screen" respawn="true">
+        <!--
+            Access key must be stored in ~/MEGA/credentials/picovoice/access_key_<robot_name>.yaml
+            Content of file must be:
+
+            access_key: "ACCESS_KEY"
+
+        -->
+        <rosparam if="$(optenv ROBOT_REAL false)" command="load" file="$(arg picovoice_robot_config)"/>
+        <rosparam unless="$(optenv ROBOT_REAL false)" command="load" file="$(arg picovoice_test_config)"/>
+    </node>
+
+ </launch>
