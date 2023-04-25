@@ -10,7 +10,7 @@
     <include file="$(env ROBOT_BRINGUP_PATH)/machines/$(arg machine).machine" />
 
     <!-- PicoVoice Driver Rhino -->
-    <node name="picovoice_driver_rhino" pkg="picovoice_driver" type="picovoice_driver_rhino" output="screen" respawn="true">
+    <node name="picovoice_driver_rhino" pkg="picovoice_driver" type="picovoice_driver_rhino" output="log" respawn="true">
         <!--
             Access key must be stored in ~/MEGA/credentials/picovoice/access_key_<robot_name>.yaml
             Content of file must be:
