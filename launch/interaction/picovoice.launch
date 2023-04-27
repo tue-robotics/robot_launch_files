@@ -4,7 +4,7 @@
     <arg name="machine" default="localhost" />
 
     <arg name="robot_name" />
-    <arg name="model_url" default="package://picovoice_driver/resources/models/rhino_params.pv" />
+    <arg name="model_url" default="package://picovoice_driver/extern/rhino/lib/common/rhino_params.pv" />
     <arg name="contexts_directory_url" default="file://$(env HOME)/data/picovoice/contexts" />
     <arg name="picovoice_robot_config" default="$(env HOME)/MEGA/credentials/picovoice/access_key_$(arg robot_name).yaml" />
     <arg name="picovoice_test_config" default="$(env HOME)/MEGA/credentials/picovoice/access_key_test.yaml" />
