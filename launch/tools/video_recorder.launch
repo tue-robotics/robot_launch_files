@@ -4,7 +4,7 @@
     <!-- Gets current time at launch execution as a formatted string -->
     <arg name="filename" default="video"/>
     <arg name="time_now" default="$(eval eval ('_' + '_import_' + '_(\'datetime\')').datetime.now().strftime('%Y-%m-%d-%H-%M-%S'))"/>
-    <arg name="folder" default="/home/amigo/Videos/Challenges"/>
+    <arg name="folder" default="$(env HOME)/Videos/Challenges"/>
     <arg name="full_filename" value="$(arg folder)/$(arg filename)_$(arg time_now).avi" />
 
     <arg name="image_topic"/>
