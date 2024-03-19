@@ -18,6 +18,8 @@
 		<!-- QR-code / amigo-hear -->
 		<node name="string_topic_answerer" pkg="hmi" type="string_topic_answerer" output="log"/>
 
+		<node name="qr_code_decoder" pkg="hmi" type="qr_code_decoder" output="log"/>
+
 		<!-- If we are on the real robot, launch the server, otherwise a dummy -->
 		<group if="$(optenv ROBOT_REAL false)">
 			<!-- bridge to windows -->
