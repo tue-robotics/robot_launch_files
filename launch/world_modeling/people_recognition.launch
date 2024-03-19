@@ -54,7 +54,7 @@
             <param name="color_extractor_srv_name" value="$(arg color_extractor_srv_name)" />
             <param name="face_recognition_srv_name" value="$(arg face_recognition_srv_name)" />
             <param name="pose_estimation_srv_name" value="$(arg pose_estimation_srv_name)" />
-            <param name="face_properties_srv_name" value="$(arg face_propertoes_srv_name)" />
+            <param name="face_properties_srv_name" value="$(arg face_properties_srv_name)" />
             <param name="enable_age_gender_detection" value="$(arg enable_age_gender_detection)"/>
             <param name="enable_shirt_color_extraction" value="$(arg enable_shirt_color_extraction)"/>
         </node>
