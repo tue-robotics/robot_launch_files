@@ -62,7 +62,7 @@
         <!-- Face recognition -->
         <group ns="face_recognition" >
             <!-- Face recognition -->
-            <node name="face_recognition" pkg="image_recognition_openface" type="face_recognition_node" output="log" machine="$(arg machine)">
+            <node name="face_recognition" pkg="image_recognition_face_recognition" type="face_recognition_node" output="log" machine="$(arg machine)">
                 <rosparam command="load" file="$(arg face_recognition_config)" />
                 <param name="topic_save_images" value="false" />
                 <param name="service_save_images" value="$(arg robot_real)" />
