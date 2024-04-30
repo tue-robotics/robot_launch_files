@@ -5,6 +5,7 @@
 	<arg name="machine" default="localhost"/>
     <arg name="dragonfly" default="true" />
     <arg name="kaldi" default="false" />
+    <arg name="qr_decoder_image_topic" default="image" />
 
     <arg name="model_path" default="$(env HOME)/data/speech_models/model/"/>
 
@@ -19,7 +20,7 @@
 		<node name="string_topic_answerer" pkg="hmi" type="string_topic_answerer" output="log"/>
 
 		<node name="qr_code_decoder" pkg="hmi" type="qr_code_decoder" output="log">
-		    <remap from="~image" to="/hero/head_rgbd_sensor/rgb/image_raw/compressed"/>
+		    <remap from="image" to="$(arg qr_decoder_image_topic)"/>
 		</node>
 
 		<!-- If we are on the real robot, launch the server, otherwise a dummy -->
