@@ -5,7 +5,7 @@
 	<arg name="machine" default="localhost"/>
     <arg name="dragonfly" default="true" />
     <arg name="kaldi" default="false" />
-    <arg name="qr_decoder_image_topic" default="image" />
+    <arg name="qr_decoder_image_topic" default="~image" />
 
     <arg name="model_path" default="$(env HOME)/data/speech_models/model/"/>
 
