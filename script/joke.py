@@ -10,6 +10,7 @@ from geometry_msgs.msg import Twist
 from smach_msgs.msg import SmachContainerStatus
 from hmi import TimeoutException
 from robot_skills import get_robot
+from robot_skills.simulation import is_sim_modes
 
 
 # clue should be separated with 15 spaces
@@ -100,14 +101,28 @@ class Joke:
 
         self._robot.speech.speak("Would you like to hear another one?")
 
-        r = None
-        try:
-            r = self._robot.hmi.query('', 'T -> yes | no', 'T').sentence
-        except TimeoutException:
-            pass
+        stop: bool = False
+        answer = None
+        if is_sim_modes():
+            try:
+                answer = self._robot.hmi.query('', 'T -> yes | no', 'T').sentence
+            except TimeoutException:
+                pass
 
-        if not r or r == "no":
-            self._robot.speech.speak("Ok, I will be quiet for another %d minutes" % self._standby_min)
+            if not answer or answer == "no":
+                stop = True
+
+        else:
+            try:
+                answer = self._robot.picovoice.get_intent("yesOrNo", None, True, self.timeout)
+            except TimeoutException:
+                pass
+
+            if not answer or not answer.semantics or answer.semantics == "no"
+                stop = True
+
+        if stop:
+            self._robot.speech.speak(f"Ok, I will be quiet for another {self._standby_min} minutes")
             self._last_update = rospy.Time.now()
 
 
