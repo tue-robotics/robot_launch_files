@@ -7,7 +7,7 @@
     <arg name="model_url" default="package://picovoice_driver/extern/rhino/lib/common/rhino_params.pv" />
     <arg name="contexts_directory_url" default="file://$(env HOME)/data/picovoice/contexts" />
     <arg name="picovoice_robot_config" default="$(env HOME)/data/picovoice/credentials/access_key_$(arg robot_name).yaml" />
-    <arg name="picovoice_test_config" default="$(env HOME)/MEGA/credentials/picovoice/access_key_test.yaml" />
+    <arg name="picovoice_user_config" default="$(env HOME)/data/picovoice/credentials/access_key_user.yaml" />
 
     <include file="$(env ROBOT_BRINGUP_PATH)/machines/$(arg machine).machine" />
 
@@ -22,7 +22,7 @@
         <param name="model_url" value="$(arg model_url)" />
         <param name="contexts_directory_url" value="$(arg contexts_directory_url)" />
         <rosparam if="$(optenv ROBOT_REAL false)" command="load" file="$(arg picovoice_robot_config)" />
-        <rosparam unless="$(optenv ROBOT_REAL false)" command="load" file="$(arg picovoice_test_config)" />
+        <rosparam unless="$(optenv ROBOT_REAL false)" command="load" file="$(arg picovoice_user_config)" />
     </node>
 
  </launch>
