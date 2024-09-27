@@ -9,23 +9,23 @@
     <include file="$(env ROBOT_BRINGUP_PATH)/machines/$(arg machine-play).machine" />
 
     <!-- In simulation, start festival -->
-	<group unless="$(optenv ROBOT_REAL false)" ns="text_to_speech">
-		<param name="tts_module" value="festival"/>
-	</group>
+    <group unless="$(optenv ROBOT_REAL false)" ns="text_to_speech">
+        <param name="tts_module" value="festival"/>
+    </group>
 
-	<!-- Real robot, start Philips TTS -->
-	<group if="$(optenv ROBOT_REAL false)" ns="text_to_speech">
-		<!--<param name="tts_module" value="philips"/>-->
-		<param name="key" textfile="$(find philips_text_to_speech)/key"/>
-		<rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/interaction/text_to_speech.yaml" />
-	</group>
+    <!-- Real robot, start Philips TTS -->
+    <group if="$(optenv ROBOT_REAL false)" ns="text_to_speech">
+        <!--<param name="tts_module" value="philips"/>-->
+        <param name="key" textfile="$(find philips_text_to_speech)/key"/>
+        <rosparam command="load" file="$(env ROBOT_BRINGUP_PATH)/parameters/interaction/text_to_speech.yaml" />
+    </group>
 
     <!-- Start TTS node -->
-    <node pkg="text_to_speech" type="text_to_speech_node.py" respawn="false" name="text_to_speech" machine="$(arg machine-tts)" output="log">
+    <node pkg="text_to_speech" type="text_to_speech_node" respawn="false" name="text_to_speech" machine="$(arg machine-tts)" output="log">
         <remap from="play" to="audio_player/play"/>
     </node>
 
     <!-- Start play node -->
-    <node pkg="text_to_speech" type="player.py" respawn="false" name="audio_player" machine="$(arg machine-play)" output="log" />
+    <node pkg="text_to_speech" type="player" respawn="false" name="audio_player" machine="$(arg machine-play)" output="log" />
 
  </launch>
