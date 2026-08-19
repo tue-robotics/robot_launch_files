@@ -199,7 +199,7 @@ should be `~/.rviz2`.
 ## 8. tue-env target
 
 CI and `tue-get` resolve this package through the `ros-robot_launch_files` target in
-[tue-env-targets](https://github.com/tue-robotics/tue-env-targets), which still has the flat
+[tue-env-targets](https://github.com/tue-robotics/tue-env-targets), which had the flat
 pre-migration form:
 
 ```yaml
@@ -225,9 +225,12 @@ tracking the ROS 1 code on a `ros1` branch, as `ros-ed` and `ros-upower_ros` do:
       version: ros1
 ```
 
-Without that split, a Noetic workspace picks up the ROS 2 launch files from `master`. This needs a
-`ros1` branch in this repository, pointing at the last commit before the migration, and a pull
-request against tue-env-targets.
+Without that split, a Noetic workspace picks up the ROS 2 launch files from `master`.
+
+Both halves are in place: the `ros1` branch of this repository points at `cf7b017`, the last commit
+before the migration, and tue-env-targets
+[#558](https://github.com/tue-robotics/tue-env-targets/pull/558) applies the split. Keep the `ros1`
+branch as long as Noetic is supported.
 
 CI itself runs on the `jazzy` and `rolling-u24` images, matching `ed` and `rgbd`. Humble is left
 out on purpose: `ed` and `rgbd` are launched by this package and are not built for Humble, so a
