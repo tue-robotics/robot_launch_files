@@ -7,7 +7,7 @@ from launch_ros.parameter_descriptions import ParameterFile
 
 def generate_launch_description() -> LaunchDescription:
     """Build a map while driving using gmapping."""
-    sensor = DeclareLaunchArgument("sensor", description="Namespace of the laser to map with")
+    laser = DeclareLaunchArgument("laser", description="Namespace of the laser to map with")
 
     # TODO(ros2): gmapping has no ROS 2 release; slam_toolbox is the usual replacement
     gmapping_node = Node(
@@ -25,7 +25,7 @@ def generate_launch_description() -> LaunchDescription:
             )
         ],
         remappings=[
-            ("scan", [LaunchConfiguration("sensor"), TextSubstitution(text="/scan_gmapping")]),
+            ("scan", [LaunchConfiguration("laser"), TextSubstitution(text="/scan_gmapping")]),
             ("map", "gmapping/map"),
         ],
     )
@@ -36,9 +36,9 @@ def generate_launch_description() -> LaunchDescription:
         name="scan_gmapping",
         respawn=True,
         remappings=[
-            ("scan", [LaunchConfiguration("sensor"), TextSubstitution(text="/scan")]),
-            ("scan_gmapping", [LaunchConfiguration("sensor"), TextSubstitution(text="/scan_gmapping")]),
+            ("scan", [LaunchConfiguration("laser"), TextSubstitution(text="/scan")]),
+            ("scan_gmapping", [LaunchConfiguration("laser"), TextSubstitution(text="/scan_gmapping")]),
         ],
     )
 
-    return LaunchDescription([sensor, gmapping_node, scan_gmapping])
+    return LaunchDescription([laser, gmapping_node, scan_gmapping])

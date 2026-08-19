@@ -9,6 +9,7 @@ def generate_launch_description() -> LaunchDescription:
     """Start the configured localization implementation."""
     localization_type = DeclareLaunchArgument("type", default_value="amcl", description="Localization implementation")
     laser = DeclareLaunchArgument("laser", description="Namespace of the laser to localize with")
+    map_file = DeclareLaunchArgument("map", description="Map file to localize on, ignored while mapping")
 
     localization = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
@@ -21,7 +22,7 @@ def generate_launch_description() -> LaunchDescription:
                 ]
             )
         ),
-        launch_arguments={"laser": LaunchConfiguration("laser")}.items(),
+        launch_arguments={"laser": LaunchConfiguration("laser"), "map": LaunchConfiguration("map")}.items(),
     )
 
-    return LaunchDescription([localization_type, laser, localization])
+    return LaunchDescription([localization_type, laser, map_file, localization])
