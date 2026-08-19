@@ -15,9 +15,11 @@ def generate_launch_description() -> LaunchDescription:
     """Bridge Slack messages and images to and from ROS.
 
     The token must be stored in ~/MEGA/credentials/slack/token_<robot_name>.yaml.
-    The content of that file must be::
+    The file is loaded as a ROS 2 parameter file, so its content must be::
 
-        token: "API_TOKEN"
+        /**:
+          ros__parameters:
+            token: "API_TOKEN"
     """
     robot_name = DeclareLaunchArgument("robot_name", description="Name of the robot")
 

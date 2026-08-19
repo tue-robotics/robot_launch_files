@@ -15,9 +15,11 @@ def generate_launch_description() -> LaunchDescription:
     """Start the PicoVoice Rhino intent recognition driver.
 
     The access key must be stored in ~/MEGA/credentials/picovoice/access_key_<robot_name>.yaml.
-    The content of that file must be::
+    The file is loaded as a ROS 2 parameter file, so its content must be::
 
-        access_key: "<ACCESS_KEY>"
+        /**:
+          ros__parameters:
+            access_key: "<ACCESS_KEY>"
     """
     robot_name = DeclareLaunchArgument("robot_name", description="Name of the robot")
     model_url = DeclareLaunchArgument(
