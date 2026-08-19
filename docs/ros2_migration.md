@@ -196,6 +196,44 @@ launch files, plus `bodypart_resetter.py`, `emoticon_handler` and `topic_monitor
 `rqt.bash` also still copies the rviz config to `~/.rviz`, which ROS 2 rviz does not read; it
 should be `~/.rviz2`.
 
+## 8. tue-env target
+
+CI and `tue-get` resolve this package through the `ros-robot_launch_files` target in
+[tue-env-targets](https://github.com/tue-robotics/tue-env-targets), which still has the flat
+pre-migration form:
+
+```yaml
+- type: ros
+  source:
+    type: git
+    url: https://github.com/tue-robotics/robot_launch_files.git
+```
+
+Every migrated package splits the target so that ROS 2 distros track `master` while Noetic keeps
+tracking the ROS 1 code on a `ros1` branch, as `ros-ed` and `ros-upower_ros` do:
+
+```yaml
+- type: ros
+  default:
+    source:
+      type: git
+      url: https://github.com/tue-robotics/robot_launch_files.git
+  noetic:
+    source:
+      type: git
+      url: https://github.com/tue-robotics/robot_launch_files.git
+      version: ros1
+```
+
+Without that split, a Noetic workspace picks up the ROS 2 launch files from `master`. This needs a
+`ros1` branch in this repository, pointing at the last commit before the migration, and a pull
+request against tue-env-targets.
+
+CI itself runs on the `jazzy` and `rolling-u24` images, matching `ed` and `rgbd`. Humble is left
+out on purpose: `ed` and `rgbd` are launched by this package and are not built for Humble, so a
+Humble job would test a distro on which these launch files cannot run. All launch substitutions
+used here do exist on Humble, so adding `humble` back to the matrix is a one-line change.
+
 ## Note for linting this package
 
 Running `ruff` from the repository root makes its isort rule treat `launch` as a first-party
